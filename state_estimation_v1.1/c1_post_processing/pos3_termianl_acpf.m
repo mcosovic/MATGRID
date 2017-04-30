@@ -72,10 +72,10 @@
  MAE3 = sum(abs([in.Magnitude(:, 5); deg2rad(in.Angle(:, 5))] -  ...
         [V; teta]))/(2 * in.Nbu);
  
- RMSE1 = ((sum(in.z - f).^2)/Nm)^1/2; 
- RMSE2 = ((sum(tv - f .* b').^2)/Nm)^1/2; 
+ RMSE1 = ((sum(in.z - f).^2)/Nm)^(1/2); 
+ RMSE2 = ((sum(tv - f .* b').^2)/Nm)^(1/2); 
  RMSE3 = ((sum([in.Magnitude(:, 5); deg2rad(in.Angle(:, 5))] -  ...
-         [V; teta]).^2)/Nm)^1/2;   
+         [V; teta]).^2)/Nm)^(1/2);   
      
  WRSS1 =  sum(((in.z - f).^2)./(Cv.^2));
  WRSS2 =  sum(((tv ./ b' - f).^2)./(Cv.^2));
