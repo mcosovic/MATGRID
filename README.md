@@ -85,12 +85,24 @@ The state estimation user options should be defined using variable *estimate*, i
    6. **estimate.linear**: export the system model (matrix and vectors) for the linear state estimation problems in the variable *data.extras*
       * estimate.linear = 1 - on       
 
-Note that currently phasor measurements are integrated using polar coordinates resulting in the more accurate state estimates in comparison to the rectangular measurement representation, but it requires larger computing time, and causes possible ill-conditioned.  
+Note that currently phasor measurements are integrated using polar coordinates resulting in the more accurate state estimates in comparison to the rectangular measurement representation, but it requires larger computing time and causes possible ill-conditioned.  
 
-## State Estimation with Built-in Measurments Generator
-The module using AC power flow analysis to generate measurements and immediately proceeds with state estimation. The built-in measurments generator produces measurmnet data in the form described earlier in the state estimation module.
+## State Estimation with Built-in Measurements Generator
+The module using AC power flow analysis to generate measurements and immediately proceeds with state estimation. The built-in measurements generator produces measurement data in the form described earlier in the state estimation module.
 
 ### User Options
 <p align="center">
-<img src="/doc/figures/power_estimation_chart.png" scale="1">
+<img src="/doc/figures/power_estimation_chart.png" =250x>
 </p>
+
+The module combines the power flow and state estimation options, where additional options are used for measurements generator. Built-in measurements generator receives inputs for measurement variances as struct variables *legvariance* (legacy measurements) and *pmuvariance* (phasor measurements), and inputs for measurement sets as struct variables *legset* (legacy measurements) and *pmuset* (phasor measurements). In the following, we describe the options of the measurements generator.
+
+  1. **.unique**: applied the unique variance over all legacy or measurements from PMUs
+      * example: legvariance.unique = 10^-6  
+      * example: pmuvariance.unique = 10^-8   
+  2. **.random**: randomized variances within limits [min max] applied over all legacy or measurements from PMUs
+	  * example: legvariance.random = [10^-4 10^-3]
+	  * example: pmuvariance.random = [10^-5 10^-6]
+  3. **.type**: variances applied over the subset of legacy measurements [active flow], [reactive flow], [current magnitude], [active injection], [reactive injection], [voltage magnitude], or over the subset of measurements from PMUs [current magnitude], [current angle], [voltage magnitude], [voltage angle] 
+     * legvariance.type = [1e-06 1e-08 1e-08 1e-08 1e-06 1e-06]
+     * pmuvariance.type = [1e-12 1e-10 1e-12 1e-10]
