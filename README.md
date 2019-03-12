@@ -70,7 +70,7 @@ The state estimation user options should be defined using variable *estimate*, i
       * flow.module = 1 - non-linear state estimation
       * flow.module = 2 - state estimation only with PMUs (still in progress)
       * flow.module = 3 - DC state estimation      
-  3. **estimate.flat** or **estimate.flat** or **estimate.random**: initialize the Gauss-Newton method (for the non-linear state estimation, see figure with options i1, i2, i3)
+  3. **estimate.flat** or **estimate.warm** or **estimate.random**: initialize the Gauss-Newton method (for the non-linear state estimation, see figure with options i1, i2, i3)
       * example: estimate.flat = [0 1] -  same initial values for voltage angles (degree) and magnitudes (p.u.) 
       * flow.warm = 1 - initial point is defined as the one applied in the AC power flow 
       * flow.warm = 2 - initial point is defined using exact values (if exist) 
