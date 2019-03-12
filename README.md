@@ -70,11 +70,17 @@ The state estimation user options should be defined using variable *estimate*, i
       * flow.module = 1 - non-linear state estimation
       * flow.module = 2 - state estimation only with PMUs (still in progress)
       * flow.module = 3 - DC state estimation      
-  3. **estimate.flat** or **estimate.flat** or **estimate.random**: initialize the Gauss-Newton method
-      * example: estimate.flat = [0 1] - 
-      * flow.voltage = 1 - on      
-  4. **flow.bus** and **flow.branch**: display
-      * flow.bus = 1 - on      
-      * flow.branch = 1 - on        
-   5. **flow.save**: write display data to a text file
+  3. **estimate.flat** or **estimate.flat** or **estimate.random**: initialize the Gauss-Newton method (non-linear state estimation)
+      * example: estimate.flat = [0 1] -  same initial values for voltage angles (degree) and magnitudes (p.u.) 
+      * flow.warm = 1 - initial point is defined as the one applied in the AC power flow 
+      * flow.warm = 2 - initial point is defined using exact values (if exist) 
+      * example: estimate.random = [-0.5 0.5 0.95 1.05] - initial point is defined using random perturbation between minimum and maximum values of voltage angles (degree), and minimum and maximum values of voltage magnitudes (p.u.)     
+  4. **estimate.bus**, **estimate.branch**, **estimate.estimation** and **estimate.evaluation**: display
+      * estimate.bus = 1 - on      
+      * estimate.branch = 1 - on
+      * estimate.estimation = 1 - on      
+      * estimate.evaluation = 1 - on       
+   5. **estimate.save**: write display data to a text file
       * flow.save = 1 - on 
+   6. **estimate.linear**: export the system model (matrix and vectors) for the linear state estimation problems in the variable *data.extras*
+      * estimate.linear = 1 - on       
