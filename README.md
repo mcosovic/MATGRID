@@ -31,5 +31,5 @@ Note that all quantities related to the power always should be given in (MVA), (
 
 The power flow user options should be defined using variable *flow*, the following form:
   - **flow.grid**: name of the mat-file that contains power system data
-      **example: flow.grid = 'ieee300_411'
+          * example: flow.grid = 'ieee300_411'
 
