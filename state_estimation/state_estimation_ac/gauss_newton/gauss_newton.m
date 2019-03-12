@@ -30,6 +30,7 @@
  [T, V] = initial_point_acse(user, sys, data);
 
  x   = [T; V];
+ z   = se.estimate(:,1);
  No  = 0;
  eps = 9999;
 %--------------------------------------------------------------------------
@@ -60,7 +61,7 @@
 
 
 %---------------------------------Delta x----------------------------------
- dx = (H' * sys.W * H) \ (H' * sys.W * (se.estimate(:,1) - f));
+ dx = (H' * sys.W * H) \ (H' * sys.W * (z - f));
 
  ins = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
  dx  = ins(0, dx, sys.sck(1) - 1);

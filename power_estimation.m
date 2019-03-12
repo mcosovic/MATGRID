@@ -138,8 +138,8 @@
  legvariance.unique = 10^-6;
  pmuvariance.unique = 10^-6;
 %-------------------------------
- legset.redundancy = 3;
- pmuset.device = 10;
+ legset.redundancy = 0;
+ pmuset.optimal = 1;
 %--------------------------------------------------------------------------
 
 
