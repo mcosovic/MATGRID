@@ -74,7 +74,7 @@ The state estimation user options should be defined using variable *estimate*, i
       * example: estimate.flat = [0 1] -  same initial values for voltage angles (degree) and magnitudes (p.u.) 
       * flow.warm = 1 - initial point is defined as the one applied in the AC power flow 
       * flow.warm = 2 - initial point is defined using exact values (if exist) 
-      * example: estimate.random = [-0.5 0.5 0.95 1.05] - initial point is defined using random perturbation between minimum and maximum values of voltage angles (degree), and minimum and maximum values of voltage magnitudes (p.u.)     
+      * example: estimate.random = [-0.5 0.5 0.95 1.05] - initial point is defined using random perturbation between minimum and maximum values of the voltage angles (degree), and minimum and maximum values of the voltage magnitudes (p.u.)     
   4. **estimate.bus**, **estimate.branch**, **estimate.estimation** and **estimate.evaluation**: display
       * estimate.bus = 1 - on      
       * estimate.branch = 1 - on
