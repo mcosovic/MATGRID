@@ -92,5 +92,5 @@ The module using AC power flow analysis to generate measurements and immediately
 
 ### User Options
 <p align="center">
-<img src="/doc/figures/power_estimation_chart.png" scale="1">
+<img src="/doc/figures/power_estimation_chart.png" scale="1.2">
 </p>
