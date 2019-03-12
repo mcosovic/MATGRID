@@ -88,4 +88,4 @@ The state estimation user options should be defined using variable *estimate*, i
 Note that currently phasor measurements are integrated using polar coordinates resulting in the more accurate state estimates in comparison to the rectangular measurement representation, but it requires larger computing time, and causes possible ill-conditioned.  
 
 ## State Estimation with Built-in Measurments Generator
-The module using power flow analysis to generate measurements and immediately proceeds with state estimation. The built-in measurments generator produces measurmnet data in the form described earlier in the state estimation module.
+The module using AC power flow analysis to generate measurements and immediately proceeds with state estimation. The built-in measurments generator produces measurmnet data in the form described earlier in the state estimation module.
