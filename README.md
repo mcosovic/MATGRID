@@ -20,7 +20,7 @@ The input data are located in the *data_power_grid* direcotry, as the mat-file w
    - **data.system.line** with columns: (1) from bus number; (2) to bus number; (3) transmission line resistance; (4) transmission line reactance; (5) total transmission line charging susceptance; (6) on/off status 
    - **data.system.inTransformer** with columns: (1) from bus number; (2) to bus number; (3) in-phase transformer resistance; (4) in-phase transformer reactance; (5) total in-phase transformer charging susceptance; (6) turns ratio (7) on/off status
    - **data.system.shiftTransformer** with columns: (1) from bus number; (2) to bus number; (3) phase-shifting transformer resistance; (4) phase-shifting transformer reactance; (5) total phase-shifting charging susceptance; (6) turns ratio; (7) shift angle; (8) on/off status 
-   - **data.system.baseMVA**:system base power
+   - **data.system.baseMVA**: system base power
 
 Note that all quantities related to the power always should be given in (MVA), (MVAr) or (MW), magnitudes are in (p.u.), while angles  should be given in (deg), conductance, susceptance, resistance, and reactance are also in (p.u.).
    
