@@ -29,7 +29,7 @@ Note that all quantities related to the power always should be given in (MVA), (
 <img src="/doc/figures/power_flow_chart.png" scale="1">
 </p>
 
-The power flow user options should be defined using variable *flow*, the following form:
+The power flow user options should be defined using variable *flow*, in the following form:
   1. **flow.grid**: name of the mat-file that contains power system data
       * example: flow.grid = 'ieee300_411';
   2. **flow.module**: AC or DC power flow
@@ -62,3 +62,19 @@ Note that all quantities should be given in (p.u.) or (radian).
 <p align="center">
 <img src="/doc/figures/state_estimation_chart.png" scale="1">
 </p>
+
+The state estimation user options should be defined using variable *estimate*, in the following form:
+  1. **estimate.grid**: name of the mat-file that contains power system and measurement data
+      * example: estimate.grid = 'ieee300_411';
+  2. **estimate.module**: non-linear, PMU or DC state estimation
+      * flow.module = 1 - non-linear state estimation
+      * flow.module = 2 - state estimation only with PMUs (still in progress)
+      * flow.module = 3 - DC state estimation      
+  3. **estimate.flat** or **estimate.flat** or **estimate.random**: initialize the Gauss-Newton method
+      * example: estimate.flat = [0 1] - 
+      * flow.voltage = 1 - on      
+  4. **flow.bus** and **flow.branch**: display
+      * flow.bus = 1 - on      
+      * flow.branch = 1 - on        
+   5. **flow.save**: write display data to a text file
+      * flow.save = 1 - on 
