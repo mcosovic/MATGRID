@@ -34,5 +34,5 @@
 					sys.Vmp.v; sys.Vap.v; sys.Cmp.v; sys.Cap.v];
 
  C = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot);
- sys.W = C.^(1/2) \ speye(sys.Ntot, sys.Ntot);
+ sys.W = C \ speye(sys.Ntot, sys.Ntot);
 %--------------------------------------------------------------------------

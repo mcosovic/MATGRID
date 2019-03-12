@@ -39,15 +39,12 @@
 %---------------------------Bus Voltage Angles-----------------------------
  C = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot);
  E = speye(sys.Ntot, sys.Ntot);
- W = C.^(1/2) \ E;
+ W = C \ E;
 
  H = sys.H;
  H(:, sys.sck(1)) = [];
 
- Hti = W * H;
- rti = W * sys.b;
-
- T = (Hti' * Hti) \ (Hti' * rti);
+ T = (H' * W * H) \ (H' * W * sys.b);
 %--------------------------------------------------------------------------
 
 
