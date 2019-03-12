@@ -29,3 +29,7 @@ Note that all quantities related to the power always should be given in (MVA), (
 <img src="/doc/figures/power_flow_chart.png" scale="1">
 </p>
 
+The power flow user options should be defined using variable *flow*, the following form:
+  - **flow.grid**: name of the mat-file that contains power system data ...
+  example: flow.grid = 'ieee300_411'
+
