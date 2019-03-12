@@ -57,3 +57,8 @@ Measurement data is given in variables *data.legacy* and *data.pmu*, with variab
   - **data.pmu.voltage** with columns: (1) bus number; (2) bus voltage magnitude measurement; (3) bus voltage magnitude variance; (4) on/off status; (5) bus voltage angle measurement; (6) bus voltage angle variance; (7) on/off status; (8) bus voltage magnitude exact value (optional); (9) bus voltage angle exact value (optional).
   
 Note that all quantities should be given in (p.u.) or (radian). 
+
+### User Options
+<p align="center">
+<img src="/doc/figures/state_estimation_chart.png" scale="1">
+</p>
