@@ -26,6 +26,6 @@ Note that all quantities related to the power always should be given in (MVA), (
 
 ### User Options
 <p align="center">
-<img src="https://github.com/mcosovic/my_private/blob/master/power_marie_edu/power_flow_chart.png?raw=true" scale="1">
+<img src="/doc/figures/power_flow_chart.png" scale="1">
 </p>
 
