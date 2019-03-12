@@ -30,15 +30,15 @@ Note that all quantities related to the power always should be given in (MVA), (
 </p>
 
 The power flow user options should be defined using variable *flow*, the following form:
-  1. **flow.grid**: name of the mat-file that contains power system data;
+  1. **flow.grid**: name of the mat-file that contains power system data
       * example: flow.grid = 'ieee300_411';
-  2. **flow.module**: AC or DC power flow;
+  2. **flow.module**: AC or DC power flow
       * flow.module = 1 - AC power flow;
       * flow.module = 2 - DC power flow;
-  3. **flow.reactive** and **flow.voltage**: forces reactive power and voltage magnitude constraints;
+  3. **flow.reactive** and **flow.voltage**: forces reactive power and voltage magnitude constraints
       * flow.reactive = 1 - on;
       * flow.voltage = 1 - on;      
-  4. **flow.bus** and **flow.branch**: display;
+  4. **flow.bus** and **flow.branch**: display
       * flow.bus = 1 - on;      
       * flow.branch = 1 - on;         
       
