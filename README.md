@@ -44,3 +44,8 @@ The power flow user options should be defined using variable *flow*, the followi
    5. **flow.save**: write display data to a text file
       * flow.save = 1 - on        
       
+## State Estimation
+### Input Data
+The input data are located in the *data_power_grid* directory, as the mat-file with the struct variable *data*. The state estimation module, except measurement, requires quantities that describes the physical structure of the power system, and those are located in variable *data.system*.
+
+Measurement data is given in variables *data.legacy* and *data.pmu*, with variables *flow*, *current*, *injection*, *voltage* for legacy measurements, and *current*, *voltage* for phasor measurement units (PMUs). The minimum amount of information with each instance of the data structure to run the module requires one of the types of measurements (e.g., *data.legacy.flow*) . In the following, we describe the structure of the variables *data.legacy* and *data.pmu*.
