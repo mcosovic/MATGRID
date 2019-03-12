@@ -25,4 +25,7 @@ The input data are located in the *data_power_grid* direcotry, as the mat-file w
 Note that all quantities related to the power always should be given in (MVA), (MVAr) or (MW), magnitudes are in (p.u.), while angles  should be given in (deg), conductance, susceptance, resistance, and reactance are also in (p.u.).
 
 2. User Options
-   
+.. image:: https://github.com/mcosovic/my_private/blob/master/power_marie_edu/power_flow_chart.png?raw=true
+   :height: 100px
+   :width: 200 px
+   :scale: 50 %   
