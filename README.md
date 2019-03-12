@@ -85,4 +85,4 @@ The state estimation user options should be defined using variable *estimate*, i
    6. **estimate.linear**: export the system model (matrix and vectors) for the linear state estimation problems in the variable *data.extras*
       * estimate.linear = 1 - on       
 
-Note that currently phasor measurements are integrated using polar coordinates resulting in the more accurate state estimates in comparison to the rectangular measurement representation, but it requires larger computing time, and possible ill-condition 
+Note that currently phasor measurements are integrated using polar coordinates resulting in the more accurate state estimates in comparison to the rectangular measurement representation, but it requires larger computing time, and causes possible ill-conditioned.  
