@@ -22,7 +22,7 @@ The input data are located in the *data_power_grid* directory, as the mat-file w
    - **data.system.shiftTransformer** with columns: (1) from bus number; (2) to bus number; (3) phase-shifting transformer resistance; (4) phase-shifting transformer reactance; (5) total phase-shifting charging susceptance; (6) turns ratio; (7) shift angle; (8) on/off status 
    - **data.system.baseMVA**: system base power
 
-Note that all quantities related to the power always should be given in (MVA), (MVAr) or (MW), magnitudes are in (p.u.), while angles should be given in (deg), conductance, susceptance, resistance, and reactance are also in (p.u.).
+Note that all quantities related to the power always should be given in (MVA), (MVAr) or (MW), magnitudes are in (p.u.), while angles should be given in (degree), conductance, susceptance, resistance, and reactance are also in (p.u.).
 
 ### User Options
 <p align="center">
@@ -54,4 +54,6 @@ Measurement data is given in variables *data.legacy* and *data.pmu*, with variab
   - **data.legacy.injection** with columns: (1) bus number; (2) active power injection measurement; (3) active power injection variance; (4) on/off status; (5) reactive power injection measurement; (6) reactive power injection variance; (7) on/off status; (8) active power injection exact value (optional); (9) reactive power injection exact value (optional)   
   - **data.legacy.voltage** with columns: (1) bus number; (2) bus voltage magnitude measurement; (3) bus voltage magnitude variance; (4) on/off status; (6) bus voltage magnitude exact value (optional) 
   - **data.pmu.current** with columns: (1) from bus number; (2) to bus number; (3) line current magnitude measurement; (4) line current magnitude variance; (5) on/off status; (6) line current angle measurement; (7) line current angle variance; (8) on/off status; (9) line current magnitude exact value (optional); (10) line current angle exact value (optional)
-  - **data.pmu.voltage** with columns: (1) bus number; (2) bus voltage magnitude measurement; (3) bus voltage magnitude variance; (4) on/off status; (5) bus voltage angle measurement; (6) bus voltage angle variance; (7) on/off status; (8) bus voltage magnitude exact value (optional); (9) bus voltage angle exact value (optional)  
+  - **data.pmu.voltage** with columns: (1) bus number; (2) bus voltage magnitude measurement; (3) bus voltage magnitude variance; (4) on/off status; (5) bus voltage angle measurement; (6) bus voltage angle variance; (7) on/off status; (8) bus voltage magnitude exact value (optional); (9) bus voltage angle exact value (optional).
+  
+Note that all quantities should be given in (p.u.) or (radian). 
