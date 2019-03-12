@@ -97,12 +97,23 @@ The module using AC power flow analysis to generate measurements and immediately
 
 The module combines the power flow and state estimation options, where additional options are used for measurements generator. Built-in measurements generator receives inputs for measurement variances as struct variables *legvariance* (legacy measurements) and *pmuvariance* (phasor measurements), and inputs for measurement sets as struct variables *legset* (legacy measurements) and *pmuset* (phasor measurements). In the following, we describe the options of the measurements generator.
 
-  1. **.unique**: applied the unique variance over all legacy or measurements from PMUs
-      * example: legvariance.unique = 10^-6  
-      * example: pmuvariance.unique = 10^-8   
-  2. **.random**: randomized variances within limits [min max] applied over all legacy or measurements from PMUs
-	  * example: legvariance.random = [10^-4 10^-3]
-	  * example: pmuvariance.random = [10^-5 10^-6]
-  3. **.type**: variances applied over the subset of legacy measurements [active flow], [reactive flow], [current magnitude], [active injection], [reactive injection], [voltage magnitude], or over the subset of measurements from PMUs [current magnitude], [current angle], [voltage magnitude], [voltage angle] 
+  1. **unique**: applied the unique variance over all legacy or measurements from PMUs
+      * example: legvariance.unique = 1e-06 
+      * example: pmuvariance.unique = 1e-08   
+  2. **random**: randomized variances within limits [min max] applied over all legacy or measurements from PMUs
+	  * example: legvariance.random = [1e-05 1e-04]
+	  * example: pmuvariance.random = [1e-08 1e-06]
+  3. **type**: variances applied over the subset of legacy measurements [active flow], [reactive flow], [current magnitude], [active injection], [reactive injection], [voltage magnitude], or over the subset of measurements from PMUs [current magnitude], [current angle], [voltage magnitude], [voltage angle] 
      * legvariance.type = [1e-06 1e-08 1e-08 1e-08 1e-06 1e-06]
      * pmuvariance.type = [1e-12 1e-10 1e-12 1e-10]
+  4. **redundancy**: randomized active (on status) legacy measurements or measurements from PMUs (magnitudes and angles) according to the redundancy
+     * legset.redundancy = 2.5 
+     * pmuset.redundancy = 1.5
+  5. **device**: number of active (on status) measurement devices is defined over the subset of legacy devices [power flow], [current magnitude], [power injection], [voltage magnitude], over the PMUs
+     * legset.device = [20 10 5 6]
+     * pmuset.device = 10 
+  6. **pmuset.optimal**: optimal PMUs placed to make the entire system observable only by PMUs
+     * pmuset.optimal = 1 - on
+  
+     
+     
