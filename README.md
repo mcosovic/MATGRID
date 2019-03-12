@@ -89,3 +89,8 @@ Note that currently phasor measurements are integrated using polar coordinates r
 
 ## State Estimation with Built-in Measurments Generator
 The module using AC power flow analysis to generate measurements and immediately proceeds with state estimation. The built-in measurments generator produces measurmnet data in the form described earlier in the state estimation module.
+
+### User Options
+<p align="center">
+<img src="/doc/figures/power_estimation_chart.png" scale="1">
+</p>
