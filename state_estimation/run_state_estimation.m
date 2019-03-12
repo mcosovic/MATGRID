@@ -1,4 +1,4 @@
- function [se, sys, data] = run_state_estimation(user, data)
+ function [se, data] = run_state_estimation(user, data)
 
 %--------------------------------------------------------------------------
 % Runs the non-linear and DC state estimation, as well as the state

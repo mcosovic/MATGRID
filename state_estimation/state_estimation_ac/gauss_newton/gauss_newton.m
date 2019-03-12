@@ -62,7 +62,7 @@
 %---------------------------------Delta x----------------------------------
  Hti = sys.W * H;
  rti = sys.W * (se.estimate(:,1) - f);
- dx  = Hti \ rti;
+ dx  = (Hti' * Hti) \ (Hti' * rti);
 
  ins = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
  dx  = ins(0, dx, sys.sck(1) - 1);

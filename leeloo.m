@@ -1,4 +1,4 @@
- function [data, results, sys] = leeloo()
+ function [data, results] = leeloo()
 
 %--------------------------------------------------------------------------
 % Proceeds to the different check functions and runs main routines.
@@ -78,10 +78,10 @@
 
  if strcmp(run_mfile(2).file, 'power_flow.m')
     [user, data] = power_flow_options(user);
-    [sys, results] = run_power_flow(user, data);
+    [~, results] = run_power_flow(user, data);
  elseif strcmp(run_mfile(2).file, 'state_estimation.m')
     [user, data] = state_estimation_options(user, 1);
-    [results, sys, data] = run_state_estimation(user, data);
+    [results, data] = run_state_estimation(user, data);
  elseif strcmp(run_mfile(2).file, 'power_estimation.m')
     user.module_flow = 1;
     [user, data] = power_flow_options(user);
@@ -89,7 +89,7 @@
     [data] = run_measurement_generator(user, data, sys, pf);
     user.grid_estimate = user.grid_flow; 
     [user, ~] = state_estimation_options(user, 0);
-    [results, sys, data] = run_state_estimation(user, data);
+    [results, data] = run_state_estimation(user, data);
  else
     error_source_file
  end
