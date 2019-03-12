@@ -13,3 +13,4 @@ Note: The state estimation with PMUs is currently not available.
 
 ## Power Flow
 1. Input Data
+The input data are located in the *data_power_grid* direcotry, as the mat-file with the struct variable *data*. The power system data is given in the variable *data.system*, with variables *bus*, *generator*, *line*, *inTransformer*, *shiftTransformer*, and *baseMVA*.  Minimum amount of information with each instance of the data structure to run the module requires *bus* and one of the variables *line*, *inTransformer* and *shiftTransformer*.   
