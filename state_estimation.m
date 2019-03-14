@@ -80,18 +80,18 @@
 
 
 %-------------------------------Load Data----------------------------------
- estimate.grid = 'ieee30_41';
+ estimate.grid = 'ieee14_20';
 %--------------------------------------------------------------------------
 
 
 %------------------------State Estimation Options--------------------------
- estimate.module = 1;
+ estimate.module = 2;
 %-------------------------
  estimate.warm = 1;
 %-------------------------
  estimate.bus = 1;
  estimate.branch = 0;
- estimate.estimation = 1;
+ estimate.estimation = 0;
  estimate.evaluation = 0;
 %--------------------------------------------------------------------------
 

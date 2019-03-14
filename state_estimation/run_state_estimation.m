@@ -83,6 +83,20 @@
 %--------------------------------------------------------------------------
 
 
+%--------------------------PMU State Estimation----------------------------
+ if user.module_estimate == 2
+    [sys] = ybus_ac(sys); 
+    [br]  = branch_data_acse(sys); 
+    [dat] = polar_to_rectangular(data);
+    [dat, sys, se] = measurements_pmuse(dat, sys, br);
+    [se] = solve_pmuse(sys, se);
+	[se] = processing_acse(sys, se);
+    [sys, se] = evaluation_pmuse(data, dat, sys, se);
+    [se] = name_unit_pmuse(sys, se, dat);
+ end
+%--------------------------------------------------------------------------
+
+
 %----------------------------DC State Estimation---------------------------
  if user.module_estimate == 3
 	[sys] = preprocessing_dcse(sys);

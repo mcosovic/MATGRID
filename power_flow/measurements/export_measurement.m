@@ -78,7 +78,8 @@
  Aflo_mean = real([pf.branch(:,5); pf.branch(:,6)]);
  Rflo_mean = imag([pf.branch(:,5); pf.branch(:,6)]);
  Cmag_mean = abs([pf.branch(:,1); pf.branch(:,2)]);
- Cang_mean = atan(imag([pf.branch(:,1); pf.branch(:,2)]) ./ real([pf.branch(:,1); pf.branch(:,2)]));
+ Cang_mean = angle([pf.branch(:,1); pf.branch(:,2)]);
+
  Ainj_mean = real(pf.bus(:,4));
  Rinj_mean = imag(pf.bus(:,4));
  Vmag_mean = abs(pf.bus(:,3));

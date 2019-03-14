@@ -121,7 +121,7 @@
 
 
 %-------------------------------Load Data----------------------------------
- flow.grid = 'ieee118_186';
+ flow.grid = 'ieee30_41';
 %--------------------------------------------------------------------------
 
 
@@ -135,8 +135,8 @@
 
 
 %----------------------------Measurement Data------------------------------
- legvariance.unique = 10^-6;
- pmuvariance.unique = 10^-6;
+ legvariance.unique = 10^-8;
+ pmuvariance.unique = 10^-12;
 %-------------------------------
  legset.redundancy = 0;
  pmuset.optimal = 1;
@@ -148,7 +148,7 @@
 %-------------------------------
  estimate.warm = 1;
 %-------------------------------
- estimate.bus = 0;
+ estimate.bus = 1;
  estimate.branch = 0;
  estimate.estimation = 1;
  estimate.evaluation = 0;

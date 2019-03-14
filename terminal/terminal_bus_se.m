@@ -3,7 +3,7 @@
 
 
 %% Bus Data for the Non-linear State Estimation
- if module == 1
+ if module == 1 || module == 2
     b = sys.base;
     A = [sys.bus(:,15)  abs(in.bus(:,1))  (angle(in.bus(:,1)))*180/pi  real(in.bus(:,2))*b  imag(in.bus(:,2))*b  real(in.bus(:,3))*b  imag(in.bus(:,3))*b];
     B = [sum(real(in.bus(:,2))) sum(imag(in.bus(:,2))) sum(real(in.bus(:,3))) sum(imag(in.bus(:,3)))]*b;

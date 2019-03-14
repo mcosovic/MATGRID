@@ -54,15 +54,16 @@
  Vi = V(a.i);
  Vj = V(a.j);
 
- Fa = atan(((a.Aa.*sin(Ti) + a.Ba.*cos(Ti)).*Vi - (a.Ca.*sin(U) + a.Da.*cos(U)).*Vj) ./...
-		  ((a.Aa.*cos(Ti) - a.Ba.*sin(Ti)).*Vi - (a.Ca.*cos(U) - a.Da.*sin(U)).*Vj));
+ Iijc = (a.Aa.*cos(Ti) - a.Ba.*sin(Ti)).*Vi - (a.Ca.*cos(U) - a.Da.*sin(U)).*Vj + ...
+         1i* ((a.Aa.*sin(Ti) + a.Ba.*cos(Ti)).*Vi - (a.Ca.*sin(U) + a.Da.*cos(U)).*Vj);  
+ Fa  = angle(Iijc);
+ Fma = abs(Iijc).^2;        
 %--------------------------------------------------------------------------
 
 
 %----------------------Line Angle Magnitude Jacobian-----------------------
  U   = T(a.i) - T(a.j) - a.fij;
  Tm1 = a.Cc .* cos(U) - a.Dc .* sin(U);
- Fma = (a.Ac .* Vi.^2 + a.Bc .* Vj.^2 - 2 * Vi .* Vj .* Tm1);
 
  Ta1    = - Vi .* Vj .* Tm1;
  Bij_Ti = (a.Ac .* Vi.^2 + Ta1) ./ Fma;

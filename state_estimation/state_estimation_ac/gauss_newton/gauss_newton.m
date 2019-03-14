@@ -46,7 +46,7 @@
  while eps > sys.stop && No < 400
  No = No+1;
 
-%----------------------Vector f(x) and Jacobian H(x)-----------------------
+ %----------------------Vector f(x) and Jacobian H(x)-----------------------
  [Ff, Jf] = flow_acse(V, T, sys.Pf, sys.Qf, sys.Nbu);
  [Fc, Jc] = current_acse(V, T, sys.Cm, sys.Nbu);
  [Fi, Ji] = injection_acse(V, T, sys.Pi, sys.Qi, sys.Nbu);

@@ -1,4 +1,4 @@
- function [sys, pf] = run_power_flow(user, data)
+ function [pf, sys] = run_power_flow(user, data)
 
 %--------------------------------------------------------------------------
 % Runs AC or DC power flow.
