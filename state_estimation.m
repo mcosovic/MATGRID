@@ -72,7 +72,7 @@
 %		- 'save': save display data
 %		- 'export': export the system model without slack bus (for linear
 %		   state estimation problems, exports in data.extras)
-%		- 'export slack': export the system model with slack bus (for
+%		- 'exportSlack': export the system model with slack bus (for
 %		   linear state estimation problems, exports in data.extras)
 %
 % Note, except for the first input, the order of other inputs is arbitrary,

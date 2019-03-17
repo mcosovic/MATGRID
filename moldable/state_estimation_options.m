@@ -128,7 +128,7 @@
 
 
 %---------------------Check Terminal and Export Inputs---------------------
- in = ismember({'bus', 'branch', 'estimate', 'error', 'save', 'export', 'export slack'}, var);
+ in = ismember({'bus', 'branch', 'estimate', 'error', 'save', 'export', 'exportSlack'}, var);
 
  if in(1)
 	user.bus = 1;

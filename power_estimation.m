@@ -94,6 +94,19 @@
 %		- 'legType', [X Y Z V P Q]: defining variances over the subset of 
 %		   legacy measurements (Pij, Qij, Iij, Pi, Qi, Vi)
 %		   default setting: [10^-6 10^-8 10^-8 10^-6 10^-8 10^-8];
+%	- DISPLAY
+%		- 'main': main power flow bus data display
+%		- 'flow': power flow data display
+%		- 'bus': bus data display after state estimation
+%		- 'branch': branch data display after state estimation
+%		- 'estimate': estimation data display
+%		- 'error': evaluation data display
+%	- EXPORT
+%		- 'save': save display data
+%		- 'export': export the system model without slack bus (for linear
+%		   state estimation problems, exports in data.extras)
+%		- 'exportSlack': export the system model with slack bus (for
+%		   linear state estimation problems, exports in data.extras)
 %
 % Note, except for the first input, the order of other inputs is arbitrary,
 % as well as their appearance.
