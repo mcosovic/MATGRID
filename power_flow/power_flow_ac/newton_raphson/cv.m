@@ -8,8 +8,8 @@
 % compute a new reactive power for the bus where voltage magnitude is
 % violated. The function saves a bus number when the constraint is
 % violated.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- V, T: bus voltage magnitude and angle vector
 %	- pf: power flow data
 %	- sys: power system data
@@ -25,7 +25,7 @@
 %	(1)minimum limits violated at bus; (2)maximum limits violated at bus;
 %	- DelPQ: an active and reactive power mismatch matrix for all buses
 %	- V, T: bus voltage magnitude and angle vector
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the AC power flow.
 %--------------------------------------------------------------------------
 

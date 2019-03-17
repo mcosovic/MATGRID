@@ -9,7 +9,7 @@
 % convention, a negative power value indicates the power flow direction in
 % a bus, while a positive power value means direction out a bus. Finally,
 % the postprocessing time is obtained here.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- sys: power system data
 %	- pf: power flow data
@@ -19,7 +19,7 @@
 %	  (2)active power injection(Pi); (3)active power generation(Pg)
 %	- pf.branch with column: (1)active power flow(Pij)
 %	- pf.time.pos: postprocessing time
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the DC power flow.
 %--------------------------------------------------------------------------
 

@@ -1,33 +1,29 @@
- function [se] = solve_pmuse(sys, se)
+ function [se] = solve_pmuse(sys)
 
 %--------------------------------------------------------------------------
-% Solves the DC state estimation problem and computes the vector of bus
-% voltage angles.
+% Solves the PMU linear state estimation problem and computes the vector of
+% bus voltage angles.
 %
-% The DC state estimation solution for an observable system can be
-% obtained by solving weighted least-squares problem T = (H'WH)\H'Wz.
-% Further, the voltage angle on the slack bus is known, and consequently,
-% it should be removed from the system. Finally, preprocessing time is
-% over, and the convergence time is obtained here, while postprocessing
-% time is initialized.
-%
-%  Inputs:
+% The state estimation solution for the system observable only by PMUs can
+% be obtained by solving weighted least-squares problem T = (H'WH)\H'Wz.
+% Finally, preprocessing time is over, and the convergence time is obtained
+% here, while postprocessing time is initialized.
+%--------------------------------------------------------------------------
+%  Input:
 %	- sys: power system data
-%	- se: state estimation data
 %
 %  Outputs:
-%	- se.bus: bus voltage angles Ti
-%	- se.grid: name of the analyzed power system
+%	- se.bus: complex bus voltages
 %	- se.method: method name
 %	- se.time.pre: preprocessing time
 %	- se.time.conv: convergence time
-%
-% The local function which is used in the DC state estimation.
+%--------------------------------------------------------------------------
+% The local function which is used in the PMU state estimation.
 %--------------------------------------------------------------------------
 
 
 %---------------------------------Method-----------------------------------
- se.method = 'State Estimation only with PMUs';
+ se.method = 'Linear State Estimation only with PMUs';
 %--------------------------------------------------------------------------
 
 
@@ -37,11 +33,11 @@
 
 
 %--------------------------Bus Voltage Estimates---------------------------
- C = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot);
+ C = spdiags(sys.v, 0, sys.Ntot, sys.Ntot);
  W = C \ speye(sys.Ntot, sys.Ntot);
 
- VrVi = (sys.H' * W * sys.H) \ (sys.H' * W * se.estimate(:,1));
- 
+ VrVi = (sys.H' * W * sys.H) \ (sys.H' * W * sys.b);
+
  se.bus = VrVi(1:sys.Nbu) + 1i * VrVi(sys.Nbu+1:end);
 %--------------------------------------------------------------------------
 

@@ -5,7 +5,7 @@
 %
 % The function defines the current measurement data according to available
 % legacy and phasor measurements (i.e., turn on measurements).
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- leg: legacy current magnitude measurement data
 %	- pmu: phasor current measurement data
@@ -19,7 +19,7 @@
 %	  magnitude measurements
 %	- sys.Cap: set indexes and parameters associated with phasor current
 %	  angle measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

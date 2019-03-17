@@ -6,15 +6,15 @@
 % The function computes Ti - Tj; Gij*sin(Ti-Tj) - Bij*cos(Ti-Tj);
 % Gij*cos(Ti-Tj) + Bij*sin(Ti-Tj); Vi*Vj, and forms corresponding
 % summations.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- V, T: bus voltage magnitude and angle vector
 %	- alg: algorithm data
 %	- Nbu: number of buses
 %
-%  Outputs:
+%  Output:
 %	- alg: algorithm data
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Newton-Raphson algorithm.
 %--------------------------------------------------------------------------
 

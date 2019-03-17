@@ -1,83 +1,99 @@
- function [user, data] = power_flow_options(user)                           %#ok<*STOUT>
+ function [user, data] = power_flow_options(var)                           %#ok<*STOUT>
 
 %--------------------------------------------------------------------------
 % Checks user inputs and if those are missing, adds default values and
 % loads power system data
 %
-% The function checks 'flow', 'grid', 'reactive', 'voltage', 'bus',
-% 'branch' and 'save' variables defined in the 'power_flow.m', and loads
-% power system data according to the grid variable. Default values are:
-% flow = 1; grid = 'ieee30_41'; reactive = 0; voltage = 0; bus = 1; branch
-% = 0; save = 0.
-%
+% The function checks 'ac', 'dc', 'reactive', 'voltage', 'main', 'flow' and
+% 'save' variables given as input arguments of the function leeloo in the
+% 'power_flow.m', and loads power system data according to the grid
+% variable. Default inputs are: 'ieee30_41'; 'ac'.
+%--------------------------------------------------------------------------
 %  Input:
-%	- user: all user inputs
+%	- var: all user inputs
 %
 %  Outputs:
-%	- user.module_flow: AC or DC power flow
-%	- user.grid_flow: name of the power system data
-%	- user.reactive_flow: bus reactive power limits
-%	- user.voltage_flow: bus voltage magnitude limits
-%	- user.bus_flow: bus data display
-%	- user.branch_flow: branch data display
-%	- user.save_flow: save display data
+%	- user.pf: AC or DC power flow
+%	- user.grid: name of the power system data
+%	- user.limit: bus reactive power or voltage limits
+%	- user.main: bus data display
+%	- user.flow: branch data display
+%	- user.save: save display data
 %	- data: power system data
-%
-% Check function which is used in power flow module.
+%--------------------------------------------------------------------------
+% Check function which is used in power flow routine.
 %--------------------------------------------------------------------------
 
 
 %---------------------------------Inputs-----------------------------------
- in = isfield(user, {'grid_flow', 'module_flow', 'reactive_flow', 'voltage_flow', 'bus_flow', 'branch_flow', 'save_flow'});
+ var = cellfun(@num2str, var, 'un', 0);
 %--------------------------------------------------------------------------
 
 
-%----------------------------Check Grid Input------------------------------
- if ~in(1) || ~ischar(user.grid_flow)
-	user.grid_flow = 'ieee30_41';
-	warning('pf:grid', 'Invalid "grid" data structure. The algorithm proceeds with default power system: %s.\n', user.grid_flow)
+%----------------------------Default Settings------------------------------
+ user.pf    = 1;
+ user.limit = 0;
+ user.main  = 0;
+ user.flow  = 0;
+ user.save  = 0;
+%--------------------------------------------------------------------------
+
+
+%-------------------------------Empty Input--------------------------------
+ if isempty(var)
+	var{1} = 'ieee30_41';
+	warning('pf:empty', ['Invalid input data structure. The algorithm '...
+    'proceeds with %s power system.\n'], strcat(var{1},'.mat'))
  end
 %--------------------------------------------------------------------------
 
 
-%---------------------------Check Module Input-----------------------------
- if ~in(2) || ~isnumeric(user.module_flow) || length(user.module_flow) ~= 1 || all(user.module_flow ~= [1 2])
-	user.module_flow = 1;
-	warning('pf:moduleAllowed', ['The variable "flow.module" requires at least one input argument: ' ...
-	'\n\t"flow.module = 1" - AC power flow'...
-	'\n\t"flow.module = 2" - DC power flow'...
-	'\nThe algorithm proceeds with default option, AC power flow.'])
+%------------------------Check AC or DC Power Flow-------------------------
+ in = ismember({'ac', 'dc'}, var);
+
+ if in(1)
+	user.pf = 1;
+ elseif in(2)
+	user.pf = 2;
+ else
+	warning('pf:module', ['The power flow requires "ac" or "dc" input ' ...
+	'arguments for the AC or DC power flow analysis. '...
+	'The algorithm proceeds with the AC power flow.\n'])
  end
 %--------------------------------------------------------------------------
 
 
 %---------------------------Check Limit Inputs-----------------------------
- if ~in(3) || ~isnumeric(user.reactive_flow) || length(user.reactive_flow) ~= 1 || all(user.reactive_flow ~= [0 1])
-	user.reactive_flow = 0;
- end
- if ~in(4) || ~isnumeric(user.voltage_flow) || length(user.voltage_flow) ~= 1 || all(user.voltage_flow ~= [0 1])
-	user.voltage_flow = 0;
+ in = ismember({'reactive', 'voltage'}, var);
+
+ if in(1)
+	user.limit = 1;
+ elseif in(2)
+	user.limit = 2;
  end
 %--------------------------------------------------------------------------
 
 
 %--------------------------Check Terminal Inputs---------------------------
- if ~in(5) || ~isnumeric(user.bus_flow) || length(user.bus_flow) ~= 1 || all(user.bus_flow ~= [0 1])
-	user.bus_flow = 0;
+ in = ismember({'main', 'flow', 'save'}, var);
+
+ if in(1)
+	user.main = 1;
  end
- if ~in(6) || ~isnumeric(user.branch_flow) || length(user.branch_flow) ~= 1 || all(user.branch_flow ~= [0 1])
-	user.branch_flow = 0;
+ if in(2)
+	user.flow = 1;
  end
- if ~in(7) || ~isnumeric(user.save_flow) || length(user.save_flow) ~= 1 || all(user.save_flow ~= [0 1])
-	user.save_flow = 0;
+ if in(3)
+	user.save = 1;
  end
 %--------------------------------------------------------------------------
 
 
 %--------------------------------Load Data---------------------------------
  try
-	load(user.grid_flow)
+   user.grid = strcat(var{1},'.mat');
+   load(user.grid, '-mat', 'data')
  catch
-	error('pf:gridLoad', 'The power system data "%s" not found.\n', user.grid_flow)
+   error('pf:gridLoad', 'The power system data "%s" not found.\n', user.grid)
  end
 %--------------------------------------------------------------------------

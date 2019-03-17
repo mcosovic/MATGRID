@@ -7,15 +7,15 @@
 % The DC power flow is based on the power balance equation Pg - Pl = Ybus*T
 % + Psh + rsh, where T is the vector of bus voltage angles and Psh is shift
 % angle vector. Here, we form Ybus and Psh.
-%
-%  Inputs:
+%--------------------------------------------------------------------------
+%  Input:
 %	- sys: power system data
 %
 %  Outputs:
 %	- sys.bus with additional column: (16)shift vector(Psh)
 %	- sys.branch with additional column: (11)1/(tij*xij)
 %	- sys.Ybu: Ybus matrix
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the DC power flow and DC state
 % estimation.
 %--------------------------------------------------------------------------

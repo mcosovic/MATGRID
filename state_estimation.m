@@ -2,41 +2,82 @@
  clearvars
 
 %--------------------------------------------------------------------------
-% Runs the non-linear and DC state estimation, as well as the state
-% estimation with PMUs.
+% Runs the non-linear and DC state estimation, as well as the linear state
+% estimation only with PMUs.
 %
 % The non-linear state estimation routine uses the Gauss-Newton method.
 %
-%  User options:
-%	- name of the mat-file that contains power system and measurements data
-%	  example: estimate.grid = 'ieee300_411';
-%	- non-linear, PMU or DC state estimation
-%	  estimate.module = 1 - non-linear state estimation;
-%	  estimate.module = 2 - state estimation only with PMUs;
-%	  estimate.module = 3 - DC state estimation;
-%	- initialize the Gauss-Newton method
-%	  example estimate.flat = [0 1] - initial values for voltage angles in
-%	  degrees and magnitudes;
-%	  example estimate.random = [-0.5 0.5 0.95 1.05] - random perturbation
-%	  between minimum and maximum values of voltage angles in degrees, and
-%	  minimum and maximum values of voltage magnitudes;
-%	  estimate.warm = 1 - the initial point is defined as the one applied
-%	  in AC power flow; estimate.warm = 2 - the initial point is defined
-%	  from the exact values, if those exist;
-%	- bus data display
-%	  estimate.bus = 1 - turn on;
-%	- branch data display
-%	  estimate.branch = 1 - turn on; 
-%	- estimation data display
-%	  estimate.estimation = 1 - turn on; 
-%	- evaluation (error) data display
-%	  estimate.evaluation = 1 - turn on; 
-%	- save display data
-%	  estimate.save = 1 - turn on; 
-%	- export the system model for the linear state estimation problems
-%	  estimate.linear = 1 - without slack bus; 
-%     estimate.linear = 2 - with slack bus;
+%  Examples:
+%	leeloo('data5_6', 'nonlinear', 'bus');
+%	leeloo('data5_6', 'nonlinear', 'warm', 'bus', 'branch');
+%	leeloo('data5_6', 'pmu', 'pmuOptimal', 'save');
+%	leeloo('data5_6', 'dc', 'bus');
+%	leeloo('data5_6', 'dc', 'legRedundancy', 4, 'branch');
+%--------------------------------------------------------------------------
+%  Syntax:
+%	leeloo(DATA, METHOD)
+%	leeloo(DATA, METHOD, START)
+%	leeloo(DATA, METHOD, START, SET)
+%	leeloo(DATA, METHOD, START, SET, DISPLAY, EXPORT)
 %
+%  Description:
+%	- leeloo(DATA, METHOD) computes state estimation problem according
+%	  to METHOD using power system and measurement DATA
+%	- leeloo(DATA, METHOD, START) initialize the Gauss-Newton Method
+%	- leeloo(DATA, METHOD, START, SET) defines measurement set, active and
+%	  inactive measurements
+%	- leeloo(DATA, METHOD, START, SET, DISPLAY, EXPORT) allows to show
+%	  results and export models
+%
+%  Input Arguments:
+%	- DATA: the first input argument in the leeloo function must contain a
+%	  name of the mat-file that contains power system and measurement data
+% 	- METHOD:
+%		- 'nonlinear': non-linear state estimation
+%		- 'pmu': linear state estimation only with PMUs;
+%		- 'dc': dc state estimation
+%	- START
+%		- 'warm': the initial point is defined as the one applied in AC
+%		   power flow
+%		- 'exact': the initial point is defined from the exact values, if
+%		   those exist
+%		- 'flat', [X Y]: unique initial values for voltage angles (X) in
+%		   degree and magnitude (Y) in per-unit
+%		   default setting: [0 1]
+%		- 'random', [X Y Z V]: random perturbation between minimum (X) and
+%		   maximum values (Y) of voltage angles in degrees, and minimum (Z)
+%		   and maximum (V) values of voltage magnitudes in per-units
+%		   default setting: [-0.5 0.5 0.95 1.05]
+%	- SET
+%		- 'pmuOptimal': optimal PMU location to make the entire system
+%		   completely observable only by phasor measurements
+%		- 'pmuRedundancy', X: randomize phasor measurements according to
+%		   redundancy X;
+%		   default setting: maximum value of legacy redundancy
+%		- 'pmuDevice', X: enables phasor measurements according to number
+%		   of measurement devices X placed on buses
+%		   default setting: all PMUs are active
+%		- 'legRedundancy', X: randomize legacy measurements according to
+%		   redundancy X
+%		   default setting maximum value of phasor redundancy
+%		- 'legDevice', [X Y Z V]: enables legacy measurements according to
+%		   device subsets [(Pij,Qij),(Iij),(Pi,Qi),(Vi)]
+%		   default setting: all legacy devices are active
+%	- DISPLAY
+%		- 'bus': bus data display
+%		- 'branch': branch data display
+%		- 'estimate': estimation data display
+%		- 'error': evaluation data display
+%	- EXPORT
+%		- 'save': save display data
+%		- 'export': export the system model without slack bus (for linear
+%		   state estimation problems, exports in data.extras)
+%		- 'export slack': export the system model with slack bus (for
+%		   linear state estimation problems, exports in data.extras)
+%
+% Note, except for the first input, the order of other inputs is arbitrary,
+% as well as their appearance.
+%--------------------------------------------------------------------------
 %  Outputs non-linear and DC state estimation:
 %	- results.method: method name
 %	- results.grid: power system name
@@ -53,7 +94,7 @@
 %	- results.estimate with columns:
 %	  (1)measurement values; (2)measurement variances; (3)estimated values;
 %	  (4)unit conversion; (4)exact values (if exist)
-%
+%--------------------------------------------------------------------------
 %  Outputs non-linear state estimation:
 %	- results.bus with columns:
 %	  (1)estimated complex bus voltages; (2)apparent injection power;
@@ -71,7 +112,7 @@
 %	  (10)reactive power injection from shunt susceptances - to bus;
 %	  (11)apparent power of losses
 %	- results.No: number of iterations
-%
+%--------------------------------------------------------------------------
 %  Outputs DC state estimation:
 %	- results.bus with columns:
 %	  (1)estimated bus voltage angles; (2)active power injection;
@@ -79,29 +120,7 @@
 %--------------------------------------------------------------------------
 
 
-%-------------------------------Load Data----------------------------------
- estimate.grid = 'ieee14_20';
-%--------------------------------------------------------------------------
-
-
-%------------------------State Estimation Options--------------------------
- estimate.module = 2;
-%-------------------------
- estimate.warm = 1;
-%-------------------------
- estimate.bus = 1;
- estimate.branch = 0;
- estimate.estimation = 0;
- estimate.evaluation = 0;
-%--------------------------------------------------------------------------
-
-
-%---------------------------------Extras-----------------------------------
- estimate.save   = 0;
- estimate.linear = 0;
-%--------------------------------------------------------------------------
-
-
-%------------------------------Main Function-------------------------------
- [data, results] = leeloo;
+%----------------------------State Estimation------------------------------
+ [results, data] = leeloo('data9_9', 'nonlinear', 'warm', ...
+                          'legRedundancy', 4,'estimate');
 %--------------------------------------------------------------------------

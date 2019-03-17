@@ -21,41 +21,41 @@
 
 
 %-----------------------------Unique Variance------------------------------
- if isfield(user, 'unique_legvariance')
-	var = user.unique_legvariance;
+ if user.varleg == 1
+	var = user.legUnique;
 	msr.var{1} = var * ones(msr.total(1),1);
  end
 
- if isfield(user, 'unique_pmuvariance')
-	var = user.unique_pmuvariance;
+ if user.varpmu == 1
+	var = user.pmuUnique;
 	msr.var{2} = var * ones(msr.total(2),1);
  end
 %--------------------------------------------------------------------------
 
 
 %----------------------------Random Variances------------------------------
- if isfield(user, 'random_legvariance')
-	std_min = min(user.random_legvariance);
-	std_max = max(user.random_legvariance);
+ if user.varleg == 2
+	std_min = min(user.legRandom);
+	std_max = max(user.legRandom);
 	msr.var{1} = std_min + (std_max - std_min) .* rand(msr.total(1),1);
  end
 
- if isfield(user, 'random_pmuvariance')
-	std_min = min(user.random_pmuvariance);
-	std_max = max(user.random_pmuvariance);
+ if user.varpmu == 2
+	std_min = min(user.pmuRandom);
+	std_max = max(user.pmuRandom);
 	msr.var{2} = std_min + (std_max - std_min) .* rand(msr.total(2),1);
  end
 %--------------------------------------------------------------------------
 
 
 %-----------------------------Type Variances-------------------------------
- if isfield(user, 'type_legvariance')
-	var = user.type_legvariance;
+ if user.varleg == 3
+	var = user.legType;
 	msr.var{1} = repelem(var, msr.tleg,1);
  end
 
- if isfield(user, 'type_pmuvariance')
-	var = user.type_pmuvariance;
+ if user.varpmu == 3
+	var = user.pmuType;
 	msr.var{2} = repelem(var, msr.tpmu,1);
  end
 %--------------------------------------------------------------------------

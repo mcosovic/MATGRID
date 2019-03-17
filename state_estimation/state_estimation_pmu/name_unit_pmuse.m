@@ -6,17 +6,19 @@
 % Each measurement is associated with an associated name and unit. Also,
 % the vector for conversion from per-unit to real unit system is formed.
 % Finally, the postprocessing time is obtained here.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- sys: power system data
 %	- se: state estimation data
+%	- data: data corresponding with active phasor measurements
 %
 %  Outputs:
 %	- se.device with columns: (1)measurement type; (2)measurement unit
 %	- se.estimate with additional column: (4)unit conversion
-%
-% The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
+% The local function which is used in the PMU state estimation.
+%--------------------------------------------------------------------------
+
 
 %--------------------------Name of Measurements----------------------------
  i   = [sys.branch(:,9); sys.branch(:,10)];

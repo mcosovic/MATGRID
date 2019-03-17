@@ -6,16 +6,16 @@
 % The function computes a partial derivative of active power injection into
 % buses with respect to bus voltage angles, where we compute diagonal and
 % non-diagonal elements separately.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- V: bus voltage magnitude vector
 %	- alg: algorithm data
 %	- idx: indexes data
 %	- Nbu: number of buses
 %
-%  Outputs:
+%  Output:
 %	- J11: Jacobian matrix
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Newton-Raphson algorithm.
 %--------------------------------------------------------------------------
 

@@ -24,11 +24,11 @@
 
 
 %-------------------------------Export System------------------------------
- if user.linear_estimate == 1
+ if user.export == 1
 	h = sparse(1, sys.Nbu);
 	b = [];
 	v = [];
- elseif user.linear_estimate == 2
+ elseif user.exports == 1
 	h = sparse(1, sys.Nbu);
 	h(sys.sck(1)) = 1;
 	b = sys.sck(2);

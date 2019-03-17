@@ -1,22 +1,24 @@
  function [sys, se] = evaluation_pmuse(data, dat, sys, se)
 
 %--------------------------------------------------------------------------
-% Computes different metrics used to measure the accuracy of the non-linear
-% state estimation.
+% Computes different metrics used to measure the accuracy of the state
+% estimation with PMUs only.
 %
 % The function computes the root mean squared error (RMSE), mean absolute
 % error (MAE) and weighted residual sum of squares (WRSS) between estimated
 % values and: i) corresponding measurement values; ii) corresponding exact
 % values
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- data: input power system data with measurements
+%	- dat: data corresponding with active phasor measurements
 %	- sys: power system data
 %	- se: state estimation data
 %
 %  Outputs:
 %	- se.estimate with additional columns:
-%	  (3)estimated measurement values; (5) exact values
+%	  (1)measurement values; (2)measurement variances
+%	  (3)estimated measurement values; (5)exact values
 %	- se.error.mae1, se.error.rmse1, se.error.wrss1: errors between
 %	  estimated values and corresponding measurement values
 %	- se.error.mae2, se.error.rmse2, se.error.wrss2: errors between
@@ -24,38 +26,34 @@
 %	- se.error.mae3, se.error.rmse3: errors between estimated state
 %	  variables and corresponding exact values
 %   - sys.exact: flag for exact values
-%
-% The local function which is used in the non-linear state estimation.
+%--------------------------------------------------------------------------
+% The local function which is used in the PMU state estimation.
 %--------------------------------------------------------------------------
 
 
-%---------------------------Measurement Values-----------------------------
- V = abs(se.bus(:,1));
- T = angle(se.bus(:,1));
+%--------------------Measurement Values and Variances----------------------
  C = [se.branch(:,1);  se.branch(:,2)];
- 
+
  xV = dat.pmu.voltage(:,14);
  xC = dat.pmu.current(:,15);
 
- se.estimate = [data.pmu.voltage(xV,2); data.pmu.voltage(xV,5);
-                data.pmu.current(xC,3); data.pmu.current(xC,6)];
+ se.estimate = [data.pmu.voltage(xV,2); data.pmu.voltage(xV,5); data.pmu.current(xC,3); data.pmu.current(xC,6)];
+ se.estimate(:,2) = [data.pmu.voltage(xV,3); data.pmu.voltage(xV,6); data.pmu.current(xC,4); data.pmu.current(xC,7)];
+%--------------------------------------------------------------------------
 
- se.estimate(:,2) = [data.pmu.voltage(xV,3); data.pmu.voltage(xV,6);
-                     data.pmu.current(xC,4); data.pmu.current(xC,7)]; 
- 
- 
- 
+
 %----------------------------Estimated Values------------------------------
- se.estimate(:,3) = [V(xV); T(xV);
-                    abs(C(xC)); angle(C(xC))];
+ V = abs(se.bus(:,1));
+ T = angle(se.bus(:,1));
+
+ se.estimate(:,3) = [V(xV); T(xV); abs(C(xC)); angle(C(xC))];
 %--------------------------------------------------------------------------
 
 
 %------------------------------Exact Values--------------------------------
  try
   sys.exact = 1;
-  se.estimate(:,5) = [data.pmu.voltage(xV,8); data.pmu.voltage(xV,9);
-					 data.pmu.current(xC,9); data.pmu.current(xC,10)];
+  se.estimate(:,5) = [data.pmu.voltage(xV,8); data.pmu.voltage(xV,9); data.pmu.current(xC,9); data.pmu.current(xC,10)];
   sv_true = [data.pmu.voltage(:,8); data.pmu.voltage(:,9)];
   sv_esti = [V; T];
  catch

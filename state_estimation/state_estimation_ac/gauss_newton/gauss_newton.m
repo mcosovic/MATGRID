@@ -8,7 +8,7 @@
 % estimation problem. Also, the preprocessing time is over, and the
 % convergence time is obtained here, while the postprocessing time is
 % initialized.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- user: user inputs
 %	- sys: power system data
@@ -20,7 +20,7 @@
 %	- se.time.pre: preprocessing time
 %	- se.time.conv: convergence time
 %	- se.No: number of iterations
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

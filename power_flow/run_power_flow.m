@@ -1,15 +1,15 @@
  function [pf, sys] = run_power_flow(user, data)
 
 %--------------------------------------------------------------------------
-% Runs AC or DC power flow.
+% Runs the AC or DC power flow analysis.
 %
-% The function proceeds to check power system data and runs AC or DC power
-% flow.
-%
+% The function proceeds to check power system data and runs the AC or DC
+% power flow.
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- user: user inputs
 %	- data: input power system data
-%
+%--------------------------------------------------------------------------
 %  Outputs AC and DC power flow:
 %	- sys.branch with columns:
 %	  (1)branch number; (2)indexes from bus(i); (3)indexes to bus(j);
@@ -36,7 +36,7 @@
 %	- pf.time.pre: preprocessing time
 %	- pf.time.conv: convergence time
 %	- pf.time.pos: postprocessing time
-%
+%--------------------------------------------------------------------------
 %  Outputs DC power flow:
 %	- sys.bus with additional column: (16)shift vector(Psh)
 %	- sys.branch with additional column: (11)1/(tij*xij)
@@ -44,7 +44,7 @@
 %	  (1)bus voltage angles(Ti); (2)active power injection(Pi);
 %	  (3)active power generation(Pg)
 %	- pf.branch with column: (1)active power flow(Pij)
-%
+%--------------------------------------------------------------------------
 %  Outputs AC power flow:
 %	- sys.branch with additional columns:
 %	  (11)branch admittance(yij); (12)charging susceptance(bsi);
@@ -71,26 +71,18 @@
 %	  (10)reactive power injection from shunt susceptances - to bus(Qjs);
 %	  (11)apparent power of losses(Sijl)
 %	- pf.No: number of iterations
-%
+%--------------------------------------------------------------------------
 % The local function which is used in power flow modules.
 %--------------------------------------------------------------------------
 
 
-%--------------------------Processing User Data----------------------------
- [data] = input_power_grid(data, user.module_flow);
-%--------------------------------------------------------------------------
-
-
 %----------------------------Power System Data-----------------------------
- [sys] = branch_container(data.system);
- [sys] = bus_container(data.system, data.stop, sys);
- [sys] = numbering(data.system, sys);
- [sys] = bus_generator(sys);
+ [sys] = run_container(data, user.pf);
 %--------------------------------------------------------------------------
 
 
 %------------------------------AC Power Flow-------------------------------
- if user.module_flow == 1
+ if user.pf == 1
 	[sys] = ybus_ac(sys);
 	[pf]  = newton_raphson(user, sys);
 	[pf]  = processing_acpf(sys, pf);
@@ -99,7 +91,7 @@
 
 
 %------------------------------DC Power Flow-------------------------------
- if user.module_flow == 2
+ if user.pf == 2
 	[sys] = ybus_shift_dc(sys);
 	[pf]  = solve_dcpf(sys);
 	[pf]  = processing_dcpf(sys, pf);
@@ -108,17 +100,17 @@
 
 
 %--------------------------------Terminal----------------------------------
- diary_on(user.save_flow, data.case);
+ diary_on(user.save, data.case);
 
- if user.bus_flow == 1 || user.branch_flow == 1
-	terminal_info(pf, sys, user.module_flow, user.grid_flow, 1)
+ if user.main == 1 || user.flow == 1
+	terminal_info(pf, sys, user.pf, user.grid, 1)
  end
- if user.bus_flow == 1
-	terminal_bus_pf(pf, sys, user.module_flow)
+ if user.main == 1
+	terminal_bus_pf(pf, sys, user.pf)
  end
- if user.branch_flow == 1
-	terminal_flow(pf, sys, user.module_flow)
+ if user.flow == 1
+	terminal_flow(pf, sys, user.pf)
  end
 
- diary_off(user.save_flow);
+ diary_off(user.save);
 %--------------------------------------------------------------------------

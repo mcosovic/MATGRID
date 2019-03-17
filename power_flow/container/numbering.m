@@ -7,7 +7,7 @@
 % The bus numbering is defined in form 1,2,...,sys.Nbu, and according to
 % it, we also define the new branch numbering. The new numbering is
 % reflected on sys.bus(:,1), sys.branch(:,2:3) and sys.generator(:,1).
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- data: power system data
 %	- sys: power system data
@@ -20,7 +20,7 @@
 %	  (9)original indexes from bus(i); (10)original indexes to bus(j)
 %	- sys.generator with additional or changed columns:
 %	  (1)new bus(i)
-%
+%--------------------------------------------------------------------------
 % Main function which is used in AC/DC power flow, non-linear and DC state
 % estimation, as well as for the state estimation with PMUs.
 %--------------------------------------------------------------------------

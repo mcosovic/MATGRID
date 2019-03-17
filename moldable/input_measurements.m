@@ -7,14 +7,14 @@
 % variables defined in the input mat-file. If device type or measurements
 % are missing, we add mask variable, which allows to execute a code without
 % errors.
-%
-%  Input:
-%   - user: user inputs
+%--------------------------------------------------------------------------
+%  Inputs:
+%	- user: user inputs
 %	- data: input power system data with measurements
 %
 %  Output:
 %	- data: input power system data with measurements
-%
+%--------------------------------------------------------------------------
 % Check function which is used in the state estimation module.
 %--------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@
  else
 	error('data:legacyPmuMissed', 'Invalid measurement data structure, measurements not found.\n')
  end
- if user.module_estimate == 3 && (se(1) == 0 && all(leg(1:2) == 0) || se(2) == 0 && pmu(1) == 0)
+ if user.se == 3 && (se(1) == 0 && all(leg(1:2) == 0) || se(2) == 0 && pmu(1) == 0)
 	error('data:legacyPmuDC', 'Invalid measurement data structure, measurements not found.\n')
  end
 %--------------------------------------------------------------------------
@@ -66,7 +66,7 @@
  if se(2) == 1 && pmu(1) == 0
 	data.pmu.current = zeros(1,11);
  end
-  if se(2) == 1 && pmu(2) == 0
+ if se(2) == 1 && pmu(2) == 0
 	data.pmu.voltage = zeros(1,11);
  end
 %--------------------------------------------------------------------------

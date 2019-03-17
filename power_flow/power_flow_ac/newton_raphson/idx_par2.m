@@ -7,7 +7,7 @@
 % To form indexes and parameters, corresponding elements with the slack
 % bus are removed. The function is called in the initialization step, and
 % each time when limits are violated.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- sys: power system data
 %
@@ -18,7 +18,7 @@
 %    - idx.j12: indexes for the Jacobians J12
 %    - idx.j21: indexes for the Jacobians J21
 %    - idx.j22: indexes for the Jacobians J22
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Newton-Raphson algorithm.
 %--------------------------------------------------------------------------
 

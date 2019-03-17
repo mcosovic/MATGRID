@@ -6,7 +6,7 @@
 %
 % The function defines the active and reactive power injection measurement
 % data according to available measurements (i.e., turn on measurements).
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- inj: legacy power injection measurement data
 %	- sys: power system data
@@ -16,7 +16,7 @@
 %	  injection measurements
 %	- sys.Qi: set indexes and parameters associated with reactive power
 %	  injection measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

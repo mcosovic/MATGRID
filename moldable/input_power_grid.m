@@ -7,14 +7,14 @@
 % 'shiftTransformer', 'stop' and 'case' variables defined in the input
 % mat-file. If variables 'baseMVA', 'stop' and 'case' are missing, the
 % function adds default values.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- data: input power system data
 %	- flag: indicate non-linear algorithms
 %
-%  Outputs:
+%  Output:
 %	- data: input power system data
-%
+%--------------------------------------------------------------------------
 % Check function which is used in power flow and state estimation modules.
 %--------------------------------------------------------------------------
 

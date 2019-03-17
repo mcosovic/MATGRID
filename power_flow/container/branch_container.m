@@ -9,7 +9,7 @@
 % shift angle is equal to zero for in-phase transformers. Further, branch
 % charging susceptances for in-phase and phase-shifting transformers are
 % zeros. Finally, preprocessing time is initialized here.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- data: input power system data that contains lines and/or transformers
 %
@@ -20,7 +20,7 @@
 %	  (4)branch resistance(rij); (5)branch reactance(xij);
 %	  (6)branch charging susceptance(bsi); (7)tap ratio magnitude(tij);
 %	  (8)phase shift angle(fij)
-%
+%--------------------------------------------------------------------------
 % Main function which is used in AC/DC power flow, non-linear and DC state
 % estimation, as well as for the state estimation with PMUs.
 %--------------------------------------------------------------------------

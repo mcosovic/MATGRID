@@ -7,7 +7,7 @@
 % The function computes values of functions Iij(V,T) nad Fij(V,T), and a
 % partial derivative of functions Iij and Fij with respect to bus voltage
 % angles and magnitudes.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- V: bus voltage magnitude vector
 %	- T: bus voltage angle vector
@@ -20,7 +20,7 @@
 %  Outputs:
 %	- Fp: vector associated with line current measurement values
 %	- Jp: Jacobian matrix associated with line current measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Gauss-Newton algorithm.
 %--------------------------------------------------------------------------
 
@@ -55,9 +55,9 @@
  Vj = V(a.j);
 
  Iijc = (a.Aa.*cos(Ti) - a.Ba.*sin(Ti)).*Vi - (a.Ca.*cos(U) - a.Da.*sin(U)).*Vj + ...
-         1i* ((a.Aa.*sin(Ti) + a.Ba.*cos(Ti)).*Vi - (a.Ca.*sin(U) + a.Da.*cos(U)).*Vj);  
+         1i* ((a.Aa.*sin(Ti) + a.Ba.*cos(Ti)).*Vi - (a.Ca.*sin(U) + a.Da.*cos(U)).*Vj);
  Fa  = angle(Iijc);
- Fma = abs(Iijc).^2;        
+ Fma = abs(Iijc).^2;
 %--------------------------------------------------------------------------
 
 

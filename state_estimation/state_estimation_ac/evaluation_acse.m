@@ -8,7 +8,7 @@
 % error (MAE) and weighted residual sum of squares (WRSS) between estimated
 % values and: i) corresponding measurement values; ii) corresponding exact
 % values
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- data: input power system data with measurements
 %	- sys: power system data
@@ -24,7 +24,7 @@
 %	- se.error.mae3, se.error.rmse3: errors between estimated state
 %	  variables and corresponding exact values
 %   - sys.exact: flag for exact values
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 
@@ -47,10 +47,11 @@
  try
   sys.exact = 1;
   se.estimate(:,5) = [data.legacy.flow(sys.Pf.idx,9); data.legacy.flow(sys.Qf.idx,10);
-					 data.legacy.current(sys.Cm.idx,6); data.legacy.injection(sys.Pi.idx,8);
-					 data.legacy.injection(sys.Qi.idx,9); data.legacy.voltage(sys.Vml.idx,5);
-					 data.pmu.voltage(sys.Vmp.idx,8); data.pmu.voltage(sys.Vap.idx,9);
-					 data.pmu.current(sys.Cmp.idx,9); data.pmu.current(sys.Cap.idx,10)];
+  data.legacy.current(sys.Cm.idx,6); data.legacy.injection(sys.Pi.idx,8);
+  data.legacy.injection(sys.Qi.idx,9); data.legacy.voltage(sys.Vml.idx,5);
+  data.pmu.voltage(sys.Vmp.idx,8); data.pmu.voltage(sys.Vap.idx,9);
+  data.pmu.current(sys.Cmp.idx,9); data.pmu.current(sys.Cap.idx,10)];
+
   sv_true = [data.pmu.voltage(:,8); data.pmu.voltage(:,9)];
   sv_esti = [V; T];
  catch

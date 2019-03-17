@@ -3,7 +3,7 @@
 
 
 %% AC Power Flow
- if module == 1 || module == 2
+ if module == 1 || module == 3
 	b = sys.base;
 	A = [sys.branch(:,1)  sys.branch(:,9)  real(in.branch(:,5))*b  imag(in.branch(:,5))*b  real(in.branch(:,6))*b  imag(in.branch(:,6))*b  sys.branch(:,10) ...
 		(in.branch(:,9)+in.branch(:,10))*b  real(in.branch(:,11))*b  imag(in.branch(:,11))*b];
@@ -21,7 +21,7 @@
  end
 
 %% DC Power Flow
- if module == 3 
+ if module == 2 
 	b = sys.base;
 	a = 1:sys.Nbr;
 	A = [sys.branch(a,1)  sys.branch(a,9)  in.branch(a,1)*b  -in.branch(a,1)*b  sys.branch(a,10)];

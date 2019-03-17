@@ -1,61 +1,69 @@
- function [data, sys, se] = measurements_pmuse(data, sys, br)
+ function [data, sys] = measurements_pmuse(data, sys, br)
 
 %--------------------------------------------------------------------------
-% Builds data associated with current measurements.
+% Builds the measurement data for the PMU state estimation, and forms the
+% system model.
 %
-% The function defines the current measurement data according to available
-% legacy and phasor measurements (i.e., turn on measurements).
-%
+% The function defines measurement data according to available measurements
+% (turn off measurements are removed), where the corresponding Jacobian
+% matrix is defined, with associated vectors.
+%--------------------------------------------------------------------------
 %  Inputs:
-%	- leg: legacy current magnitude measurement data
-%	- pmu: phasor current measurement data
+%	- data: input power system data with measurements
 %	- sys: power system data
 %	- br: branch indexes and parameters
 %
 %  Outputs:
-%	- sys.Cm: set indexes and parameters associated with legacy current
-%	  magnitude measurements
-%	- sys.Cmp: set indexes and parameters associated with phasor current
-%	  magnitude measurements
-%	- sys.Cap: set indexes and parameters associated with phasor current
-%	  angle measurements
-%
-% The local function which is used in the non-linear state estimation.
+%	- data.pmu.current with additional column:
+%	  (11)indexes of branches that agree with sys.branch
+%	- data.pmu.voltage with additional column:
+%	  (10)indexes of buses that agree with sys.bus
+%	- data.pmu.voltage with additional column:
+%	  (10)indexes of buses that agree with sys.bus
+%	- sys.H, sys.b, sys.v: matrix and vector of the system model
+%	- sys.Nv: number of complex bus voltage measurements
+%	- sys.Nc: number of complex line current measurements
+%	- sys.Nti: number of voltage angle measurements
+%	- sys.Nleg: number of legacy measurements
+%	- sys.Npmu: number of phasor measurements
+%	- sys.Ntot: total number of measurements
+%--------------------------------------------------------------------------
+% The local function which is used in the PMU state estimation.
 %--------------------------------------------------------------------------
 
 
-%-------------------------Current Phasor Measurements----------------------
+%-----------------------Current Phasor Measurements------------------------
  fix = logical(data.pmu.current(:,5));
 
  data.pmu.current(~fix,:) = [];
  data.pmu.current = [data.pmu.current br.no(fix,1)];
  sys.Nc = size(data.pmu.current,1);
- 
- c = [(1:sys.Nc)'; (1: sys.Nc)'];                               
+
+ c = [(1:sys.Nc)'; (1: sys.Nc)'];
  r = [br.i(fix); br.j(fix)];
 %--------------------------------------------------------------------------
 
 
-%---------------Jacobians of the Current Phasor Measurements---------------
+%--------------Jacobians of the Current Phasor Measurements----------------
  Jcr_vir = br.tij(fix).^2 .* br.gij(fix);
  Jcr_vjr = -br.pij(fix) .* (br.gij(fix) .* cos(br.fij(fix)) - br.bij(fix) .* sin(br.fij(fix)));
  Jcr_vr = sparse(c,r, [Jcr_vir; Jcr_vjr], sys.Nc, sys.Nbu);
- 
+
  Jcr_vii = -br.tij(fix).^2 .* (br.bij(fix) + br.bsi(fix));
  Jcr_vji = br.pij(fix) .* (br.bij(fix) .* cos(br.fij(fix)) + br.gij(fix) .* sin(br.fij(fix)));
  Jcr_vi  = sparse(c,r, [Jcr_vii; Jcr_vji], sys.Nc, sys.Nbu);
- 
+
  Jci_vir = br.tij(fix).^2 .* (br.bij(fix) + br.bsi(fix));
  Jci_vjr = -br.pij(fix) .* (br.bij(fix) .* cos(br.fij(fix)) + br.gij(fix) .* sin(br.fij(fix)));
  Jci_vr = sparse(c,r, [Jci_vir; Jci_vjr], sys.Nc, sys.Nbu);
- 
+
  Jci_vii = br.tij(fix).^2 .* br.gij(fix);
  Jci_vji = -br.pij(fix) .* (br.gij(fix) .* cos(br.fij(fix)) - br.bij(fix) .* sin(br.fij(fix)));
  Jci_vi  = sparse(c,r, [Jci_vii; Jci_vji], sys.Nc, sys.Nbu);
 %--------------------------------------------------------------------------
 
 
-%-------------------------Voltage Phasor Measurements----------------------
+%-----------------------Voltage Phasor Measurements------------------------
  fix = logical(data.pmu.voltage(:,4));
 
  data.pmu.voltage(~fix,:) = [];
@@ -65,11 +73,10 @@
 %--------------------------------------------------------------------------
 
 
-%---------------Jacobians of the Voltage Phasor Measurements---------------
+%--------------Jacobians of the Voltage Phasor Measurements----------------
  idx = [data.pmu.voltage(:,14); data.pmu.voltage(:,14) + sys.Nbu];
  Jv = sparse((1:2*sys.Nv)', idx, 1, 2*sys.Nv, 2*sys.Nbu);
 %--------------------------------------------------------------------------
-
 
 
 %------------------------------System Model--------------------------------
@@ -77,11 +84,11 @@
  sys.Ntot = sys.Npmu;
  sys.Nleg = 0;
 
- se.estimate = [data.pmu.current(:,11); data.pmu.current(:,13); ...
-                data.pmu.voltage(:,10); data.pmu.voltage(:,12)];
+ sys.b = [data.pmu.current(:,11); data.pmu.current(:,13);
+          data.pmu.voltage(:,10); data.pmu.voltage(:,12)];
 
- se.estimate(:,2) =  [data.pmu.current(:,12); data.pmu.current(:,14); ...
-                      data.pmu.voltage(:,11); data.pmu.voltage(:,13)];
- 
+ sys.v = [data.pmu.current(:,12); data.pmu.current(:,14);
+          data.pmu.voltage(:,11); data.pmu.voltage(:,13)];
+
  sys.H = [Jcr_vr Jcr_vi; Jci_vr Jci_vi; Jv];
 %--------------------------------------------------------------------------

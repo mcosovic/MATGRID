@@ -6,7 +6,7 @@
 % The function defines branch indexes and parameters that are used for
 % branch measurements, active and reactive power flow, and line current
 % magnitude and angle measurements.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- sys: power system data
 %
@@ -20,7 +20,7 @@
 %	- br.tij: transformer tap ratio magnitude tij
 %	- br.pij: transformer tap ratio magnitude pij
 %	- br.fij: transformer phase shift angle fij
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

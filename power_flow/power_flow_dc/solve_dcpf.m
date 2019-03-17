@@ -10,7 +10,7 @@
 % it should be removed from the system. Finally, the preprocessing time is
 % over, and the convergence time is obtained here, while the postprocessing
 % time is initialized.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- sys: power system data
 %
@@ -20,7 +20,7 @@
 %	- pf.grid: name of the analyzed power system
 % 	- pf.time.pre: preprocessing time
 %	- pf.time.conv: convergence time
-%
+%--------------------------------------------------------------------------
 % The local function which is used for the DC power flow.
 %--------------------------------------------------------------------------
 

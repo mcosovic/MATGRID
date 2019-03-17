@@ -7,7 +7,7 @@
 % The function computes values of functions Pij(V,T) and Qij(V,T), and a
 % partial derivative of functions Pij and Qij with respect to bus voltage
 % angles and magnitudes.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- V: bus voltage magnitude vector
 %	- T: bus voltage angle vector
@@ -20,7 +20,7 @@
 %  Outputs:
 %	- Ff: vector associated with power flow measurement values
 %	- Jf: Jacobian matrix associated with power flow measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Gauss-Newton algorithm.
 %--------------------------------------------------------------------------
 

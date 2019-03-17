@@ -6,8 +6,8 @@
 % The function uses the Newton-Raphson algorithm to solve the AC power flow
 % problem. Also, the preprocessing time is over, and the convergence time
 % is obtained here, while the postprocessing time is initialized.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- user: user data
 %	- sys: power system data
 %
@@ -20,7 +20,7 @@
 %	- pf.time.pre: preprocessing time
 %	- pf.time.conv: convergence time
 %	- pf.No: number of iterations
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the AC power flow.
 %--------------------------------------------------------------------------
 
@@ -62,14 +62,14 @@
  No = No + 1;
 
 %--------------------Check Reactive Power Constraints----------------------
- if user.reactive_flow == 1 && No <= 7 && No > 1
+ if user.limit == 1 && No <= 7 && No > 1
 	[sys, alg, idx, pf, DelPQ, V, T, Qgl] = cq(sys, alg, idx, pf, DelPQ, V, T, Qgl, Vc, Pgl);
  end
 %--------------------------------------------------------------------------
 
 
 %-------------------Check Voltage Magnitude Constraints--------------------
- if user.voltage_flow == 1 && No <= 7 && No > 1
+ if user.limit == 2 && No <= 7 && No > 1
 	[sys, alg, idx, pf, DelPQ, V, T] = cv(sys, alg, idx, pf, DelPQ, V, T, Pgl, Qgl);
  end
 %--------------------------------------------------------------------------

@@ -11,7 +11,7 @@
 % susceptance, the reactive power injection from branch shunt susceptances,
 % active and reactive power losses at branch, the apparent power at shunt
 % elements.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- sys: power system data
 %	- se: state estimation data
@@ -33,7 +33,7 @@
 %	(9)reactive power injection from shunt susceptances - from bus(Qis);
 %	(10)reactive power injection from shunt susceptances - to bus(Qjs);
 %	(11)apparent power of losses(Sijl)
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

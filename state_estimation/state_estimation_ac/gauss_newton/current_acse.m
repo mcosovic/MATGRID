@@ -7,7 +7,7 @@
 % The function computes values of function Iij(V,T), and a partial
 % derivative of function Iij with respect to bus voltage angles and
 % magnitudes.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- V: bus voltage magnitude vector
 %	- T: bus voltage angle vector
@@ -19,7 +19,7 @@
 %	- Fc: vector associated with line current magnitude measurement values
 %	- Jc: Jacobian matrix associated with line current magnitude
 %	  measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Gauss-Newton algorithm.
 %--------------------------------------------------------------------------
 

@@ -8,7 +8,7 @@
 % bus are removed. The function is called only in the initialization step,
 % and data remains constant, even when limits are violated for reactive and
 % voltage magnitude quantities.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- sys: power system data
 %
@@ -17,7 +17,7 @@
 %	  Gij*sin(Tij)-Bij*cos(Tij), Gij*cos(Tij)+Bij*sin(Tij)
 %	- alg.fd1i, alg.ii, idx.j11.ij, idx.j11.jci, idx.j11.jcj: indexes
 %	  for the Jacobian J11
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Newton-Raphson algorithm.
 %--------------------------------------------------------------------------
 

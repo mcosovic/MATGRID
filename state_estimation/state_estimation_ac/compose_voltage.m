@@ -6,7 +6,7 @@
 %
 % The function defines the voltage measurement data according to available
 % legacy and phasor measurements (i.e., turn on measurements).
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- leg: legacy voltage magnitude measurement data
 %	- pmu: phasor voltage measurement data
@@ -20,7 +20,7 @@
 %	- sys.Vap: set indexes and parameters associated with phasor voltage
 %	  angle measurements
 %	- sys.Jvol: Jacobian matrix associated with voltage measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

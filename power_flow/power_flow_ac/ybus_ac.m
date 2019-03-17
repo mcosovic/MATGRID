@@ -5,8 +5,8 @@
 %
 % The function builds the Ybus matrix, as well as its derivatives, and
 % forms the unified branch model.
-%
-%  Inputs:
+%--------------------------------------------------------------------------
+%  Input:
 %	- sys: power system data
 %
 %  Outputs:
@@ -18,7 +18,7 @@
 %	- sys.ysh: shunt elements vector
 %	- sys.Yij: Ybus matrix with only non-diagonal elements
 %	- sys.Yii: Ybus matrix with only diagonal elements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the AC power flow and non-linear
 % state estimation.
 %--------------------------------------------------------------------------

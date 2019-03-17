@@ -8,8 +8,8 @@
 % we compute a new complex voltage for the bus where reactive power is
 % violated. The function saves a bus number when the constraint is
 % violated.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- Vc: complex bus voltages
 %	- pf: power flow data
 %	- sys: power system data
@@ -27,7 +27,7 @@
 %	- DelPQ: active and reactive power mismatch matrix for all buses
 %	- V, T: bus voltage magnitude and angle vector
 %	- Qgl: generator reactive power at bus
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the AC power flow.
 %--------------------------------------------------------------------------
 

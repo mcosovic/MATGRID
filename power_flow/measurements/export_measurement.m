@@ -100,82 +100,57 @@
 
 
 %--------------------------------Variances---------------------------------
- Aflo_ana_var = msr.var{1}(1:2*msr.w);
- Rflo_ana_var = msr.var{1}(2*msr.w+1:4*msr.w);
- Cmag_ana_var = msr.var{1}(4*msr.w+1:6*msr.w);
- Ainj_ana_var = msr.var{1}(6*msr.w+1:6*msr.w+sys.Nbu);
- Rinj_ana_var = msr.var{1}(6*msr.w+sys.Nbu+1:6*msr.w+2*sys.Nbu);
- Vmag_ana_var = msr.var{1}(6*msr.w+2*sys.Nbu+1:end);
+ Afv = msr.var{1}(1:2*msr.w);
+ Rfv = msr.var{1}(2*msr.w+1:4*msr.w);
+ Cmv = msr.var{1}(4*msr.w+1:6*msr.w);
+ Aiv = msr.var{1}(6*msr.w+1:6*msr.w+sys.Nbu);
+ Riv = msr.var{1}(6*msr.w+sys.Nbu+1:6*msr.w+2*sys.Nbu);
+ Vmv = msr.var{1}(6*msr.w+2*sys.Nbu+1:end);
 
- Cmag_pmu_var = msr.var{2}(1:2*msr.w);
- Cang_pmu_var = msr.var{2}(2*msr.w+1:4*msr.w);
- Vmag_pmu_var = msr.var{2}(4*msr.w+1:4*msr.w+sys.Nbu);
- Vang_pmu_var = msr.var{2}(4*msr.w+sys.Nbu+1:end);
+ Cpmv = msr.var{2}(1:2*msr.w);
+ Cpav = msr.var{2}(2*msr.w+1:4*msr.w);
+ Vpmv = msr.var{2}(4*msr.w+1:4*msr.w+sys.Nbu);
+ Vpav = msr.var{2}(4*msr.w+sys.Nbu+1:end);
 %--------------------------------------------------------------------------
 
 
 %---------------------------Measurement Values-----------------------------
- Aflo_ana_mv = Aflo_mean + Aflo_ana_var.^(1/2) .* Aflo_gwn;
- Rflo_ana_mv = Rflo_mean + Rflo_ana_var.^(1/2) .* Rflo_gwn;
- Cmag_ana_mv = Cmag_mean + Cmag_ana_var.^(1/2) .* Cmag_gwn;
- Ainj_ana_mv = Ainj_mean + Ainj_ana_var.^(1/2) .* Ainj_gwn;
- Rinj_ana_mv = Rinj_mean + Rinj_ana_var.^(1/2) .* Rinj_gwn;
- Vmag_ana_mv = Vmag_mean + Vmag_ana_var.^(1/2) .* Vmag_gwn;
+ Af = Aflo_mean + Afv.^(1/2) .* Aflo_gwn;
+ Rf = Rflo_mean + Rfv.^(1/2) .* Rflo_gwn;
+ Cm = Cmag_mean + Cmv.^(1/2) .* Cmag_gwn;
+ Ai = Ainj_mean + Aiv.^(1/2) .* Ainj_gwn;
+ Ri = Rinj_mean + Riv.^(1/2) .* Rinj_gwn;
+ Vm = Vmag_mean + Vmv.^(1/2) .* Vmag_gwn;
 
- Cmag_pmu_mv = Cmag_mean + Cmag_pmu_var.^(1/2) .* Cmag_gwn;
- Cang_pmu_mv = Cang_mean + Cang_pmu_var.^(1/2) .* Cang_gwn;
- Vmag_pmu_mv = Vmag_mean + Vmag_pmu_var.^(1/2) .* Vmag_gwn;
- Vang_pmu_mv = Vang_mean + Vang_pmu_var.^(1/2) .* Vang_gwn;
-%--------------------------------------------------------------------------
-
-
-%-------------------------Measurement Turn on/off--------------------------
- Aflo_ana_set = msr.set{1}(1:2*msr.w);
- Rflo_ana_set = msr.set{1}(2*msr.w+1:4*msr.w);
- Cmag_ana_set = msr.set{1}(4*msr.w+1:6*msr.w);
- Ainj_ana_set = msr.set{1}(6*msr.w+1:6*msr.w+sys.Nbu);
- Rinj_ana_set = msr.set{1}(6*msr.w+sys.Nbu+1:6*msr.w+2*sys.Nbu);
- Vmag_ana_set = msr.set{1}(6*msr.w+2*sys.Nbu+1:end);
-
- Cmag_pmu_set = msr.set{2}(1:2*msr.w);
- Cang_pmu_set = msr.set{2}(2*msr.w+1:4*msr.w);
- Vmag_pmu_set = msr.set{2}(4*msr.w+1:4*msr.w+sys.Nbu);
- Vang_pmu_set = msr.set{2}(4*msr.w+sys.Nbu+1:end);
+ Cpm = Cmag_mean + Cpmv.^(1/2) .* Cmag_gwn;
+ Cpa = Cang_mean + Cpav.^(1/2) .* Cang_gwn;
+ Vpm = Vmag_mean + Vpmv.^(1/2) .* Vmag_gwn;
+ Vpa = Vang_mean + Vpav.^(1/2) .* Vang_gwn;
 %--------------------------------------------------------------------------
 
 
 %----------------------Export Measurement Info Data------------------------
- [data] = export_info(data, user, pf, msr, Aflo_ana_var, Rflo_ana_var, ...
-                      Cmag_ana_var, Ainj_ana_var, Rinj_ana_var, ...
-                      Vmag_ana_var, Cmag_pmu_var, Cang_pmu_var, ...
-                      Vmag_pmu_var, Vang_pmu_var, Aflo_ana_set, ...
-                      Rflo_ana_set, Cmag_ana_set, Ainj_ana_set, ...
-                      Rinj_ana_set, Vmag_ana_set, Cmag_pmu_set, ...
-                      Cang_pmu_set, Vmag_pmu_set, Vang_pmu_set);
+%  [data] = export_info(data, user, pf, msr, Aflo_ana_var, Rflo_ana_var, ...
+%                       Cmag_ana_var, Ainj_ana_var, Rinj_ana_var, ...
+%                       Vmag_ana_var, Cmag_pmu_var, Cang_pmu_var, ...
+%                       Vmag_pmu_var, Vang_pmu_var, Aflo_ana_set, ...
+%                       Rflo_ana_set, Cmag_ana_set, Ainj_ana_set, ...
+%                       Rinj_ana_set, Vmag_ana_set, Cmag_pmu_set, ...
+%                       Cang_pmu_set, Vmag_pmu_set, Vang_pmu_set);
 %--------------------------------------------------------------------------
 
 
 %--------------------Collect Data and Define Structure---------------------
- bra = [sys.branch(:,9:10); sys.branch(:,10) sys.branch(:,9)];
- bus = sys.bus(:,15);
+ br = [sys.branch(:,9:10); sys.branch(:,10) sys.branch(:,9)];
+ bs = sys.bus(:,15);
 
- data.legacy.flow = [bra Aflo_ana_mv Aflo_ana_var Aflo_ana_set ...
-					Rflo_ana_mv Rflo_ana_var Rflo_ana_set ...
-					Aflo_mean Rflo_mean];
-
- data.legacy.current = [bra Cmag_ana_mv Cmag_ana_var Cmag_ana_set Cmag_mean];
-
- data.legacy.injection = [bus Ainj_ana_mv Ainj_ana_var Ainj_ana_set ...
-						 Rinj_ana_mv Rinj_ana_var Rinj_ana_set ...
-						 Ainj_mean Rinj_mean];
-
- data.legacy.voltage = [bus Vmag_ana_mv Vmag_ana_var Vmag_ana_set Vmag_mean];
-
- data.pmu.current = [bra Cmag_pmu_mv Cmag_pmu_var Cmag_pmu_set ...
-					Cang_pmu_mv Cang_pmu_var Cang_pmu_set ...
-					Cmag_mean Cang_mean];
-
- data.pmu.voltage = [bus Vmag_pmu_mv Vmag_pmu_var Vmag_pmu_set ...
-					Vang_pmu_mv Vang_pmu_var Vang_pmu_set ...
-					Vmag_mean Vang_mean];
+ z1 = zeros(2*sys.Nbr,1);
+ z2 = zeros(sys.Nbu,1);
+ 
+ data.legacy.flow      = [br Af Afv z1 Rf Rfv z1 Aflo_mean Rflo_mean];
+ data.legacy.current   = [br Cm Cmv z1 Cmag_mean];
+ data.legacy.injection = [bs Ai Aiv z2 Ri Riv z2 Ainj_mean Rinj_mean];
+ data.legacy.voltage   = [bs Vm Vmv z2 Vmag_mean];
+ data.pmu.current      = [br Cpm Cpmv z1 Cpa Cpav z1 Cmag_mean Cang_mean];
+ data.pmu.voltage      = [bs Vpm Vpmv z2 Vpa Vpav z2 Vmag_mean Vang_mean];
 %--------------------------------------------------------------------------

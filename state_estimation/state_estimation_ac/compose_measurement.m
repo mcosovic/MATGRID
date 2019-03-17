@@ -6,7 +6,7 @@
 % The function defines the the total number of measurements, and forms
 % vectors of measurement values and variances, and the diagonal weighted
 % matrix.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- sys: power system data
 %
@@ -17,7 +17,7 @@
 %	- se.estimate with columns:
 %	  (1)measurement values; (2)measurement variances
 %	- sys.W: diagonal weighted matrix
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@
 % injection from branch shunt susceptances, active and reactive power
 % losses at branch, the apparent power at shunt elements. Finally, the
 % postprocessing time is obtained here.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- sys: power system data
 %	- pf: power flow data
@@ -32,7 +32,7 @@
 %	  (9)reactive power injection from shunt susceptances - from bus(Qis);
 %	  (10)reactive power injection from shunt susceptances - to bus(Qjs);
 %	  (11)apparent power of losses(Sijl)
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the AC power flow and non-linear
 % state estimation.
 %--------------------------------------------------------------------------

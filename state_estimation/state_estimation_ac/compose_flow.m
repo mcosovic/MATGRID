@@ -5,7 +5,7 @@
 %
 % The function defines the active and reactive power flow measurement data
 % according to available measurements (i.e., turn on measurements).
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- flow: legacy power flow measurement data
 %	- sys: power system data
@@ -16,7 +16,7 @@
 %	  measurements
 %	- sys.Qf: set indexes and parameters associated with reactive power
 %	  flow measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 

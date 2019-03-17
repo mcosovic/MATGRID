@@ -7,7 +7,7 @@
 % The function computes values of functions Pi(V,T) and Qi(V,T), and a
 % partial derivative of functions Pi and Qi with respect to bus voltage
 % angles and magnitudes.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- V: bus voltage magnitude vector
 %	- T: bus voltage angle vector
@@ -20,7 +20,7 @@
 %  Outputs:
 %	- Fi: vector associated with power injection measurement values
 %	- Ji: Jacobian matrix associated with power injection measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used in the Gauss-Newton algorithm.
 %--------------------------------------------------------------------------
 
