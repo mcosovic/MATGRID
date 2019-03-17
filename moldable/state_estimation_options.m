@@ -131,10 +131,10 @@
  in = ismember({'bus', 'branch', 'estimate', 'error', 'save', 'export', 'export slack'}, var);
 
  if in(1)
-	user.busse = 1;
+	user.bus = 1;
  end
  if in(2)
-	user.branchse = 1;
+	user.branch = 1;
  end
   if in(3)
 	user.estimate = 1;

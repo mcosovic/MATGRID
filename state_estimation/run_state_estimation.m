@@ -60,7 +60,7 @@
 %------------------------Preprocessing Functions---------------------------
  if isempty(sys)
     [data] = input_measurements(user, data);
-    [sys] = run_container(data, user.se);
+    [sys]  = run_container(data, user.se);
     if user.se == 1 || user.se == 3
        [sys] = ybus_ac(sys);
     end
@@ -123,7 +123,7 @@
 	terminal_info(se, sys, user.se, user.grid, 0)
  end
  if user.bus == 1
-	terminal_bus_se(se, sys, user.se);
+	terminal_bus_se(se, sys, user.se)
  end
  if user.branch == 1
 	terminal_flow(se, sys, user.se)

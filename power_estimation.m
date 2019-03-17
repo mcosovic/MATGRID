@@ -14,7 +14,7 @@
 %	leeloo('data5_6', 'nonlinear', 'warm', 'bus');
 %	leeloo('data5_6', 'pmu', 'pmuOptimal', 'pmuUnique', 10^-12, 'save');
 %	leeloo('data5_6', 'dc', 'bus');
-%	leeloo('data5_6', 'dc', 'legDevice', [10 0 4 5], 'branch');
+%	leeloo('data5_6', 'dc', 'legDevice', [10 0 4 0], 'branch');
 %	leeloo('data5_6', 'dc', 'legUnique', 10^-4, 'branch');
 %--------------------------------------------------------------------------
 %  Syntax:
@@ -141,6 +141,6 @@
 
 
 %------------------------------Main Function-------------------------------
- [results, data] = leeloo('ieee14_20', 'nonlinear', 'warm', ...
-                          'pmuOptimal','estimate');
+ [results, data] = leeloo('data5_6', 'nonlinear', ...
+                          'legDevice', [10 0 4 0], 'bus');
 %--------------------------------------------------------------------------

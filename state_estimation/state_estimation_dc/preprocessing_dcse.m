@@ -17,6 +17,8 @@
 
 
 %-----------------------------Expand Branches------------------------------
+ sys.branch = sys.branch(:,1:10);
+ 
  [sys] = ybus_shift_dc(sys);
 
  expand = [(sys.Nbr+1:2*sys.Nbr)' sys.branch(:,3) sys.branch(:,2) ...
