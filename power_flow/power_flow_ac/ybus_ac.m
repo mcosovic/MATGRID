@@ -1,7 +1,7 @@
  function [sys] = ybus_ac(sys)
 
 %--------------------------------------------------------------------------
-% Builds the Ybus matrix (sys.Nbu x sys.Nbu) for the AC problem.
+% Builds the Ybus matrix (sys.Nbu x sys.Nbu).
 %
 % The function builds the Ybus matrix, as well as its derivatives, and
 % forms the unified branch model.
@@ -20,7 +20,7 @@
 %	- sys.Yii: Ybus matrix with only diagonal elements
 %--------------------------------------------------------------------------
 % The local function which is used in the AC power flow and non-linear
-% state estimation.
+% state estimation, as well as the optimal PMU placement.
 %--------------------------------------------------------------------------
 
 
@@ -72,6 +72,6 @@
 %--------------------------------------------------------------------------
 
 
-%-------------------------Non-diagonal Bus Matrix----------------------------
+%-------------------------Non-diagonal Bus Matrix--------------------------
  sys.Yij = sys.Ybu - sys.Yii;
 %--------------------------------------------------------------------------

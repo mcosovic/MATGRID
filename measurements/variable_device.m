@@ -5,7 +5,7 @@
 %
 % The function forms different variables that are used to generate
 % measurements, according to different options.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- sys: power system data
 %
@@ -18,7 +18,7 @@
 %	- msr.dleg: number of legacy measurements per device
 %	- msr.dpmu: number of phasor measurements per device
 %	- msr.mred: maximum redundancy for legacy and phasor measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used to generate measurements.
 %--------------------------------------------------------------------------
 

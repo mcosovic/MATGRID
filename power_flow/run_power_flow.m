@@ -1,16 +1,21 @@
- function [pf, sys] = run_power_flow(user, data)
+ function [pf, data, sys] = run_power_flow(user, data)
 
 %--------------------------------------------------------------------------
 % Runs the AC or DC power flow analysis.
 %
-% The function proceeds to check power system data and runs the AC or DC
-% power flow.
+% The function proceeds to check power system data and settings, builds
+% containers, and runs the AC or DC power flow.
 %--------------------------------------------------------------------------
-%  Inputs:
-%	- user: user inputs
-%	- data: input power system data
+%  Input:
+%	- user: user settings
 %--------------------------------------------------------------------------
 %  Outputs AC and DC power flow:
+%	- pf.method: name of the method
+%	- pf.grid: power system name
+%	- pf.time.pre: preprocessing time
+%	- pf.time.conv: convergence time
+%	- pf.time.pos: postprocessing time
+%   - data: load power system data
 %	- sys.branch with columns:
 %	  (1)branch number; (2)indexes from bus(i); (3)indexes to bus(j);
 %	  (4)branch resistance(rij); (5)branch reactance(xij);
@@ -31,28 +36,8 @@
 %	- sys.base: power system base power in (MVA)
 %	- sys.stop: stopping iteration criteria
 %	- sys.Ybu: Ybus matrix
-%	- pf.method: name of the method
-%	- pf.grid: power system name
-%	- pf.time.pre: preprocessing time
-%	- pf.time.conv: convergence time
-%	- pf.time.pos: postprocessing time
-%--------------------------------------------------------------------------
-%  Outputs DC power flow:
-%	- sys.bus with additional column: (16)shift vector(Psh)
-%	- sys.branch with additional column: (11)1/(tij*xij)
-%	- pf.bus with columns:
-%	  (1)bus voltage angles(Ti); (2)active power injection(Pi);
-%	  (3)active power generation(Pg)
-%	- pf.branch with column: (1)active power flow(Pij)
 %--------------------------------------------------------------------------
 %  Outputs AC power flow:
-%	- sys.branch with additional columns:
-%	  (11)branch admittance(yij); (12)charging susceptance(bsi);
-%	  (13)complex tap ratio(aij); (14)yij + bsi; (15)yij/aij^2;
-%	  (16)-yij/conj(aij); (17)-yij/aij
-%	- sys.ysh: shunt elements vector
-%	- sys.Yij: Ybus matrix with only non-diagonal elements
-%	- sys.Yii: Ybus matrix with only diagonal elements
 %	- pf.bus with columns:
 %	  (1)minimum limits violated at bus; (2)maximum limits violated at bus;
 %	  (3)complex bus voltages; (4)apparent power injection(Si);
@@ -71,13 +56,33 @@
 %	  (10)reactive power injection from shunt susceptances - to bus(Qjs);
 %	  (11)apparent power of losses(Sijl)
 %	- pf.No: number of iterations
+%	- sys.branch with additional columns:
+%	  (11)branch admittance(yij); (12)charging susceptance(bsi);
+%	  (13)complex tap ratio(aij); (14)yij + bsi; (15)yij/aij^2;
+%	  (16)-yij/conj(aij); (17)-yij/aij
+%	- sys.ysh: shunt elements vector
+%	- sys.Yij: Ybus matrix with only non-diagonal elements
+%	- sys.Yii: Ybus matrix with only diagonal elements
+%--------------------------------------------------------------------------
+%  Outputs DC power flow:
+%	- pf.bus with columns:
+%	  (1)bus voltage angles(Ti); (2)active power injection(Pi);
+%	  (3)active power generation(Pg)
+%	- pf.branch with column: (1)active power flow(Pij)
+%	- sys.bus with additional column: (16)shift vector(Psh)
+%	- sys.branch with additional column: (11)1/(tij*xij)
 %--------------------------------------------------------------------------
 % The local function which is used in power flow modules.
 %--------------------------------------------------------------------------
 
 
+%------------------Processing Module Inputs and Settings-------------------
+ [data] = load_power_grid(data, user.pf);
+%--------------------------------------------------------------------------
+
+
 %----------------------------Power System Data-----------------------------
- [sys] = run_container(data, user.pf);
+ [sys] = run_container(data);
 %--------------------------------------------------------------------------
 
 

@@ -2,13 +2,15 @@
 
 %--------------------------------------------------------------------------
 % Forms the info data for generated measurement set.
-%
+%--------------------------------------------------------------------------
 %  Input:
-%	- too much inputs
+%	- user: user inputs
+%	- data: input power system data
+%	- msr: measurement data
 %
 %  Output:
 %	- data.info: info data for generated measurement set
-%
+%--------------------------------------------------------------------------
 % The local function which is used to generate measurements.
 %--------------------------------------------------------------------------
 
@@ -50,7 +52,7 @@
 	varLeg = 'Variances by Type';
 	varLegv = sprintf(' [active flow %1.e], [reactive flow %1.e], [current magnitude %1.e], [active injection %1.e], [reactive injection %1.e], [voltage magnitude %1.e]', ...
 			  user.legType(1), user.legType(2), user.legType(3), user.legType(4), user.legType(5), user.legType(6));
- elseif user.method == 1 
+ elseif user.varleg == 0 
     varLeg = 'Variances are Predefined';
 	varLegv = sprintf(' ');
  end
@@ -66,7 +68,7 @@
 	varPmu = 'Variances by Type';
 	varPmuv = sprintf(' [current magnitude %1.e], [current angle %1.e], [voltage magnitude %1.e], [voltage angle %1.e]', ...
 			  user.pmuType(1), user.pmuType(2), user.pmuType(3), user.pmuType(4));
- elseif user.method == 1 
+ elseif user.varpmu == 0 
     varPmu = 'Variances are Predefined';
 	varPmuv = sprintf(' ');          
  end
@@ -78,14 +80,12 @@
 	setLeg = 'Active Devices';
 	setLegv = sprintf(' [power flow %1.f], [current magnitude %1.f], [power injection %1.f], [voltage magnitude %1.f]', ...
 			  user.legDevice(1), user.legDevice(2), user.legDevice(3), user.legDevice(4));
-elseif user.setleg == 0 && user.setpmu ~= 0
+elseif user.setleg == 4
     setLeg = 'No Active Legacy Measurements';
 	setLegv = sprintf(' ');
-    msr.set{1} = 0;
- elseif user.setleg == 0 && user.setpmu == 0
+ elseif user.setleg == 0
     setLeg = 'Legacy Measurement Set is Predefined';
 	setLegv = sprintf(' ');
-    msr.set{1} = 0;
  end
 
  if user.setpmu == 1
@@ -97,14 +97,12 @@ elseif user.setleg == 0 && user.setpmu ~= 0
   elseif user.setpmu == 3
 	setPmu = 'Optimal PMUs placed to make the entire system observable - ';
 	setPmuv = sprintf(' Number of PMUs [%1.f]', sum(Vpms)');
- elseif user.setpmu == 0 && user.setleg ~= 0
+ elseif user.setpmu == 4
     setPmu = 'No Active PMUs';
 	setPmuv = sprintf(' ');
-    msr.set{2} = 0;
- elseif user.setleg == 0 && user.setpmu == 0
+ elseif user.setpmu == 0
     setPmu = 'PMUs Set is Predefined';
 	setPmuv = sprintf(' ');
-    msr.set{2} = 0;    
  end
 %--------------------------------------------------------------------------
 
@@ -150,18 +148,18 @@ elseif user.setleg == 0 && user.setpmu ~= 0
  s7 = ['  Total',sprintf('%68.f',sum(msr.set{2})), sprintf('%21.f',sum(~msr.set{2}))];
 
  n1  = ' Notes';
- n2  = '  Example: leeloo(DATA, LIMITS, METHOD, START, "legRedundancy", 2.5, "pmuRedundancy", 1.5)';
+ n2  = '  Example: leeloo(DATA, "legRedundancy", 2.5, "pmuRedundancy", 1.5)';
  n3  = '           randomized active legacy measurements and measurements from PMUs (magnitudes and angles) according to redundancy';
- n4  = '  Example: leeloo(DATA, LIMITS, METHOD, START, "legDevice", [20 10 5 6], "pmuDevice", 10)';
+ n4  = '  Example: leeloo(DATA, "legDevice", [20 10 5 6], "pmuDevice", 10)';
  n5  = '           number of active measurement devices over subset of legacy devices [power flow], [current magnitude], [power injection], [voltage magnitude], and active PMUs placed at buses';
- n6  = '  Example: leeloo(DATA, LIMITS, METHOD, START, "pmuOptimal")';
+ n6  = '  Example: leeloo(DATA, "pmuOptimal")';
  n7  = '           optimal PMUs placed to make the entire system observable';
  
- n8  = '  Example: leeloo(DATA, LIMITS, METHOD, START, SET, "legUnique", 10^-10, "pmuUnique", 10^-12)';
+ n8  = '  Example: leeloo(DATA, "legUnique", 10^-10, "pmuUnique", 10^-12)';
  n9  = '           unique variance applied over all legacy measurements and measurements from PMUs';
- n10 = '  Example: leeloo(DATA, LIMITS, METHOD, START, SET, "legRandom", [10^-8 10^-6], "pmuRandom", [10^-12 10^-10])';
+ n10 = '  Example: leeloo(DATA, "legRandom", [10^-8 10^-6], "pmuRandom", [10^-12 10^-10])';
  n11 = '           randomized variances within limits applied over all legacy measurements and measurements from PMUs';
- n12 = '  Example: leeloo(DATA, LIMITS, METHOD, START, SET, "legType", [1e-06 1e-08 1e-08 1e-08 1e-06 1e-06], "pmuType", [1e-12 1e-10 1e-12 1e-10])';
+ n12 = '  Example: leeloo(DATA, "legType", [1e-06 1e-08 1e-08 1e-08 1e-06 1e-06], "pmuType", [1e-12 1e-10 1e-12 1e-10])';
  n13 = '           variances applied over subset of legacy measurements [active flow], [reactive flow], [current magnitude], [active injection], [reactive injection], [voltage magnitude], and';
  n14 = '           variances applied over subset of measurements from PMUs [current magnitude], [current angle], [voltage magnitude], [voltage angle]';
 

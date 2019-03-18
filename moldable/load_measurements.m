@@ -1,4 +1,4 @@
- function [data] = input_measurements(user, data)
+ function [data] = load_measurements(user, data)
 
 %--------------------------------------------------------------------------
 % Checks measurement data for the state estimation.

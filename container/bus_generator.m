@@ -9,9 +9,7 @@
 % generators are disconnected, we change that bus to PQ. Ultimately the
 % generator data is added to sys.bus variable.
 %--------------------------------------------------------------------------
-%  Inputs:
-%	- data: power system data that contains buses and/or generators
-%	- stop: stopping iteration criteria for the non-linear algorithms
+%  Input:
 %	- sys: power system data
 %
 %  Outputs:

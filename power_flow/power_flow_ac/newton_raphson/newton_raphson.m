@@ -21,7 +21,7 @@
 %	- pf.time.conv: convergence time
 %	- pf.No: number of iterations
 %--------------------------------------------------------------------------
-% The local function which is used in the AC power flow.
+% The local function which is used in the AC power flow routine.
 %--------------------------------------------------------------------------
 
 

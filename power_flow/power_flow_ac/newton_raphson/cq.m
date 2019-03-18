@@ -10,12 +10,15 @@
 % violated.
 %--------------------------------------------------------------------------
 %  Inputs:
-%	- Vc: complex bus voltages
-%	- pf: power flow data
 %	- sys: power system data
-%	- Pgl: active power at bus
 %	- alg: algorithm data
 %	- idx: indexes data
+%	- pf: power flow data
+%	- DelPQ: mismatch
+%	- V, T: bus voltage magnitude and angle vector
+%	- Qgl: reactive power at bus
+%	- Vc: complex bus voltages
+%	- Pgl: active power at bus
 %
 %  Outputs:
 %	- sys.bus with changed columns
@@ -28,7 +31,7 @@
 %	- V, T: bus voltage magnitude and angle vector
 %	- Qgl: generator reactive power at bus
 %--------------------------------------------------------------------------
-% The local function which is used in the AC power flow.
+% The local function which is used in the AC power flow routine.
 %--------------------------------------------------------------------------
 
 

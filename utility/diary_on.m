@@ -1,5 +1,16 @@
  function [] = diary_on(flag, case_in)
 
+%--------------------------------------------------------------------------
+% Saves display data in txt-file.
+%
+% If the flag is 1, the function starts to record the display data.
+%--------------------------------------------------------------------------
+%  Inputs:
+%	- flag: save display indicator
+%	- case_in: name of the load power system
+%--------------------------------------------------------------------------
+% Export function which is used in all modules.
+%--------------------------------------------------------------------------
 
 
 %------------------------------Turn on Diary-------------------------------

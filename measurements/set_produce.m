@@ -1,4 +1,4 @@
- function [msr] = set_produce(user, msr, sys)
+ function [user, msr] = set_produce(user, msr, sys)
 
 %--------------------------------------------------------------------------
 % Forms vector of measurement sets.
@@ -7,7 +7,7 @@
 % are defined as struct variables 'legset' for legacy measurements and
 % 'pmuset' for phasor measurements, with two options 'redundancy' and
 % 'device'.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- user: user inputs
 %	- msr: measurement data
@@ -15,7 +15,7 @@
 %  Outputs:
 %	- msr.set{1}: set for legacy measurements
 %	- msr.set{2}: set for phasor measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used to generate measurements.
 %--------------------------------------------------------------------------
 
@@ -91,5 +91,17 @@
 	bus(idx) = 1;
 	bra = ismember([sys.branch(:,2); sys.branch(:,3)], find(bus));
 	msr.set{2} = [bra; bra; bus; bus];
+ end
+%--------------------------------------------------------------------------
+
+
+%---------------------One Set Active, Other Turn Off-----------------------
+ if user.setleg ~= 0 && user.setpmu == 0
+    user.setpmu = 4;
+    msr.set{2} = zeros(msr.total(2),1);  
+ end
+ if user.setleg == 0 && user.setpmu ~= 0
+    user.setleg = 4;
+	msr.set{1} = zeros(msr.total(1),1);
  end
 %--------------------------------------------------------------------------

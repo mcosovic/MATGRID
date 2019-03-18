@@ -34,7 +34,7 @@
 %	  (11)apparent power of losses(Sijl)
 %--------------------------------------------------------------------------
 % The local function which is used in the AC power flow and non-linear
-% state estimation.
+% state estimation modules.
 %--------------------------------------------------------------------------
 
 

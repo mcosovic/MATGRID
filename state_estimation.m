@@ -5,20 +5,24 @@
 % Runs the non-linear and DC state estimation, as well as the linear state
 % estimation only with PMUs.
 %
-% The non-linear state estimation routine uses the Gauss-Newton method.
+% The non-linear state estimation routine uses the Gauss-Newton method. The
+% linear state estimation only with PMUs is based on the rectangular
+% coordinates, where the covariance matrix is transformed from polar to
+% rectangular coordinates.
 %
 %  Examples:
-%	leeloo('data5_6', 'nonlinear', 'bus');
-%	leeloo('data5_6', 'nonlinear', 'warm', 'bus', 'branch');
-%	leeloo('data5_6', 'pmu', 'pmuOptimal', 'save');
-%	leeloo('data5_6', 'dc', 'bus');
-%	leeloo('data5_6', 'dc', 'legRedundancy', 4, 'branch');
+%	leeloo('data5_6', 'nonlinear', 'warm', 'main');
+%	leeloo('data5_6', 'pmu', 'pmuOptimal', 'pmuUnique', 10^-12, 'save');
+%	leeloo('data5_6', 'dc', 'main');
+%	leeloo('data5_6', 'dc', 'legDevice', [10 0 4 0], 'estimate');
+%	leeloo('data5_6', 'dc', 'legUnique', 10^-4, 'estimate');
 %--------------------------------------------------------------------------
 %  Syntax:
 %	leeloo(DATA, METHOD)
 %	leeloo(DATA, METHOD, START)
 %	leeloo(DATA, METHOD, START, SET)
-%	leeloo(DATA, METHOD, START, SET, DISPLAY, EXPORT)
+%	leeloo(DATA, METHOD, START, SET, VARIANCE)
+%	leeloo(DATA, METHOD, START, SET, VARIANCE, DISPLAY, EXPORT)
 %
 %  Description:
 %	- leeloo(DATA, METHOD) computes state estimation problem according
@@ -26,8 +30,10 @@
 %	- leeloo(DATA, METHOD, START) initialize the Gauss-Newton Method
 %	- leeloo(DATA, METHOD, START, SET) defines measurement set, active and
 %	  inactive measurements
-%	- leeloo(DATA, METHOD, START, SET, DISPLAY, EXPORT) allows to show
-%	  results and export models
+%	- leeloo(DATA, METHOD, START, SET, VARIANCE) defines measurment
+%     variances
+%	- leeloo(DATA, METHOD, START, SET, VARIANCE, DISPLAY, EXPORT) allows to
+%	  show results and export models
 %
 %  Input Arguments:
 %	- DATA: the first input argument in the leeloo function must contain a
@@ -63,9 +69,28 @@
 %		- 'legDevice', [X Y Z V]: enables legacy measurements according to
 %		   device subsets [(Pij,Qij),(Iij),(Pi,Qi),(Vi)]
 %		   default setting: all legacy devices are active
+%	- VARIANCE
+%		- 'pmuUnique', X: applied unique variance X over all phasor
+%		   measurements
+%		   default setting: 10^-12;
+%		- 'pmuRandom', [X Y]: randomized variances within limits X and Y
+%		   applied over all phasor measurements
+%		   default setting: [10^-12 10^-10];
+%		- 'pmuType', [X Y Z V]: defining variances over the subset of
+%		   measurements from PMUs (Iij, Dij, Vi, Ti)
+%		   default setting: [10^-10 10^-12 10^-10 10^-12];
+%		- 'legUnique', X: applied unique variance X over all legacy
+%		   measurements
+%          default setting: 10^-8;
+%		- 'legRandom', [X Y]: randomized variances within limits X and Y
+%		   applied over all legacy measurements
+%		   default setting: [10^-9 10^-8];
+%		- 'legType', [X Y Z V P Q]: defining variances over the subset of
+%		   legacy measurements (Pij, Qij, Iij, Pi, Qi, Vi)
+%		   default setting: [10^-6 10^-8 10^-8 10^-6 10^-8 10^-8];
 %	- DISPLAY
-%		- 'bus': bus data display
-%		- 'branch': branch data display
+%		- 'main': bus data display
+%		- 'flow': power flow data display
 %		- 'estimate': estimation data display
 %		- 'error': evaluation data display
 %	- EXPORT
@@ -121,6 +146,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [results, data] = leeloo('ieee30_41', 'nonlinear', 'exact',...
-                          'pmuOptimal', 10, 'legRedundancy', 3, 'estimate', 'bus');
+ [results, data] = leeloo('ieee30_41', 'nonlinear', 'pmuDevice', 2, 'legRedundancy', 4, 'legUnique', 10^-6, 'estimate');
 %--------------------------------------------------------------------------

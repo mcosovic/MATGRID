@@ -21,7 +21,7 @@
 % 	- pf.time.pre: preprocessing time
 %	- pf.time.conv: convergence time
 %--------------------------------------------------------------------------
-% The local function which is used for the DC power flow.
+% The local function which is used in the DC power flow.
 %--------------------------------------------------------------------------
 
 

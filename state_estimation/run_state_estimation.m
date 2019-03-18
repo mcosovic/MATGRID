@@ -1,16 +1,14 @@
- function [se, data] = run_state_estimation(var, user, data, sys, pf)
+ function [se, data] = run_state_estimation(user, data)
 
 %--------------------------------------------------------------------------
 % Runs the non-linear and DC state estimation, as well as the state
 % estimation with PMUs.
 %
-% The function first check if data from the power flow exists. If state
-% estimation is run after power flow the algorithm directly proceeds with
-% state estimation, otherwise preprocessing functions must be performed.
+% The function first checks state estimation settings and measurment data,
+% and proceeds with state estimation rotuines.
 %--------------------------------------------------------------------------
-%  Inputs:
-%	- user: user inputs
-%	- data: power system data with measurement data
+%  Input:
+%	- var: native user settings
 %--------------------------------------------------------------------------
 %  Outputs non-linear, PMU and DC state estimation:
 %	- se.method: method name
@@ -57,22 +55,25 @@
 %--------------------------------------------------------------------------
 
 
+%------------------Processing Module Inputs and Settings-------------------
+ [data] = load_measurements(user, data);
+%--------------------------------------------------------------------------
+
+
 %------------------------Preprocessing Functions---------------------------
- if user.method == 1
-    [data] = input_measurements(user, data);
-    [sys]  = run_container(data, user.se);
-    if user.se == 1 || user.se == 3
-       [sys] = ybus_ac(sys);
-    end
-    [data] = run_measurement_generator(var, user, data, sys, []);
- else
-    [data] = run_measurement_generator(var, user, data, sys, pf); 
+ [sys] = run_container(data); 
+ 
+ if user.se == 1 || user.se == 3 || user.setpmu == 3
+    [sys] = ybus_ac(sys);
  end
+ 
+ [data] = run_play_measurement(user, data, sys);
 %--------------------------------------------------------------------------
 
 
 %----------------------------AC State Estimation---------------------------
  if user.se == 1
+    [user] = check_start_gauss_newton(user);  
     [br]  = branch_data_acse(sys); 
 	[sys] = compose_flow(data.legacy.flow, sys, br);
 	[sys] = compose_current(data.legacy.current, data.pmu.current, sys, br);
@@ -108,10 +109,6 @@
 	[se] = processing_dcse(sys, se);
 	[sys, se] = evaluation_dcse(dat, sys, se);
 	[se] = name_unit_dcse(dat, sys, se);
-
-	if user.export == 1 || user.exports == 1
-	   [data] = produce_Abv(data, user, sys, se);
-	end
  end
 %--------------------------------------------------------------------------
 
@@ -119,13 +116,13 @@
 %--------------------------------Terminal----------------------------------
  diary_on(user.save, data.case);
 
- if user.bus == 1 || user.branch == 1 || user.estimate == 1 || user.error == 1
+ if user.main == 1 || user.flow == 1 || user.estimate == 1 || user.error == 1
 	terminal_info(se, sys, user.se, user.grid, 0)
  end
- if user.bus == 1
+ if user.main == 1
 	terminal_bus_se(se, sys, user.se)
  end
- if user.branch == 1
+ if user.flow == 1
 	terminal_flow(se, sys, user.se)
  end
  if user.estimate == 1
@@ -136,4 +133,11 @@
  end
 
  diary_off(user.save);
+%--------------------------------------------------------------------------
+
+
+%-------------------------------Export Data--------------------------------
+ if user.export == 1 || user.exports == 1
+    [data] = produce_Abv(data, user, sys, se);
+ end
 %--------------------------------------------------------------------------

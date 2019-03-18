@@ -7,7 +7,7 @@
 % options. Variances are defined as struct variables 'legvariance' for
 % legacy measurements and 'pmuvariance' for phasor measurements, with three
 % different options: 'unique', random' and 'type'.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- user: user inputs
 %	- msr: measurement data
@@ -15,7 +15,7 @@
 %  Outputs:
 %	- msr.var{1}: variances for legacy measurements
 %	- msr.var{2}: variances for phasor measurements
-%
+%--------------------------------------------------------------------------
 % The local function which is used to generate measurements.
 %--------------------------------------------------------------------------
 

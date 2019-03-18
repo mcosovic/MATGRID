@@ -8,8 +8,10 @@
 % bus are removed. The function is called in the initialization step, and
 % each time when limits are violated.
 %--------------------------------------------------------------------------
-%  Input:
+%  Inputs:
 %	- sys: power system data
+%	- alg: algorithm data
+%	- idx: indexes data
 %
 %  Outputs:
 %    - alg.pq, alg.Npq: PQ buses and number of PQ buses

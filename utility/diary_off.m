@@ -1,5 +1,15 @@
  function [] = diary_off(flag)
 
+%--------------------------------------------------------------------------
+% Ends record display data in txt-file.
+%
+% If the flag is 1, the function ends to record the display data.
+%--------------------------------------------------------------------------
+%  Inputs:
+%	- flag: save display indicator
+%--------------------------------------------------------------------------
+% Export function which is used in all modules.
+%--------------------------------------------------------------------------
 
 
 %------------------------------Turn off Diary------------------------------

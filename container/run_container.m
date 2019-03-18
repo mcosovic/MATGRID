@@ -1,15 +1,13 @@
- function [sys] = run_container(data, flag)
+ function [sys] = run_container(data)
 
 %--------------------------------------------------------------------------
 % Builds data containers.
 %
-% The function proceeds to check power system data and builds the branch
-% data, bus and generator data containers, and defines the new numbering
-% for buses and branches.
+% The function builds the branch, bus and generator data containers, and
+% defines the new numbering for buses and branches.
 %--------------------------------------------------------------------------
-%  Inputs:
-%	- user: user inputs
-%	- flag: indicate non-linear algorithms
+%  Input:
+%	- data: power system data
 %--------------------------------------------------------------------------
 %  Outputs:
 %	- sys.branch with columns:
@@ -32,13 +30,8 @@
 %	- sys.base: power system base power in (MVA)
 %	- sys.stop: stopping iteration criteria
 %--------------------------------------------------------------------------
-% The main function which is used in power flow and state estimation
-% modules.
-%--------------------------------------------------------------------------
-
-
-%--------------------------Processing User Data----------------------------
- [data] = input_power_grid(data, flag);
+% Main function which is used in AC/DC power flow, non-linear and DC state
+% estimation, as well as for the state estimation with PMUs.
 %--------------------------------------------------------------------------
 
 

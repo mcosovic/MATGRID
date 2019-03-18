@@ -1,50 +1,31 @@
- function [user] = measurement_set_options(var, user, msr)
+ function [user] = check_measurement_set(user, msr)
 
 %--------------------------------------------------------------------------
-% Checks input measurement sets.
+% Checks input values for measurement sets.
 %
-% The function checks 'pmuRedundancy', 'pmuDevice', 'pmuOptimal'
-% 'legRedundancy', and 'legDevice', given as input arguments of the
-% function leeloo in the 'state_estimation.m' or 'power_estimation.m'. If
-% variables are missing or are not properly defined, we add default values,
-% which allows to execute a code without errors.
+% The function checks 'pmuRedundancy', 'pmuDevice', 'legRedundancy', and
+% 'legDevice' values, given as input arguments of the function leeloo in
+% the 'state_estimation.m' or 'power_estimation.m'. If variables are
+% missing or are not properly defined, we add default values, which allows
+% to execute a code without errors.
 %--------------------------------------------------------------------------
 %  Inputs:
-%	- var: native user inputs
 %	- user: user inputs
 %	- msr: measurement data
 %
 %  Outputs:
-%   - user.setpmu: phasor measurement set indicator
-%   - user.setleg: legacy measurement set indicator
 %	- user.pmuRedundancy: set according to redundancy for legacy
 %	  measurements
 %	- user.legDevice: set according to devices for legacy measurements
 %	- user.pmuRedundancy: set according to redundancy for phasor
 %	  measurements
 %	- user.pmuDevice: set according to devices for phasor measurements
-%	- user.pmuOptimal: optimal PMU location to make the entire system
-%     completely observable
 %--------------------------------------------------------------------------
 % Check function which is used in state estimation modules.
 %--------------------------------------------------------------------------
 
 
 %----------------------Check Phasor Measurement Set------------------------
- in = ismember(var, {'pmuRedundancy', 'pmuDevice', 'pmuOptimal'});
- v1 = find(in, 1, 'first');
- pmu = var(v1);
-
- if strcmp(pmu, 'pmuRedundancy')
-	user.setpmu = 1;
-	user.pmuRedundancy = str2num(var(v1+1));
- elseif strcmp(pmu, 'pmuDevice')
-	user.setpmu = 2;
-	user.pmuDevice = str2num(var(v1+1));
- elseif strcmp(pmu, 'pmuOptimal')
-	user.setpmu = 3;   
- end
-
  if user.setpmu == 1 && ~isempty(user.pmuRedundancy) && (~isvector(user.pmuRedundancy) || ~(length(user.pmuRedundancy) == 1)  || user.pmuRedundancy < 0 || user.pmuRedundancy > msr.mred(2))
 	user.pmuRedundancy = msr.mred(2);
 	warning('se:pmuRedundancy', ['The value pair argument of the '...
@@ -66,18 +47,6 @@ end
 
 
 %----------------------Check Legacy Measurement Set------------------------
- in = ismember(var, {'legRedundancy', 'legDevice'});
- v1 = find(in, 1, 'first');
- leg = var(v1);
-
- if strcmp(leg, 'legRedundancy')
-	user.setleg = 1;
-	user.legRedundancy = str2num(var(v1+1));
- elseif strcmp(leg, 'legDevice')
-	user.setleg = 2;
-	user.legDevice = str2num(var(v1+1));    
- end
-
  if user.setleg == 1 && ~isempty(user.legRedundancy) && (~isvector(user.legRedundancy) || ~(length(user.legRedundancy) == 1)  || user.legRedundancy < 0 || user.legRedundancy > msr.mred(1))
 	user.legRedundancy = msr.mred(1);
 	warning('se:legRedundancy', ['The value pair argument of the '...
@@ -101,24 +70,5 @@ end
 	end
  elseif user.setleg == 2 && isempty(user.legDevice)
 	user.legDevice = msr.dleg;
- end
-%--------------------------------------------------------------------------
-
-
-%---------------------One Set Active, Other Turn Off-----------------------
- if user.setleg ~= 0 && user.setpmu == 0
-    user.setpmu = 1;
-    user.pmuRedundancy = 0;   
- end
- if user.setleg == 0 && user.setpmu ~= 0
-    user.setleg = 1;
-    user.legRedundancy = 0;   
- end
- 
- if user.method == 2 && user.setleg == 0 && user.setpmu == 0
-    user.setleg = 1;
-    user.legRedundancy =  msr.mred(1); 
-    user.setpmu = 1;
-    user.pmuRedundancy =  msr.mred(2); 
  end
 %--------------------------------------------------------------------------

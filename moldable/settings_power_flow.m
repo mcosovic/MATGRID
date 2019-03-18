@@ -1,4 +1,4 @@
- function [user, data] = power_flow_options(var)                           %#ok<*STOUT>
+ function [user, data] = settings_power_flow(var)                           %#ok<*STOUT>
 
 %--------------------------------------------------------------------------
 % Checks user inputs and if those are missing, adds default values and
@@ -10,7 +10,7 @@
 % variable. Default inputs are: 'ieee30_41'; 'ac'.
 %--------------------------------------------------------------------------
 %  Input:
-%	- var: all user inputs
+%	- var: native user settings
 %
 %  Outputs:
 %	- user.pf: AC or DC power flow
@@ -19,9 +19,9 @@
 %	- user.main: bus data display
 %	- user.flow: branch data display
 %	- user.save: save display data
-%	- data: power system data
+%	- data: load power system data
 %--------------------------------------------------------------------------
-% Check function which is used in power flow routine.
+% Check function which is used in power flow modules.
 %--------------------------------------------------------------------------
 
 
@@ -30,20 +30,11 @@
 %--------------------------------------------------------------------------
 
 
-%----------------------------Default Settings------------------------------
- user.pf    = 1;
- user.limit = 0;
- user.main  = 0;
- user.flow  = 0;
- user.save  = 0;
-%--------------------------------------------------------------------------
-
-
 %-------------------------------Empty Input--------------------------------
  if isempty(var)
 	var{1} = 'ieee30_41';
 	warning('pf:empty', ['Invalid input data structure. The algorithm '...
-    'proceeds with %s power system.\n'], strcat(var{1},'.mat'))
+	'proceeds with %s power system.\n'], strcat(var{1},'.mat'))
  end
 %--------------------------------------------------------------------------
 
@@ -56,6 +47,7 @@
  elseif in(2)
 	user.pf = 2;
  else
+	user.pf = 1;
 	warning('pf:module', ['The power flow requires "ac" or "dc" input ' ...
 	'arguments for the AC or DC power flow analysis. '...
 	'The algorithm proceeds with the AC power flow.\n'])
@@ -66,6 +58,8 @@
 %---------------------------Check Limit Inputs-----------------------------
  in = ismember({'reactive', 'voltage'}, var);
 
+ user.limit = 0;
+
  if in(1)
 	user.limit = 1;
  elseif in(2)
@@ -74,8 +68,12 @@
 %--------------------------------------------------------------------------
 
 
-%--------------------------Check Terminal Inputs---------------------------
+%---------------------Check Terminal and Save Inputs-----------------------
  in = ismember({'main', 'flow', 'save'}, var);
+
+ user.main = 0;
+ user.flow = 0;
+ user.save = 0;
 
  if in(1)
 	user.main = 1;

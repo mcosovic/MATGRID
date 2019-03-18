@@ -20,7 +20,7 @@
 
 
 %---------------------------Jacobian Matrix J22----------------------------
- D = alg.fD3  - 2 * alg.Bii .* alg.Vpq;
+ D = alg.fD3 - 2 * alg.Bii .* alg.Vpq;
  N = V(idx.i) .* alg.Te1(idx.ij);
 
  J22 = sparse(idx.jci, idx.jcj, [D; N], alg.Npq, alg.Npq);

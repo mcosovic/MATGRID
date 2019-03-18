@@ -17,7 +17,7 @@
 %	- sys.Ybu: Ybus matrix
 %--------------------------------------------------------------------------
 % The local function which is used in the DC power flow and DC state
-% estimation.
+% estimation modules.
 %--------------------------------------------------------------------------
 
 

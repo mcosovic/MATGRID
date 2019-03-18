@@ -1,7 +1,7 @@
  function [data] = input_power_grid(data, flag)
 
 %--------------------------------------------------------------------------
-% Checks power system data.
+% Checks load power system data.
 %
 % The function checks 'baseMVA', 'bus', 'line', 'inTransformer',
 % 'shiftTransformer', 'stop' and 'case' variables defined in the input
@@ -9,11 +9,11 @@
 % function adds default values.
 %--------------------------------------------------------------------------
 %  Inputs:
-%	- data: input power system data
+%	- data: load power system data
 %	- flag: indicate non-linear algorithms
 %
 %  Output:
-%	- data: input power system data
+%	- data: power system data
 %--------------------------------------------------------------------------
 % Check function which is used in power flow and state estimation modules.
 %--------------------------------------------------------------------------

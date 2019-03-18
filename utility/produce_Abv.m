@@ -25,17 +25,17 @@
 
 %-------------------------------Export System------------------------------
  if user.export == 1
-	h = sparse(1, sys.Nbu);
-	b = [];
-	v = [];
- elseif user.exports == 1
+    data.extras.A = [sys.H];
+    data.extras.b = [sys.b];
+    data.extras.v = [se.estimate(:,2)];
+ end
+ 
+ if user.exports == 1
 	h = sparse(1, sys.Nbu);
 	h(sys.sck(1)) = 1;
-	b = sys.sck(2);
-	v = 10^-60;
+ 
+    data.extras.As = [sys.H; h];
+    data.extras.bs = [sys.b; sys.sck(2)];
+    data.extras.vs = [se.estimate(:,2); 10^-30];
  end
-
- data.extras.A = [sys.H; h];
- data.extras.b = [sys.b; b];
- data.extras.v = [se.estimate(:,2); v];
 %--------------------------------------------------------------------------
