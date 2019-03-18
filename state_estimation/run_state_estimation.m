@@ -58,7 +58,7 @@
 
 
 %------------------------Preprocessing Functions---------------------------
- if isempty(sys)
+ if user.method == 1
     [data] = input_measurements(user, data);
     [sys]  = run_container(data, user.se);
     if user.se == 1 || user.se == 3

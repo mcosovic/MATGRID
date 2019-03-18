@@ -121,6 +121,6 @@
 
 
 %----------------------------State Estimation------------------------------
- [results, data] = leeloo('data9_9', 'dc', ...
-                          'legRedundancy', 3, 'estimate', 'branch', 'error');
+ [results, data] = leeloo('ieee30_41', 'dc', 'exact',...
+                          'pmuOptimal', 10, 'legRedundancy', 3, 'estimate', 'bus');
 %--------------------------------------------------------------------------

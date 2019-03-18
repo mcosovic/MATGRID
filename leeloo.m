@@ -78,13 +78,16 @@
  if strcmp(run_mfile(2).file, 'power_flow.m')
 	[user, data] = power_flow_options(varargin);
 	[results] = run_power_flow(user, data);
+    
  elseif strcmp(run_mfile(2).file, 'state_estimation.m')
     [var, user, data] = state_estimation_options(varargin);
     [results, data] = run_state_estimation(var, user, data, [], []);
+    
  elseif strcmp(run_mfile(2).file, 'power_estimation.m')
     [var, user, data] = power_estimation_options(varargin) ; 
     [pf, sys] = run_power_flow(user, data);
     [results, data] = run_state_estimation(var, user, data, sys, pf);
+    
  else
     error_source_file
  end
