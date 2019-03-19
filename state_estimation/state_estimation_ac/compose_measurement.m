@@ -33,6 +33,6 @@
  se.estimate(:,2) = [sys.Pf.v; sys.Qf.v; sys.Cm.v; sys.Pi.v; sys.Qi.v; sys.Vml.v; ...
 					sys.Vmp.v; sys.Vap.v; sys.Cmp.v; sys.Cap.v];
 
- C = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot);
- sys.W = C \ speye(sys.Ntot, sys.Ntot);
+ sys.C = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot);
+ sys.W = sys.C \ speye(sys.Ntot, sys.Ntot);
 %--------------------------------------------------------------------------

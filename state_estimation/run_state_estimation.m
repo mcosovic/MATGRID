@@ -73,14 +73,20 @@
 
 %----------------------------AC State Estimation---------------------------
  if user.se == 1
-    [user] = check_start_gauss_newton(user);  
+    [user] = check_gauss_newton(user);  
     [br]  = branch_data_acse(sys); 
 	[sys] = compose_flow(data.legacy.flow, sys, br);
 	[sys] = compose_current(data.legacy.current, data.pmu.current, sys, br);
 	[sys] = compose_injection(data.legacy.injection, sys);
 	[sys] = compose_voltage(data.legacy.voltage, data.pmu.voltage, sys);
 	[sys, se] = compose_measurement(sys);
-	[se] = gauss_newton(user, sys, se, data);
+    
+    if user.bad == 1
+       [se] = gauss_newton_bad_data(user, sys, se, data);
+    else
+       [se] = gauss_newton(user, sys, se, data);
+    end
+
 	[se] = processing_acse(sys, se);
 	[sys, se] = evaluation_acse(data, sys, se);
 	[se] = name_unit_acse(sys, se);
@@ -116,8 +122,11 @@
 %--------------------------------Terminal----------------------------------
  diary_on(user.save, data.case);
 
- if user.main == 1 || user.flow == 1 || user.estimate == 1 || user.error == 1
+ if user.main == 1 || user.flow == 1 || user.estimate == 1 || user.error == 1 || user.bad == 1
 	terminal_info(se, sys, user.se, user.grid, 0)
+ end
+ if user.bad == 1
+	terminal_bad_data(se)
  end
  if user.main == 1
 	terminal_bus_se(se, sys, user.se)

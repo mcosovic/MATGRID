@@ -37,6 +37,9 @@
  Cpas = data.pmu.current(:,8);
  Vpms = data.pmu.voltage(:,4);
  Vpas = data.pmu.voltage(:,7);
+ 
+ setl = [Afs; Rfs; Cms; Ais; Ris; Vms];
+ setp = [Cpms; Cpas; Vpms; Vpas];
 %--------------------------------------------------------------------------
 
 
@@ -137,7 +140,7 @@ elseif user.setleg == 4
  h6 = ['  Active Power Injection',  sprintf('%18.2e',min(Ainj)), sprintf('%18.2e',max(Ainj)), sprintf('%15.f',sum(Ais)), sprintf('%21.f',sum(~Ais))];
  h7 = ['  Reactive Power Injection',sprintf('%16.2e',min(Rinj)), sprintf('%18.2e',max(Rinj)), sprintf('%15.f',sum(Ris)), sprintf('%21.f',sum(~Ris))];
  h8 = ['  Bus Voltage Magnitude',   sprintf('%19.2e',min(Vmag)), sprintf('%18.2e',max(Vmag)), sprintf('%15.f',sum(Vms)), sprintf('%21.f',sum(~Vms))];
- h9 = ['  Total',sprintf('%68.f',sum(msr.set{1})), sprintf('%21.f',sum(~msr.set{1}))];
+ h9 = ['  Total',sprintf('%68.f',sum(setl)), sprintf('%21.f',sum(~setl))];
 
  s1 = ' PMU Variance and Set Data';
  s2 = [ blanks(30), 'Minimum Variance  Maximum Variance  Active Measurement  Inactive Measurement'];
@@ -145,7 +148,7 @@ elseif user.setleg == 4
  s4 = ['  Line Current Angle',     sprintf('%22.2e',min(Cpa)), sprintf('%18.2e',max(Cpa)), sprintf('%15.f',sum(Cpas)), sprintf('%21.f',sum(~Cpas))];
  s5 = ['  Bus Voltage Magnitude',  sprintf('%19.2e',min(Vpm)), sprintf('%18.2e',max(Vpm)), sprintf('%15.f',sum(Vpms)), sprintf('%21.f',sum(~Vpms))];
  s6 = ['  Bus Voltage Angle',      sprintf('%23.2e',min(Vpa)), sprintf('%18.2e',max(Vpa)), sprintf('%15.f',sum(Vpas)), sprintf('%21.f',sum(~Vpas))];
- s7 = ['  Total',sprintf('%68.f',sum(msr.set{2})), sprintf('%21.f',sum(~msr.set{2}))];
+ s7 = ['  Total',sprintf('%68.f',sum(setp)), sprintf('%21.f',sum(~setp))];
 
  n1  = ' Notes';
  n2  = '  Example: leeloo(DATA, "legRedundancy", 2.5, "pmuRedundancy", 1.5)';

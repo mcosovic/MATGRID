@@ -1,4 +1,4 @@
- function [data, results] = leeloo(varargin)
+ function [data, result] = leeloo(varargin)
 
 %--------------------------------------------------------------------------
 % Proceeds to the different check functions and runs main routines.
@@ -77,11 +77,11 @@
 %-------------------------Proceeds with Routines---------------------------
  if strcmp(run_mfile(2).file, 'power_flow.m')
     [user, data] = settings_power_flow(varargin);
-	[results, data] = run_power_flow(user, data);
+	[result, data] = run_power_flow(user, data);
     
  elseif strcmp(run_mfile(2).file, 'state_estimation.m')
     [user, data] = settings_state_estimation(varargin); 
-    [results, data] = run_state_estimation(user, data);
+    [result, data] = run_state_estimation(user, data);
 
  elseif strcmp(run_mfile(2).file, 'generator.m')
     [user, data] = settings_generator(varargin);  

@@ -54,9 +54,7 @@
 
 
 %-------------------------Measurement Statistics---------------------------
- if user.setleg ~= 0 || user.setpmu ~= 0 || user.varleg ~= 0 || user.varpmu ~= 0
-	[msr] = variable_device(sys);
- end
+ [msr] = variable_device(sys);
 %--------------------------------------------------------------------------
 
 

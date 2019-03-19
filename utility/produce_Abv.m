@@ -7,7 +7,7 @@
 % The function exports the matrix and vector forms for the DC and PMU state
 % estimation. Export of data is possible to do without slack bus
 % (estimate.linear = 1), or with slack bus (estimate.linear = 2).
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- data: input power system data with measurements
 %	- sys: power system data
@@ -17,7 +17,7 @@
 %	- data.A: Jacobian matrix
 %	- data.b: vector of observations;
 %	- data.v: variances vector
-%
+%--------------------------------------------------------------------------
 % Local function which is used to export data in the matrix and vector
 % forms.
 %--------------------------------------------------------------------------

@@ -146,5 +146,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [results, data] = leeloo('ieee30_41', 'nonlinear', 'pmuDevice', 2, 'legRedundancy', 4, 'legUnique', 10^-6, 'estimate');
+ [data, result] = leeloo('test', 'nonlinear', 'bad', 2, 'main');
 %--------------------------------------------------------------------------

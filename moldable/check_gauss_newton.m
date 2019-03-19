@@ -1,4 +1,4 @@
- function [user] = check_start_gauss_newton(user)              
+ function [user] = check_gauss_newton(user)              
 
 %--------------------------------------------------------------------------
 % Checks input values for Gasuss-Newton method start.
@@ -39,3 +39,14 @@
  end
 %--------------------------------------------------------------------------
 
+
+%--------------------------Check Bad Data Inputs---------------------------
+ if user.bad == 1 && ~isempty(user.badThreshold) && (~isvector(user.badThreshold) || ~(length(user.badThreshold) == 1))
+	user.badThreshold = 3;
+	warning('se:Threshold', ['The value pair argument of the variable ' ...
+	'"bad" has invalid type. The algorithm proceeds with default ' ...
+	'value: [%1.f].\n'], 3)
+ elseif user.bad == 1 && isempty(user.badThreshold)
+	user.badThreshold = 3;
+ end
+%--------------------------------------------------------------------------
