@@ -9,4 +9,4 @@ The software package provides the solution of the AC and DC power flow, the non-
   | :---: | :---: |  :---: |
 <a href="https://github.com/mcosovic/PowerMarieEdu/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="https://github.com/mcosovic/PowerMarieEdu/blob/master/doc/figures/modulepf.png">|<a href="https://github.com/mcosovic/PowerMarieEdu/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="https://github.com/mcosovic/PowerMarieEdu/blob/master/doc/figures/modulese.png">|<a href="https://github.com/mcosovic/PowerMarieEdu/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="https://github.com/mcosovic/PowerMarieEdu/blob/master/doc/figures/modulemg.png">
 
-For more information, please visit our [wiki site](https://github.com/mcosovic/PowerMarieEdu/wiki/PowerMarieEdu).
+For more information, please visit our [wiki](https://github.com/mcosovic/PowerMarieEdu/wiki/PowerMarieEdu) site.
