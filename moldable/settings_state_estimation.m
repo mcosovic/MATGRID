@@ -232,7 +232,7 @@
 
  if strcmp(bad, 'bad')
 	user.bad = 1;
-	user.badThreshold = str2num(var(v1+1));
+	user.badSet = str2num(var(v1+1));
  end
 %--------------------------------------------------------------------------
 

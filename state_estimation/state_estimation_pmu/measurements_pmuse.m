@@ -74,8 +74,13 @@
 
 
 %--------------Jacobians of the Voltage Phasor Measurements----------------
- idx = [data.pmu.voltage(:,14); data.pmu.voltage(:,14) + sys.Nbu];
- Jv = sparse((1:2*sys.Nv)', idx, 1, 2*sys.Nv, 2*sys.Nbu);
+%  idx = [data.pmu.voltage(:,14); data.pmu.voltage(:,14) + sys.Nbu];
+%  Jv = sparse((1:2*sys.Nv)', idx, 1, 2*sys.Nv, 2*sys.Nbu);
+ 
+ 
+ idx = data.pmu.voltage(:,14);
+ Jvr = sparse((1:sys.Nv)', idx, 1, sys.Nv, 2*sys.Nbu);
+ Jvi = sparse((1:sys.Nv)', idx+ sys.Nbu, 1, sys.Nv, 2*sys.Nbu);
 %--------------------------------------------------------------------------
 
 
@@ -84,11 +89,11 @@
  sys.Ntot = sys.Npmu;
  sys.Nleg = 0;
 
- sys.b = [data.pmu.current(:,11); data.pmu.current(:,13);
-          data.pmu.voltage(:,10); data.pmu.voltage(:,12)];
+ sys.b = [data.pmu.voltage(:,10); data.pmu.current(:,11)
+          data.pmu.voltage(:,12); data.pmu.current(:,13)];
 
- sys.v = [data.pmu.current(:,12); data.pmu.current(:,14);
-          data.pmu.voltage(:,11); data.pmu.voltage(:,13)];
+ sys.v = [data.pmu.voltage(:,11); data.pmu.current(:,12) 
+          data.pmu.voltage(:,13); data.pmu.current(:,14)];
 
- sys.H = [Jcr_vr Jcr_vi; Jci_vr Jci_vi; Jv];
+ sys.H = [Jvr; Jcr_vr Jcr_vi; Jvi; Jci_vr Jci_vi];
 %--------------------------------------------------------------------------

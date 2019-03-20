@@ -1,7 +1,7 @@
  function [se] = gauss_newton_bad_data(user, sys, se, data)
 
 %--------------------------------------------------------------------------
-% Bad data identification using largest normalized residual test for the
+% Bad data processing using largest normalized residual test for the
 % nonlinear state estimation.
 %
 % The function computes normalized residual and according to identification
@@ -25,23 +25,23 @@
 %	- se.time.pre: preprocessing time
 %	- se.time.conv: convergence time
 %	- se.No: number of iterations
-%   - se.bad_data with columns:
-%     (1)number of iterations; (2)largest normalized residual;
-%     (3)index of suspected bad data measurement
+%	- se.bad with columns:
+%	  (1)number of iterations; (2)largest normalized residual;
+%	  (3)index of suspected bad data measurement
 %--------------------------------------------------------------------------
 % The local function which is used in the non-linear state estimation.
 %--------------------------------------------------------------------------
 
 
 %-----------------------------Initialization-------------------------------
- se.method = 'Non-linear State Estimation using Gauss-Newton Algorithm with Bad Data Detection';
+ se.method = 'Non-linear State Estimation using Gauss-Newton Method with Bad Data Processing';
 
  idxB = false(sys.Ntot,1);
  idxP = (1:sys.Ntot)';
  rmax = 10^30;
  cnt  = 1;
 
- se.bad_data = zeros(1,3);
+ se.bad = zeros(1,3);
 %--------------------------------------------------------------------------
 
 
@@ -49,7 +49,10 @@
  se.time.pre = toc; tic
 %--------------------------------------------------------------------------
 
- while rmax > user.badThreshold
+
+%==============Gauss-Newton Method with Bad Data Processing================
+ while rmax > user.badThreshold && user.badPass ~= cnt - 1
+
 
 %-----------------------------Initialization-------------------------------
  [T, V] = initial_point_acse(user, sys, data);
@@ -64,11 +67,10 @@
 %--------------------------------------------------------------------------
 
 
-%===========================Gauss-Newton Method============================
+%---------------------------Gauss-Newton Method----------------------------
  while eps > sys.stop && No < 400
  No = No+1;
 
- %----------------------Vector f(x) and Jacobian H(x)-----------------------
  [Ff, Jf] = flow_acse(V, T, sys.Pf, sys.Qf, sys.Nbu);
  [Fc, Jc] = current_acse(V, T, sys.Cm, sys.Nbu);
  [Fi, Ji] = injection_acse(V, T, sys.Pi, sys.Qi, sys.Nbu);
@@ -79,7 +81,6 @@
  H = [Jf; Jc; Ji; sys.Jv; Jp];
 
  H(:, sys.sck(1)) = [];
-
  H(idxB, :) = [];
  f(idxB, :) = [];
 
@@ -90,28 +91,17 @@
 	C(idxB, :) = [];
 	C(:, idxB) = [];
  end
-%--------------------------------------------------------------------------
 
-
-%---------------------------------Delta x----------------------------------
  dx = (H' * W * H) \ (H' * W * (z - f));
-
  ins = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
  dx  = ins(0, dx, sys.sck(1) - 1);
-%--------------------------------------------------------------------------
 
-
-%-----------------------------Postprocessing-------------------------------
  x = x + dx;
-
  T = x(1:sys.Nbu);
  V = x(sys.Nbu + 1:end);
-
  eps = norm(dx, inf);
-%--------------------------------------------------------------------------
-
  end
-%==========================================================================
+%--------------------------------------------------------------------------
 
 
 %--------------------Largest Normalized Residual Test----------------------
@@ -125,7 +115,6 @@
  H = [Jf; Jc; Ji; sys.Jv; Jp];
 
  H(:, sys.sck(1)) = [];
-
  H(idxB, :) = [];
  f(idxB, :) = [];
 
@@ -138,22 +127,20 @@
 %--------------------------------------------------------------------------
 
 
-%------------------------Identification Threshold--------------------------
+%-----------------Identification Threshold and Save Data-------------------
  bad = idxP(idx);
  if rmax > user.badThreshold
 	idxB(bad) = 1;
 	idxP(bad) = [];
  end
-%--------------------------------------------------------------------------
 
-
-%--------------------------------Save Data---------------------------------
- se.bad_data(cnt,1) = No;
- se.bad_data(cnt,2) = rmax;
- se.bad_data(cnt,3) = bad;
+ se.bad(cnt,1) = No;
+ se.bad(cnt,2) = rmax;
+ se.bad(cnt,3) = bad;
  cnt = cnt + 1;
 %--------------------------------------------------------------------------
-end
+ end
+%==========================================================================
 
 
 %--------------------------------Save Data---------------------------------

@@ -146,5 +146,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [data, result] = leeloo('test', 'nonlinear', 'bad', 2, 'main');
+ [data, result] = leeloo('ieee14_20_bad_data', 'nonlinear', 'legRedundancy', 6, 'bad', [3 5]);
 %--------------------------------------------------------------------------

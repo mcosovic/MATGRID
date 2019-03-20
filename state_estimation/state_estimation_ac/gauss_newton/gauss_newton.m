@@ -26,7 +26,7 @@
 
 
 %-----------------------------Initialization-------------------------------
- se.method = 'Non-linear State Estimation using Gauss-Newton Algorithm';
+ se.method = 'Non-linear State Estimation using Gauss-Newton Method';
  [T, V] = initial_point_acse(user, sys, data);
 
  x   = [T; V];

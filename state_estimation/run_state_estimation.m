@@ -73,7 +73,7 @@
 
 %----------------------------AC State Estimation---------------------------
  if user.se == 1
-    [user] = check_gauss_newton(user);  
+    [user] = check_start(user);  
     [br]  = branch_data_acse(sys); 
 	[sys] = compose_flow(data.legacy.flow, sys, br);
 	[sys] = compose_current(data.legacy.current, data.pmu.current, sys, br);
@@ -82,6 +82,7 @@
 	[sys, se] = compose_measurement(sys);
     
     if user.bad == 1
+       [user] = check_bad_data(user); 
        [se] = gauss_newton_bad_data(user, sys, se, data);
     else
        [se] = gauss_newton(user, sys, se, data);
@@ -99,7 +100,15 @@
     [br]  = branch_data_acse(sys);
 	[dat] = polar_to_rectangular(data);
 	[dat, sys] = measurements_pmuse(dat, sys, br);
+    
+    if user.bad == 1
+       [user] = check_bad_data(user); 
+       [se] = solve_pmuse_bad_data(user, sys);
+       [sys] =  name_unit_bad_data(dat, sys);
+    else
 	[se] = solve_pmuse(sys);
+    end
+    
 	[se] = processing_acse(sys, se);
 	[sys, se] = evaluation_pmuse(data, dat, sys, se);
 	[se] = name_unit_pmuse(sys, se, dat);
@@ -111,7 +120,14 @@
  if user.se == 2
 	[sys] = preprocessing_dcse(sys);
 	[dat, sys, se] = measurements_dcse(data, sys);
-	[se] = solve_dcse(sys, se);
+	    
+    if user.bad == 1
+       [user] = check_bad_data(user); 
+       [se] = solve_dcse_bad_data(user, sys, se);
+    else
+       [se] = solve_dcse(sys, se);
+    end
+    
 	[se] = processing_dcse(sys, se);
 	[sys, se] = evaluation_dcse(dat, sys, se);
 	[se] = name_unit_dcse(dat, sys, se);
@@ -126,7 +142,7 @@
 	terminal_info(se, sys, user.se, user.grid, 0)
  end
  if user.bad == 1
-	terminal_bad_data(se)
+	terminal_bad_data(se, user.se, sys)
  end
  if user.main == 1
 	terminal_bus_se(se, sys, user.se)
