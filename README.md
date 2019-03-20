@@ -1,6 +1,6 @@
 ## PowerMarieEdu
 
-PowerMarieEdu is intended as a simulation tool for researchers, that is easy to use and integrate into other tools. It allows a variety of display and manipulation options.
+PowerMarieEdu is intended as a simulation tool for researchers and educators, that is easy to use and integrate into other tools. It allows a variety of display and manipulation options.
 
 The software package provides the solution of the AC and DC power flow, the non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator. 
 
