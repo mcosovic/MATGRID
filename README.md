@@ -16,13 +16,13 @@ The software package provides the solution of the AC and DC power flow, the non-
 
 We have tested and verifed simulation tool using different scenarios to best of our ability. As a user of this simulation tool, you can help us to improve future versions, we highly appreciate your feedback about any errors, inaccuracies, and bugs. For more information, please visit our [wiki](https://github.com/mcosovic/PowerMarieEdu/wiki/PowerMarieEdu) site.
 
-###  Fast Run Power Flow:
+###  Fast Run Power Flow
 ```
 leeloo('ieee14_20', 'ac', 'main', 'flow');
 leeloo('ieee14_20', 'dc', 'main', 'flow');
 ```
 
-###  Fast Run State Estimation:
+###  Fast Run State Estimation
 ```
 leeloo('ieee118_186', 'nonlinear', 'estimate');
 leeloo('ieee118_186', 'dc', 'estimate');
