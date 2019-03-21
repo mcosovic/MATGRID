@@ -1,6 +1,6 @@
 ## PowerMarieEdu
 
-PowerMarieEdu is intended as a simulation tool for researchers and educators that is easy-to-use MATLAB package, with source code released under MIT License. It allows a variety of display and manipulation options.
+PowerMarieEdu is the simulation tool for researchers and educators that is easy-to-use MATLAB package, with source code released under MIT License. It allows a variety of display and manipulation options.
 
 The software package provides the solution of the AC and DC power flow, the non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator.
 
