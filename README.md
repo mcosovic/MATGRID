@@ -2,7 +2,7 @@
 
 PowerMarieEdu is intended as a simulation tool for researchers and educators that is easy-to-use MATLAB package, with source code released under MIT License. It allows a variety of display and manipulation options.
 
-The software package provides the solution of the AC and DC power flow, the non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator. 
+The software package provides the solution of the AC and DC power flow, the non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator.
 
 <table>
     <tbody>
@@ -28,3 +28,8 @@ leeloo('ieee118_186', 'nonlinear', 'estimate');
 leeloo('ieee118_186', 'dc', 'estimate');
 leeloo('ieee14_20', 'pmu', 'pmuOptimal', 'estimate');
 ```
+
+###  Changelog
+Major changes:
+- 2019-03-21 Added least absolute value (LAV) state estimation
+- 2019-03-19 Added bad data processing

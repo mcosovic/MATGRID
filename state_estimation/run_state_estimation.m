@@ -84,6 +84,8 @@
     if user.bad == 1
        [user] = check_bad_data(user); 
        [se] = gauss_newton_bad_data(user, sys, se, data);
+    elseif user.lav == 1
+       [se] = gauss_newton_lav(user, sys, se, data);
     else
        [se] = gauss_newton(user, sys, se, data);
     end
@@ -105,8 +107,10 @@
        [user] = check_bad_data(user); 
        [se] = solve_pmuse_bad_data(user, sys);
        [sys] =  name_unit_bad_data(dat, sys);
+    elseif user.lav == 1
+       [se] = solve_pmuse_lav(sys);
     else
-	[se] = solve_pmuse(sys);
+       [se] = solve_pmuse(sys);
     end
     
 	[se] = processing_acse(sys, se);
@@ -124,6 +128,8 @@
     if user.bad == 1
        [user] = check_bad_data(user); 
        [se] = solve_dcse_bad_data(user, sys, se);
+    elseif user.lav == 1
+       [se] = solve_dcse_lav(sys, se);
     else
        [se] = solve_dcse(sys, se);
     end
