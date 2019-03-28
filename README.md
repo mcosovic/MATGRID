@@ -14,7 +14,7 @@ The software package provides the solution of the AC and DC power flow, the non-
     </tbody>
 </table>
 
-We have tested and verifed simulation tool using different scenarios to best of our ability. As a user of this simulation tool, you can help us to improve future versions, we highly appreciate your feedback about any errors, inaccuracies, and bugs. For more information, please visit our [wiki](https://github.com/mcosovic/PowerMarieEdu/wiki/PowerMarieEdu) site.
+We have tested and verifed simulation tool using different scenarios to best of our ability. As a user of this simulation tool, you can help us to improve future versions, we highly appreciate your feedback about any errors, inaccuracies, and bugs. For more information, please visit our [wiki](https://github.com/mcosovic/MATGRID/wiki/MATGRID) site.
 
 ###  Fast Run Power Flow
 ```
