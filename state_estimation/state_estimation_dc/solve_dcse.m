@@ -4,30 +4,31 @@
 % Solves the DC state estimation problem and computes the vector of bus
 % voltage angles.
 %
-% The DC state estimation solution for an observable system can be
-% obtained by solving weighted least-squares problem T = (H'WH)\H'Wz.
-% Further, the voltage angle on the slack bus is known, and consequently,
-% it should be removed from the system. Finally, preprocessing time is
-% over, and the convergence time is obtained here, while postprocessing
-% time is initialized.
-%
+% The weighted least-squares DC state estimation solution for an observable
+% system can be obtained by solving problem T = (H'WH)\H'Wz. Further, the
+% voltage angle on the slack bus is known, and consequently, it should be
+% removed from the system. Finally, preprocessing time is over, and the
+% convergence time is obtained here, while postprocessing time is
+% initialized.
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- sys: power system data
 %	- se: state estimation data
 %
 %  Outputs:
-%	- se.bus: bus voltage angles Ti
-%	- se.grid: name of the analyzed power system
+%	- se.bus: estimated values of the bus voltage angles
 %	- se.method: method name
 %	- se.time.pre: preprocessing time
-%	- se.time.conv: convergence time
-%
-% The local function which is used in the DC state estimation.
+%	- se.time.con: convergence time
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2017-08-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %---------------------------------Method-----------------------------------
- se.method = 'DC State Estimation';
+ se.method = 'Weighted Least-Squares DC State Estimation';
 %--------------------------------------------------------------------------
 
 
@@ -37,24 +38,21 @@
 
 
 %---------------------------Bus Voltage Angles-----------------------------
- C = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot);
- W = C \ speye(sys.Ntot, sys.Ntot);
+ W = spdiags(se.estimate(:,2), 0, sys.Ntot, sys.Ntot) \ speye(sys.Ntot, sys.Ntot);
 
- H = sys.H;
- H(:, sys.sck(1)) = [];
+ sys.H(:, sys.sck(1)) = [];
 
- T = (H' * W * H) \ (H' * W * sys.b);
+ se.bus = (sys.H' * W * sys.H) \ (sys.H' * W * sys.b);
 %--------------------------------------------------------------------------
 
 
 %---------------------------Data with Slack Bus----------------------------
- ins = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
- T   = ins(0, T, sys.sck(1) - 1);
-
- se.bus = sys.sck(2) * ones(sys.Nbu,1) + T;
+ insert = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
+ se.bus = insert(0, se.bus, sys.sck(1) - 1);
+ se.bus = sys.sck(2) * ones(sys.Nbu,1) + se.bus;
 %--------------------------------------------------------------------------
 
 
 %----------------------------Convergence Time------------------------------
- se.time.conv = toc; tic
+ se.time.con = toc; tic
 %--------------------------------------------------------------------------

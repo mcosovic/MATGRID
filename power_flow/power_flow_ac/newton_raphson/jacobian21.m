@@ -15,7 +15,9 @@
 %  Output:
 %	- J21: Jacobian matrix
 %--------------------------------------------------------------------------
-% The local function which is used in the Newton-Raphson algorithm.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

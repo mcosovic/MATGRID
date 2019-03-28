@@ -13,7 +13,9 @@
 %  Outputs:
 %	- sys.device with column: (1)measurement type
 %--------------------------------------------------------------------------
-% The local function which is used in the PMU state estimation.
+% Created by Mirsad Cosovic on 2019-03-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

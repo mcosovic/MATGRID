@@ -8,12 +8,14 @@
 % analysis by the additive white Gaussian noises according to defined
 % variances. Further, the function forms measurement set according to
 % predefined inputs.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- data: input power system data
 %	- sys: power system data
 %	- msr: measurement data
 %	- pf: power flow data
+
+%  Outputs:
 %	- data: with additional struct variables:
 %	  - data.legacy.flow: power flow measurements with columns:
 %		(1)indexes from bus; (2)indexes to bus;
@@ -64,8 +66,10 @@
 %		(7)bus voltage angle measurements turn on/off;
 %		(8)bus voltage magnitude exact value;
 %		(9)bus voltage angle exact value;
-%
-% The local function which is used to generate measurements.
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2019-02-24
+% Last revision by Mirsad Cosovic on 2019-03-28
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -80,10 +84,10 @@
  Cmag_mean = abs([pf.branch(:,1); pf.branch(:,2)]);
  Cang_mean = angle([pf.branch(:,1); pf.branch(:,2)]);
 
- Ainj_mean = real(pf.bus(:,4));
- Rinj_mean = imag(pf.bus(:,4));
- Vmag_mean = abs(pf.bus(:,3));
- Vang_mean = angle(pf.bus(:,3));
+ Ainj_mean = real(pf.bus(:,2));
+ Rinj_mean = imag(pf.bus(:,2));
+ Vmag_mean = abs(pf.bus(:,1));
+ Vang_mean = angle(pf.bus(:,1));
 %--------------------------------------------------------------------------
 
 
@@ -129,28 +133,19 @@
 %--------------------------------------------------------------------------
 
 
-%----------------------Export Measurement Info Data------------------------
-%  [data] = export_info(data, user, pf, msr, Aflo_ana_var, Rflo_ana_var, ...
-%                       Cmag_ana_var, Ainj_ana_var, Rinj_ana_var, ...
-%                       Vmag_ana_var, Cmag_pmu_var, Cang_pmu_var, ...
-%                       Vmag_pmu_var, Vang_pmu_var, Aflo_ana_set, ...
-%                       Rflo_ana_set, Cmag_ana_set, Ainj_ana_set, ...
-%                       Rinj_ana_set, Vmag_ana_set, Cmag_pmu_set, ...
-%                       Cang_pmu_set, Vmag_pmu_set, Vang_pmu_set);
-%--------------------------------------------------------------------------
-
-
 %--------------------Collect Data and Define Structure---------------------
  br = [sys.branch(:,9:10); sys.branch(:,10) sys.branch(:,9)];
  bs = sys.bus(:,15);
 
  z1 = zeros(2*sys.Nbr,1);
  z2 = zeros(sys.Nbu,1);
- 
+
  data.legacy.flow      = [br Af Afv z1 Rf Rfv z1 Aflo_mean Rflo_mean];
  data.legacy.current   = [br Cm Cmv z1 Cmag_mean];
  data.legacy.injection = [bs Ai Aiv z2 Ri Riv z2 Ainj_mean Rinj_mean];
  data.legacy.voltage   = [bs Vm Vmv z2 Vmag_mean];
  data.pmu.current      = [br Cpm Cpmv z1 Cpa Cpav z1 Cmag_mean Cang_mean];
  data.pmu.voltage      = [bs Vpm Vpmv z2 Vpa Vpav z2 Vmag_mean Vang_mean];
+
+ [data] = play_set(user, data, sys, msr);
 %--------------------------------------------------------------------------

@@ -1,4 +1,4 @@
- function [] = diary_off(flag)
+ function diary_off(user)
 
 %--------------------------------------------------------------------------
 % Ends record display data in txt-file.
@@ -6,14 +6,16 @@
 % If the flag is 1, the function ends to record the display data.
 %--------------------------------------------------------------------------
 %  Inputs:
-%	- flag: save display indicator
+%	- user: user input list data
 %--------------------------------------------------------------------------
-% Export function which is used in all modules.
+% Created by Mirsad Cosovic on 2019-03-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %------------------------------Turn off Diary------------------------------
- if flag == 1
+ if ismember('save', user) 
 	diary off
  end
 %--------------------------------------------------------------------------

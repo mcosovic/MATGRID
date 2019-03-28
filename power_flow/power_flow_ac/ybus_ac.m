@@ -19,8 +19,9 @@
 %	- sys.Yij: Ybus matrix with only non-diagonal elements
 %	- sys.Yii: Ybus matrix with only diagonal elements
 %--------------------------------------------------------------------------
-% The local function which is used in the AC power flow and non-linear
-% state estimation, as well as the optimal PMU placement.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

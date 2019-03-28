@@ -28,8 +28,9 @@
 %	  (3)generator reactive power(Qg); (4)bus reactive power limit(Qmin);
 %	  (5)bus reactive power limit(Qmax)
 %--------------------------------------------------------------------------
-% Main function which is used in AC/DC power flow, non-linear and DC state
-% estimation, as well as for the state estimation with PMUs.
+% Created by Mirsad Cosovic on 2018-06-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

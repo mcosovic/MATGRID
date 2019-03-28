@@ -1,7 +1,7 @@
  function [pf] = newton_raphson(user, sys)
 
 %--------------------------------------------------------------------------
-% Solves the AC power flow problem and computes the complex bus voltages.
+% Solves the AC power flow problem and computes the bus complex voltages.
 %
 % The function uses the Newton-Raphson algorithm to solve the AC power flow
 % problem. Also, the preprocessing time is over, and the convergence time
@@ -13,15 +13,17 @@
 %
 %  Outputs:
 %	- pf.bus with columns:
-%	  (1)minimum limits violated at bus; (2)maximum limits violated at bus;
-%	  (3)complex bus voltages
+%	  (1)bus complex voltages; (6) bus where the minimum limits violated;
+%	  (7)bus where the maximum limits violated;
 %	- pf.method: method name
 %	- pf.grid: name of the analyzed power system
 %	- pf.time.pre: preprocessing time
-%	- pf.time.conv: convergence time
-%	- pf.No: number of iterations
+%	- pf.time.con: convergence time
+%	- pf.iteration: number of iterations
 %--------------------------------------------------------------------------
-% The local function which is used in the AC power flow routine.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -57,19 +59,20 @@
 %--------------------------------------------------------------------------
 
 
-%==========================Newton-Raphson Method===========================
- while max(abs(DelPQ)) > sys.stop && No < 100
+%========================Newton-Raphson Algorithm==========================
+ while max(abs(DelPQ)) > sys.stop && No < user.maxIter
  No = No + 1;
 
+
 %--------------------Check Reactive Power Constraints----------------------
- if user.limit == 1 && No <= 7 && No > 1
-	[sys, alg, idx, pf, DelPQ, V, T, Qgl] = cq(sys, alg, idx, pf, DelPQ, V, T, Qgl, Vc, Pgl);
+ if ismember('reactive', user.list)
+	[sys, alg, idx, pf, V, T, Qgl, DelPQ] = cq(sys, alg, idx, pf, V, T, Qgl, Pgl, DelPQ);
  end
 %--------------------------------------------------------------------------
 
 
 %-------------------Check Voltage Magnitude Constraints--------------------
- if user.limit == 2 && No <= 7 && No > 1
+ if ismember('voltage', user.list)
 	[sys, alg, idx, pf, DelPQ, V, T] = cv(sys, alg, idx, pf, DelPQ, V, T, Pgl, Qgl);
  end
 %--------------------------------------------------------------------------
@@ -116,7 +119,7 @@
 
 
 %--------------------------------Save Data---------------------------------
- pf.time.conv = toc; tic
- pf.bus(:,3) = Vc;
- pf.No = No;
+ pf.time.con  = toc; tic
+ pf.bus(:,1)  = Vc;
+ pf.iteration = No;
 %--------------------------------------------------------------------------

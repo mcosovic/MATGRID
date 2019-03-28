@@ -2,31 +2,26 @@
 
 %--------------------------------------------------------------------------
 % Checks user inputs and if those are missing, adds default values and
-% loads power system data
+% loads power system data and measurements.
 %
-% The function checks 'ac', 'dc', 'reactive', 'voltage', 'main', 'flow' and
-% 'save' variables given as input arguments of the function leeloo in the
-% 'power_flow.m', and loads power system data according to the grid
-% variable. Default inputs are: 'ieee30_41'; 'ac'.
+% The function checks 'reactive', 'voltage', 'maxIter', set variables
+% 'pmuRedundancy', 'pmuDevice', 'pmuOptimal' 'legRedundancy', and
+% 'legDevice', variance variable 'legUnique', 'legRandom', 'legType',
+% 'pmuUnique', 'pmuRandom', and 'pmuType', given as input arguments of the
+% function rungen, and loads power system data according to the grid
+% variable. Default inputs are: 'ieee30_41'; 'nonlinear'; 'warm'.
 %--------------------------------------------------------------------------
 %  Input:
-%	- var: native user settings
+%	- var: native user input arguments
 %
 %  Outputs:
-%	- user.pf: AC or DC power flow
-%	- user.grid: name of the power system data
-%	- user.limit: bus reactive power or voltage limits
-%	- user.main: bus data display
-%	- user.flow: branch data display
-%	- user.save: save display data
 %	- data: load power system data
+%	- user: user settings
 %--------------------------------------------------------------------------
-% Check function which is used in power flow modules.
+% Created by Mirsad Cosovic on 2019-03-18
+% Last revision by Mirsad Cosovic on 2019-03-28
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
-
-
- var = [var, 'dc'];
- [user, data] = settings_state_estimation(var); 
 
 
 %---------------------------------Inputs-----------------------------------
@@ -34,32 +29,110 @@
 %--------------------------------------------------------------------------
 
 
+%-------------------------------Empty Input--------------------------------
+ if isempty(var)
+	var{1} = 'ieee30_41';
+	warning('se:empty', ['Invalid input data structure. The algorithm '...
+	'proceeds with %s power system. %s.\n'], strcat(var{1},'.mat'))
+ end
+ var = string([var, ' ']);
+%--------------------------------------------------------------------------
+
+
 %---------------------------Force AC Power Flow----------------------------
- user.pf = 1;
+ pf = 'nr';
 %--------------------------------------------------------------------------
 
 
-%-------------------------Force Unique Variances---------------------------
- if user.varleg == 0
-    user.varleg = 1;
-    user.legUnique = [];
- end
- if user.varpmu == 0
-    user.varpmu = 1;
-    user.pmuUnique = [];
+%----------------------Check Phasor Measurement Set------------------------
+ in = ismember(var, {'pmuRedundancy', 'pmuDevice', 'pmuOptimal'});
+ v1 = find(in, 1, 'first');
+ ps = var(v1);
+
+ if strcmp(ps, 'pmuRedundancy')
+	user.pmuRedundancy = str2num(var(v1+1));
+ elseif strcmp(ps, 'pmuDevice')
+	user.pmuDevice = str2num(var(v1+1));
  end
 %--------------------------------------------------------------------------
 
+
+%----------------------Check Legacy Measurement Set------------------------
+ in = ismember(var, {'legRedundancy', 'legDevice'});
+ v1 = find(in, 1, 'first');
+ ls = var(v1);
+
+ if strcmp(ls, 'legRedundancy')
+	user.legRedundancy = str2num(var(v1+1));
+ elseif strcmp(ls, 'legDevice')
+	user.legDevice = str2num(var(v1+1));
+ end
+%--------------------------------------------------------------------------
+
+
+%--------------------Check Phasor Measurement Variance---------------------
+ in = ismember(var, {'pmuUnique', 'pmuRandom', 'pmuType'});
+ v1 = find(in, 1, 'first');
+ pv = var(v1);
+
+ if strcmp(pv, 'pmuUnique')
+	user.pmuUnique = str2num(var(v1+1));
+ elseif strcmp(pv, 'pmuRandom')
+	user.pmuRandom = str2num(var(v1+1));
+ elseif strcmp(pv, 'pmuType')
+	user.pmuType = str2num(var(v1+1));
+ else
+	pv = 'pmuUnique';
+	user.pmuUnique = [];
+ end
+%--------------------------------------------------------------------------
+
+
+%--------------------Check Legacy Measurement Variance---------------------
+ in = ismember(var, {'legUnique', 'legRandom', 'legType'});
+ v1 = find(in, 1, 'first');
+ lv = var(v1);
+
+ if strcmp(lv, 'legUnique')
+	user.legUnique = str2num(var(v1+1));
+ elseif strcmp(lv, 'legRandom')
+	user.legRandom = str2num(var(v1+1));
+ elseif strcmp(lv, 'legType')
+	user.legType = str2num(var(v1+1));
+ else
+	lv = 'legUnique';
+	user.legUnique = [];
+ end
+%--------------------------------------------------------------------------
 
 
 %---------------------------Check Limit Inputs-----------------------------
- in = ismember({'reactive', 'voltage'}, var);
+ in = ismember(var, {'reactive', 'voltage'});
+ cs = var(find(in, 1, 'first'));
+%--------------------------------------------------------------------------
 
- user.limit = 0;
 
- if in(1)
-	user.limit = 1;
- elseif in(2)
-	user.limit = 2;
+%-----------------------Check Number of Iterations-------------------------
+ in = ismember(var, 'maxIter');
+ v1 = find(in);
+ it = var(v1);
+
+ if strcmp(it, 'maxIter')
+	user.maxIter = round(str2num(var(v1+1)));
  end
+%--------------------------------------------------------------------------
+
+
+%--------------------------------Load Data---------------------------------
+ try
+	gd = strcat(var{1},'.mat');
+	load(gd, '-mat', 'data')
+ catch
+	error('se:gridLoad', 'The power system data with measurements "%s" not found.\n', gd)
+ end
+%--------------------------------------------------------------------------
+
+
+%------------------------------User Settings-------------------------------
+ user.list = [pf, ps, ls, pv, lv, cs, it, gd];
 %--------------------------------------------------------------------------

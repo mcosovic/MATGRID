@@ -29,7 +29,9 @@
 %	- data.pmu.Cv: covariance matrix related with current measurements
 %	- data.pmu.Vv: covariance matrix related with voltage measurements
 %--------------------------------------------------------------------------
-% The local function which is used in the PMU state estimation.
+% Created by Mirsad Cosovic on 2019-03-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -62,10 +64,10 @@
 
 
 %---------------------Voltage Phasor Measurement Data----------------------
- zm  = data.pmu.voltage(:,2);
- vm  = data.pmu.voltage(:,3);
- za  = data.pmu.voltage(:,5);
- va  = data.pmu.voltage(:,6);
+ zm = data.pmu.voltage(:,2);
+ vm = data.pmu.voltage(:,3);
+ za = data.pmu.voltage(:,5);
+ va = data.pmu.voltage(:,6);
 %--------------------------------------------------------------------------
 
 

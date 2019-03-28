@@ -1,27 +1,24 @@
- function [user, data] = settings_power_flow(var)                           %#ok<*STOUT>
+ function [data, user] = settings_power_flow(var)                           %#ok<*STOUT>
 
 %--------------------------------------------------------------------------
 % Checks user inputs and if those are missing, adds default values and
 % loads power system data
 %
-% The function checks 'ac', 'dc', 'reactive', 'voltage', 'main', 'flow' and
-% 'save' variables given as input arguments of the function leeloo in the
-% 'power_flow.m', and loads power system data according to the grid
-% variable. Default inputs are: 'ieee30_41'; 'ac'.
+% The function checks 'ac', 'dc', 'gs', 'dnr', 'fdnr', 'reactive',
+% 'voltage', 'maxIter', 'main', 'flow' and 'save' variables given as input
+% arguments of the function runpf, and loads power system data according to
+% the grid variable. Default inputs are: 'ieee30_41'; 'ac'.
 %--------------------------------------------------------------------------
 %  Input:
-%	- var: native user settings
+%	- var: native user input arguments
 %
 %  Outputs:
-%	- user.pf: AC or DC power flow
-%	- user.grid: name of the power system data
-%	- user.limit: bus reactive power or voltage limits
-%	- user.main: bus data display
-%	- user.flow: branch data display
-%	- user.save: save display data
 %	- data: load power system data
+%	- user: user settings
 %--------------------------------------------------------------------------
-% Check function which is used in power flow modules.
+% Created by Mirsad Cosovic on 2019-02-18
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -36,62 +33,56 @@
 	warning('pf:empty', ['Invalid input data structure. The algorithm '...
 	'proceeds with %s power system.\n'], strcat(var{1},'.mat'))
  end
+ var = string([var, ' ']);
 %--------------------------------------------------------------------------
 
 
-%------------------------Check AC or DC Power Flow-------------------------
- in = ismember({'ac', 'dc'}, var);
+%-----------------Check AC or DC and Power Flow Algorithm------------------
+ in = ismember(var, {'nr', 'gs', 'dnr', 'fdnr', 'dc'});
+ pf = var(find(in, 1, 'first'));
 
- if in(1)
-	user.pf = 1;
- elseif in(2)
-	user.pf = 2;
- else
-	user.pf = 1;
-	warning('pf:module', ['The power flow requires "ac" or "dc" input ' ...
-	'arguments for the AC or DC power flow analysis. '...
+ if isempty(pf)
+	pf = 'nr';
+	warning('pf:module', ['The power flow requires at least "nr" or ' ...
+	'"dc" input arguments for the AC or DC power flow analysis. '...
 	'The algorithm proceeds with the AC power flow.\n'])
  end
 %--------------------------------------------------------------------------
 
 
 %---------------------------Check Limit Inputs-----------------------------
- in = ismember({'reactive', 'voltage'}, var);
-
- user.limit = 0;
-
- if in(1)
-	user.limit = 1;
- elseif in(2)
-	user.limit = 2;
- end
+ in = ismember(var, {'reactive', 'voltage'});
+ cs = var(find(in, 1, 'first'));
 %--------------------------------------------------------------------------
 
 
 %---------------------Check Terminal and Save Inputs-----------------------
- in = ismember({'main', 'flow', 'save'}, var);
+ in = ismember(var, {'main', 'flow', 'save'});
+ tr = var(in);
+%--------------------------------------------------------------------------
 
- user.main = 0;
- user.flow = 0;
- user.save = 0;
 
- if in(1)
-	user.main = 1;
- end
- if in(2)
-	user.flow = 1;
- end
- if in(3)
-	user.save = 1;
+%-----------------------Check Number of Iterations-------------------------
+ in = ismember(var, 'maxIter');
+ v1 = find(in);
+ it = var(v1);
+
+ if strcmp(it, 'maxIter')
+	user.maxIter = round(str2num(var(v1+1)));
  end
 %--------------------------------------------------------------------------
 
 
 %--------------------------------Load Data---------------------------------
  try
-   user.grid = strcat(var{1},'.mat');
-   load(user.grid, '-mat', 'data')
+	gd = strcat(var{1},'.mat');
+	load(gd, '-mat', 'data')
  catch
-   error('pf:gridLoad', 'The power system data "%s" not found.\n', user.grid)
+	error('pf:gridLoad', 'The power system data "%s" not found.\n', gd)
  end
+%--------------------------------------------------------------------------
+
+
+%------------------------------User Settings-------------------------------
+ user.list = [pf, cs, tr, it, gd];
 %--------------------------------------------------------------------------

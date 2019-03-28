@@ -18,7 +18,9 @@
 %	- alg.fd1i, alg.ii, idx.j11.ij, idx.j11.jci, idx.j11.jcj: indexes
 %	  for the Jacobian J11
 %--------------------------------------------------------------------------
-% The local function which is used in the Newton-Raphson algorithm.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -29,8 +31,8 @@
  [alg.i, alg.j] = find(sys.Yij);
 
  GijBij  = sys.Ybu(sub2ind([sys.Nbu sys.Nbu], alg.i, alg.j));
- alg.Gij = real(GijBij);
- alg.Bij = imag(GijBij);
+ alg.Gij = full(real(GijBij));
+ alg.Bij = full(imag(GijBij));
 %--------------------------------------------------------------------------
 
 

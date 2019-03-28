@@ -8,7 +8,7 @@
 % error (MAE) and weighted residual sum of squares (WRSS) between estimated
 % values and: i) corresponding measurement values; ii) corresponding exact
 % values
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- data: input power system data with measurements
 %	- sys: power system data
@@ -23,8 +23,10 @@
 %	  estimated values and corresponding exact values
 %	- se.error.mae3, se.error.rmse3: errors between estimated state
 %	  variables and corresponding exact values
-%
-% The local function which is used in the DC state estimation.
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2017-08-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

@@ -19,7 +19,9 @@
 %	- se.time.pre: preprocessing time
 %	- se.time.conv: convergence time
 %--------------------------------------------------------------------------
-% The local function which is used in the PMU state estimation.
+% Created by Mirsad Cosovic on 2019-03-17
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -54,5 +56,5 @@
 
 
 %----------------------------Convergence Time------------------------------
- se.time.conv = toc; tic
+ se.time.con = toc; tic
 %--------------------------------------------------------------------------

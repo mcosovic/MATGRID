@@ -1,4 +1,4 @@
- function [data] = play_export_measure_variance(user, data, sys, msr)
+ function [data] = play_variance(user, data, sys, msr)
 
 %--------------------------------------------------------------------------
 % Builds measurement data.
@@ -42,8 +42,10 @@
 %	  (3)bus voltage magnitude measurement variances;
 %	  (5)bus voltage angle measurements;
 %	  (6)bus voltage angle measurement variances;
-%%--------------------------------------------------------------------------
-% The local function which is used to generate measurements.
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2019-02-24
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -53,7 +55,7 @@
 
 
 %--------------------Legacy Measurements and Variances---------------------
- if user.varleg ~= 0
+ if any(ismember({'legUnique', 'legRandom', 'legType'}, user.list))
 	Afv = msr.var{1}(1:2*msr.w);
 	Rfv = msr.var{1}(2*msr.w+1:4*msr.w);
 	Cmv = msr.var{1}(4*msr.w+1:6*msr.w);
@@ -79,7 +81,7 @@
 
 
 %--------------------Phasor Measurements and Variances---------------------
- if user.varpmu ~= 0
+ if any(ismember({'pmuUnique', 'pmuRandom', 'pmuType'}, user.list))
 	Cpmv = msr.var{2}(1:2*msr.w);
 	Cpav = msr.var{2}(2*msr.w+1:4*msr.w);
 	Vpmv = msr.var{2}(4*msr.w+1:4*msr.w+sys.Nbu);

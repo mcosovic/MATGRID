@@ -1,6 +1,5 @@
  function [se] = processing_acse(sys, se)
 
-
 %--------------------------------------------------------------------------
 % Computes the AC power flow after state estimation, as well as currents
 % and losses.
@@ -34,7 +33,9 @@
 %	(10)reactive power injection from shunt susceptances - to bus(Qjs);
 %	(11)apparent power of losses(Sijl)
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2018-04-08
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

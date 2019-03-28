@@ -16,12 +16,14 @@
 %	- T: vector of initial bus voltage angles
 %	- V: vector of initial bus voltage magnitudes
 %--------------------------------------------------------------------------
-% The local function which is used in the Gauss-Newton algorithm.
+% Created by Mirsad Cosovic on 2019-02-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %-------------------------------Flat Start---------------------------------
- if user.start == 3
+ if ismember('flat', user.list)
 	T = pi/180 * user.flat(1) * ones(sys.Nbu,1);
 	T(sys.sck(1)) = sys.sck(2);
 	V = user.flat(2) * ones(sys.Nbu,1);
@@ -30,16 +32,18 @@
 
 
 %-------------------------------Warm Start---------------------------------
- if user.start == 2
+ if ismember('exact', user.list)
 	try
 	  T = data.pmu.voltage(:,9);
 	  V = data.pmu.voltage(:,8);
 	catch
-	  user.start = 1;
+	  rem = ismember(user.list, 'exact');
+	  user.list(rem) = [];
+	  user.list = [user.list, 'warm'];
 	  warning('se:startExact','Exact values were not found. The algorithm proceeds with the same initial point as the one applied in AC power flow.\n')
 	end
  end
- if user.start == 1
+ if ismember('warm', user.list)
 	[sys] = bus_generator(sys);
 	T = sys.bus(:,4);
 	V = sys.bus(:,3);
@@ -48,7 +52,7 @@
 
 
 %---------------------Start with Random Perturbation-----------------------
- if user.start == 4
+ if ismember('random', user.list)
 	a = pi/180 * [user.random(1) user.random(2)];
 	T = (max(a)-min(a)).*rand(sys.Nbu,1) + min(a);
 	T(sys.sck(1)) = sys.sck(2);

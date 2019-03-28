@@ -21,7 +21,9 @@
 %	- Ff: vector associated with power flow measurement values
 %	- Jf: Jacobian matrix associated with power flow measurements
 %--------------------------------------------------------------------------
-% The local function which is used in the Gauss-Newton algorithm.
+% Created by Mirsad Cosovic on 2019-02-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

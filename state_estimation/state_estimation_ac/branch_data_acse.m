@@ -21,7 +21,9 @@
 %	- br.pij: transformer tap ratio magnitude pij
 %	- br.fij: transformer phase shift angle fij
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2018-08-10
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

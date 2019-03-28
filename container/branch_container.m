@@ -21,8 +21,9 @@
 %	  (6)branch charging susceptance(bsi); (7)tap ratio magnitude(tij);
 %	  (8)phase shift angle(fij)
 %--------------------------------------------------------------------------
-% Main function which is used in AC/DC power flow, non-linear and DC state
-% estimation, as well as for the state estimation with PMUs.
+% Created by Mirsad Cosovic on 2018-06-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

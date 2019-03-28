@@ -15,7 +15,9 @@
 %	- se.device with columns: (1)measurement type; (2)measurement unit
 %	- se.estimate with additional column: (4)unit conversion
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2019-02-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

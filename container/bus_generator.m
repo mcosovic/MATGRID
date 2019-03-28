@@ -14,13 +14,14 @@
 %
 %  Outputs:
 %	- sys.bus with additional or changed columns:
-%     (3)initial voltage magnitude(Vo);
+%	  (3)initial voltage magnitude(Vo);
 %	  (11)generator active power(Pg); (12)generator reactive power(Qg);
 %	  (13)bus reactive power limit(Qmin);
 %	  (14)bus reactive power limit(Qmax)
 %--------------------------------------------------------------------------
-% Main function which is used in AC/DC power flow, non-linear and DC state
-% estimation, as well as for the state estimation with PMUs.
+% Created by Mirsad Cosovic on 2018-06-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -38,6 +39,6 @@
 
 	sys.bus(:,2) = 1;
 	sys.bus(sys.generator(:,1),2) = 2;
-    sys.bus(sys.sck(1),2) = 3;
+	sys.bus(sys.sck(1),2) = 3;
  end
 %--------------------------------------------------------------------------

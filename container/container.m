@@ -1,4 +1,4 @@
- function [sys] = run_container(data)
+ function [sys] = container(data)
 
 %--------------------------------------------------------------------------
 % Builds data containers.
@@ -8,7 +8,7 @@
 %--------------------------------------------------------------------------
 %  Input:
 %	- data: power system data
-%--------------------------------------------------------------------------
+%
 %  Outputs:
 %	- sys.branch with columns:
 %	  (1)branch number; (2)indexes from bus(i); (3)indexes to bus(j);
@@ -30,8 +30,9 @@
 %	- sys.base: power system base power in (MVA)
 %	- sys.stop: stopping iteration criteria
 %--------------------------------------------------------------------------
-% Main function which is used in AC/DC power flow, non-linear and DC state
-% estimation, as well as for the state estimation with PMUs.
+% Created by Mirsad Cosovic on 2018-06-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

@@ -18,7 +18,9 @@
 %	  (1)measurement values; (2)measurement variances
 %	- sys.W: diagonal weighted matrix
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2019-02-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

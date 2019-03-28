@@ -1,13 +1,13 @@
  function [data, sys, se] = measurements_dcse(data, sys)
 
 %--------------------------------------------------------------------------
-% Builds the measurement data for the DC state estimation, and forms the
-% system model.
+% Builds the measurement data for the DC state estimation, forms the system
+% model, and expands sys.branch variable.
 %
 % The function defines measurement data according to available measurements
 % (turn off measurements are removed), where the corresponding Jacobian
 % matrix is defined, with associated vectors.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- data: input power system data with measurements
 %	- sys: power system data
@@ -30,8 +30,20 @@
 %	- sys.Ntot: total number of measurements
 %	- sys.true_sv: exact values of state variables (if those exist)
 %   - sys.exact: flag for exact values
-%
-% The local function which is used for the DC state estimation.
+%   - sys.branch: expands sys.branch to get the form [ij; ji]
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2017-08-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
+%--------------------------------------------------------------------------
+
+
+%-----------------------------Expand Branches------------------------------
+ expand = [(sys.Nbr+1:2*sys.Nbr)' sys.branch(:,3) sys.branch(:,2) ...
+		   sys.branch(:,4:7) -sys.branch(:,8) sys.branch(:,10) ...
+		   sys.branch(:,9) sys.branch(:,11)];
+
+ sys.branch = [sys.branch(:,1:11); expand];
 %--------------------------------------------------------------------------
 
 

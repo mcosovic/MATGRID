@@ -1,9 +1,21 @@
- function terminal_bad_data(in, module, sys)
+ function terminal_bad_data(in, sys, user)
 
+%--------------------------------------------------------------------------
+% Displays bad data processing.
+%--------------------------------------------------------------------------
+%  Inputs:
+%	- in: input result data
+%	- sys: power system data
+%	- user: user input list
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2019-03-19
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
+%--------------------------------------------------------------------------
 
 
 %% Bad Data Identification Non-linear State Estimation
- if module == 1
+ if ismember('nonlinear', user)
 	N = size(in.bad, 1);
 	A = [(1:N)' in.bad];
 	d = in.device(in.bad(:,3));
@@ -21,7 +33,7 @@
  end
 
  %% Bad Data Identification DC State Estimation
- if module == 2
+ if ismember('dc', user)
 	N = size(in.bad, 1);
 	A = [(1:N)' in.bad];
 	d = in.device(in.bad(:,2));
@@ -39,7 +51,7 @@
  end
 
   %% Bad Data Identification PMU State Estimation
- if module == 3
+ if ismember('pmu', user)
 	N = size(in.bad,1 );
 	A = [(1:N)' in.bad];
 	d = sys.device(in.bad(:,2));

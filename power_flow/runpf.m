@@ -1,21 +1,17 @@
- function [pf, data, sys] = run_power_flow(user, data)
+ function [data, pf, sys] = runpf(varargin)
 
 %--------------------------------------------------------------------------
 % Runs the AC or DC power flow analysis.
 %
 % The function proceeds to check power system data and settings, builds
-% containers, and runs the AC or DC power flow.
+% containers, and runs the AC or DC power flow analysis.
 %--------------------------------------------------------------------------
-%  Input:
-%	- user: user settings
-%--------------------------------------------------------------------------
+%  Inputs:
+%	- varargin: user input arguments
+%
 %  Outputs AC and DC power flow:
-%	- pf.method: name of the method
-%	- pf.grid: power system name
-%	- pf.time.pre: preprocessing time
-%	- pf.time.conv: convergence time
-%	- pf.time.pos: postprocessing time
-%   - data: load power system data
+%	- data: load power system data
+%	- pf: see the output variable result.info
 %	- sys.branch with columns:
 %	  (1)branch number; (2)indexes from bus(i); (3)indexes to bus(j);
 %	  (4)branch resistance(rij); (5)branch reactance(xij);
@@ -36,26 +32,8 @@
 %	- sys.base: power system base power in (MVA)
 %	- sys.stop: stopping iteration criteria
 %	- sys.Ybu: Ybus matrix
-%--------------------------------------------------------------------------
+%
 %  Outputs AC power flow:
-%	- pf.bus with columns:
-%	  (1)minimum limits violated at bus; (2)maximum limits violated at bus;
-%	  (3)complex bus voltages; (4)apparent power injection(Si);
-%	  (5)generation apparent power(Sg); (6)load apparent power(Sl);
-%	  (7)apparent power at shunt elements(Ssh)
-%	- pf.branch with columns:
-%	  (1)line current at branch - from bus(Iij);
-%	  (2)line current at branch - to bus(Iji);
-%	  (3)line current after branch shunt susceptance - from bus(Iijb);
-%	  (4)line current after branch shunt susceptance - to bus(Ijib);
-%	  (5)apparent power at branch - from bus(Sij);
-%	  (6)apparent power at branch - to bus(Sji);
-%	  (7)apparent power after branch shunt susceptance - from bus(Sijb);
-%	  (8)apparent power after branch shunt susceptance - from bus(Sjib);
-%	  (9)reactive power injection from shunt susceptances - from bus(Qis);
-%	  (10)reactive power injection from shunt susceptances - to bus(Qjs);
-%	  (11)apparent power of losses(Sijl)
-%	- pf.No: number of iterations
 %	- sys.branch with additional columns:
 %	  (11)branch admittance(yij); (12)charging susceptance(bsi);
 %	  (13)complex tap ratio(aij); (14)yij + bsi; (15)yij/aij^2;
@@ -63,59 +41,71 @@
 %	- sys.ysh: shunt elements vector
 %	- sys.Yij: Ybus matrix with only non-diagonal elements
 %	- sys.Yii: Ybus matrix with only diagonal elements
-%--------------------------------------------------------------------------
+%
 %  Outputs DC power flow:
-%	- pf.bus with columns:
-%	  (1)bus voltage angles(Ti); (2)active power injection(Pi);
-%	  (3)active power generation(Pg)
-%	- pf.branch with column: (1)active power flow(Pij)
 %	- sys.bus with additional column: (16)shift vector(Psh)
 %	- sys.branch with additional column: (11)1/(tij*xij)
 %--------------------------------------------------------------------------
-% The local function which is used in power flow modules.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %------------------Processing Module Inputs and Settings-------------------
- [data] = load_power_grid(data, user.pf);
+ [data, user] = settings_power_flow(varargin);
+ [data]       = load_power_system(data, user.list);
 %--------------------------------------------------------------------------
 
 
 %----------------------------Power System Data-----------------------------
- [sys] = run_container(data);
+ [sys] = container(data);
 %--------------------------------------------------------------------------
 
 
 %------------------------------AC Power Flow-------------------------------
- if user.pf == 1
-	[sys] = ybus_ac(sys);
-	[pf]  = newton_raphson(user, sys);
-	[pf]  = processing_acpf(sys, pf);
+ if any(ismember({'nr', 'gs', 'dnr', 'fdnr'}, user.list))
+	[user] = check_maxiter(user); 
+	[sys]  = ybus_ac(sys);
+
+	if ismember('nr', user.list)
+	   [pf] = newton_raphson(user, sys);
+	elseif ismember('gs', user.list)
+	   [pf] = gauss_seidel(user, sys);
+	elseif ismember('dnr', user.list)
+	   [pf] = decoupled_newton_raphson(user, sys);
+	elseif ismember('fdnr', user.list)
+	   [pf] = fast_newton_raphson(user, sys);
+	end
+
+	[pf] = processing_acpf(sys, pf);
+	[pf] = info_acpf(pf);
  end
 %--------------------------------------------------------------------------
 
 
 %------------------------------DC Power Flow-------------------------------
- if user.pf == 2
+ if ismember('dc', user.list)
 	[sys] = ybus_shift_dc(sys);
 	[pf]  = solve_dcpf(sys);
 	[pf]  = processing_dcpf(sys, pf);
+	[pf]  = info_dcpf(pf);
  end
 %--------------------------------------------------------------------------
 
 
 %--------------------------------Terminal----------------------------------
- diary_on(user.save, data.case);
+ diary_on(user.list, data.case);
 
- if user.main == 1 || user.flow == 1
-	terminal_info(pf, sys, user.pf, user.grid, 1)
+ if any(ismember({'main', 'flow'}, user.list))
+	terminal_info(pf, sys, user.list)
  end
- if user.main == 1
-	terminal_bus_pf(pf, sys, user.pf)
+ if ismember('main', user.list)
+	terminal_bus_pf(pf, sys, user.list)
  end
- if user.flow == 1
-	terminal_flow(pf, sys, user.pf)
+ if ismember('flow', user.list)
+	terminal_flow(pf, sys, user.list)
  end
 
- diary_off(user.save);
+ diary_off(user.list);
 %--------------------------------------------------------------------------

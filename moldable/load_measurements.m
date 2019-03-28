@@ -15,7 +15,9 @@
 %  Output:
 %	- data: input power system data with measurements
 %--------------------------------------------------------------------------
-% Check function which is used in the state estimation module.
+% Created by Mirsad Cosovic on 2019-03-18
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -33,7 +35,7 @@
  else
 	error('data:legacyPmuMissed', 'Invalid measurement data structure, measurements not found.\n')
  end
- if user.se == 3 && (se(1) == 0 && all(leg(1:2) == 0) || se(2) == 0 && pmu(1) == 0)
+ if ismember('dc', user.list) && (se(1) == 0 && all(leg(1:2) == 0) || se(2) == 0 && pmu(1) == 0)
 	error('data:legacyPmuDC', 'Invalid measurement data structure, measurements not found.\n')
  end
 %--------------------------------------------------------------------------

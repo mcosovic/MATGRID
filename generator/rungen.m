@@ -1,16 +1,15 @@
- function [data] = run_measurement_generator(user, data)
+ function [data] = rungen(varargin)
 
 %--------------------------------------------------------------------------
-% Builds measurement data from power flow analisys.
+% Builds measurement data from the AC power flow analysis.
 
 % The function corrupts the exact solutions by the additive white Gaussian
 % noises according to defined variances. Further, the function forms
 % measurement set according to predefined inputs.
 %--------------------------------------------------------------------------
-%  Inputs:
+%  Input:
 %	- user: user inputs
-%	- data: input power system data
-%--------------------------------------------------------------------------
+%
 %  Outputs:
 %	- data: with additional struct variables:
 %	  - data.legacy.flow with columns:
@@ -63,12 +62,24 @@
 %		(8)bus voltage magnitude exact value;
 %		(9)bus voltage angle exact value;
 %--------------------------------------------------------------------------
-% The local function which is used to generate measurements.
+% Created by Mirsad Cosovic on 2019-02-24
+% Last revision by Mirsad Cosovic on 2019-03-28
+% MATGRID is released under MIT License.
+%--------------------------------------------------------------------------
+
+
+%---------------------Processing Inputs and Settings-----------------------
+ [user, data] = settings_generator(varargin);
+ [data] = load_power_system(data, user.list);
 %--------------------------------------------------------------------------
 
 
 %-----------------------------AC Power Flow--------------------------------
- [pf, data, sys] = run_power_flow(user, data);
+ [sys] = container(data);
+ [user] = check_maxiter(user);
+ [sys]  = ybus_ac(sys);
+ [pf] = newton_raphson(user, sys);
+ [pf] = processing_acpf(sys, pf);
 %--------------------------------------------------------------------------
 
 

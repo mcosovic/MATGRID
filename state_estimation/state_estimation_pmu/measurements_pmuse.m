@@ -28,7 +28,9 @@
 %	- sys.Npmu: number of phasor measurements
 %	- sys.Ntot: total number of measurements
 %--------------------------------------------------------------------------
-% The local function which is used in the PMU state estimation.
+% Created by Mirsad Cosovic on 2019-03-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -74,10 +76,6 @@
 
 
 %--------------Jacobians of the Voltage Phasor Measurements----------------
-%  idx = [data.pmu.voltage(:,14); data.pmu.voltage(:,14) + sys.Nbu];
-%  Jv = sparse((1:2*sys.Nv)', idx, 1, 2*sys.Nv, 2*sys.Nbu);
- 
- 
  idx = data.pmu.voltage(:,14);
  Jvr = sparse((1:sys.Nv)', idx, 1, sys.Nv, 2*sys.Nbu);
  Jvi = sparse((1:sys.Nv)', idx+ sys.Nbu, 1, sys.Nv, 2*sys.Nbu);

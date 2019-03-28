@@ -16,14 +16,16 @@
 %	- se.bus: complex bus voltages
 %	- se.method: method name
 %	- se.time.pre: preprocessing time
-%	- se.time.conv: convergence time
+%	- se.time.con: convergence time
 %--------------------------------------------------------------------------
-% The local function which is used in the PMU state estimation.
+% Created by Mirsad Cosovic on 2019-03-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %---------------------------------Method-----------------------------------
- se.method = 'Linear State Estimation only with PMUs';
+ se.method = 'Linear Weighted Least-Squares State Estimation only with PMUs';
 %--------------------------------------------------------------------------
 
 
@@ -33,8 +35,7 @@
 
 
 %--------------------------Bus Voltage Estimates---------------------------
- C = spdiags(sys.v, 0, sys.Ntot, sys.Ntot);
- W = C \ speye(sys.Ntot, sys.Ntot);
+ W = spdiags(sys.v, 0, sys.Ntot, sys.Ntot) \ speye(sys.Ntot, sys.Ntot);
 
  VrVi = (sys.H' * W * sys.H) \ (sys.H' * W * sys.b);
 
@@ -43,5 +44,5 @@
 
 
 %----------------------------Convergence Time------------------------------
- se.time.conv = toc; tic
+ se.time.con = toc; tic
 %--------------------------------------------------------------------------

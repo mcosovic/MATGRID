@@ -1,6 +1,16 @@
- function [] = terminal_evaluation_se(sys, se)
+ function [] = terminal_error_se(sys, se)
 
-
+%--------------------------------------------------------------------------
+% Displays state estimation evolutaion.
+%--------------------------------------------------------------------------
+%  Inputs:
+%	- sys: power system data
+%	- se: state estimation result data
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2019-01-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
+%--------------------------------------------------------------------------
 
 %%  State Estimation Evaluation
  disp(' ')

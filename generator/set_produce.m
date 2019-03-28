@@ -3,25 +3,26 @@
 %--------------------------------------------------------------------------
 % Forms vector of measurement sets.
 %
-% The function forms measurement set according to predefined inputs. Sets
-% are defined as struct variables 'legset' for legacy measurements and
-% 'pmuset' for phasor measurements, with two options 'redundancy' and
-% 'device'.
+% The function forms measurement set according to predefined inputs.
 %--------------------------------------------------------------------------
 %  Inputs:
 %	- user: user inputs
 %	- msr: measurement data
+%	- sys: power system data
 %
 %  Outputs:
+%   - user: user inputs
 %	- msr.set{1}: set for legacy measurements
 %	- msr.set{2}: set for phasor measurements
 %--------------------------------------------------------------------------
-% The local function which is used to generate measurements.
+% Created by Mirsad Cosovic on 2019-02-24
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %--------------------------Redundancy Legacy Set---------------------------
- if user.setleg == 1
+ if ismember('legRedundancy', user.list)
 	meas = round((msr.state) * user.legRedundancy);
 	idxn = randperm(msr.total(1));
 	idx  = idxn(1:meas);
@@ -33,7 +34,7 @@
 
 
 %----------------------------Device Legacy Set-----------------------------
- if user.setleg == 2
+ if ismember('legDevice', user.list)
 	t = cell(4,1);
 	set = user.legDevice;
 	for i = 1:4
@@ -47,7 +48,7 @@
 
 
 %---------------------------Redundancy PMU Set-----------------------------
- if user.setpmu == 1
+ if ismember('pmuRedundancy', user.list)
 	meas = round((msr.state) * user.pmuRedundancy);
 	idxn = randperm(msr.total(2));
 	idx  = idxn(1:meas);
@@ -59,7 +60,7 @@
 
 
 %--------------------------Optimal PMU Placement---------------------------
- if user.setpmu == 3
+ if ismember('pmuOptimal', user.list)
 	A = sys.Ybu ~= 0;
 	f  = ones(sys.Nbu,1);
 	lb = zeros(sys.Nbu,1);
@@ -69,22 +70,24 @@
 	disp(' Mixed-integer linear programming is running to find an optimal PMU set.')
 	options = optimoptions('intlinprog','Display','off');
 	[bus, ~, flag] = intlinprog(f,intcon,-A,-f,[],[],lb,ub,[],options);
-    
-    if any(flag == [1 2])
+
+	if any(flag == [1 2])
 	   disp(' Optimal solution found.')
 	   bra = ismember([sys.branch(:,2); sys.branch(:,3)], find(bus));
 	   msr.set{2} = [bra; bra; bus; bus];
 	else
 	   warning('set:noFeasible', 'No integer feasible point found. The algorithm proceeds with complete PMU set.\n')
+	   rem = ismember(user.list, 'pmuOptimal');
+	   user.list(rem) = [];
 	   user.pmuDevice = msr.dpmu;
-       user.setpmu = 2;
+	   user.list = [user.list, 'pmuDevice'];
     end
  end
 %--------------------------------------------------------------------------
 
 
 %-----------------------------Device PMU Set-------------------------------
- if user.setpmu == 2
+ if ismember('pmuDevice', user.list)
 	set = user.pmuDevice;
 	idx = randperm(msr.dpmu, set);
 	bus = zeros(msr.dpmu,1);
@@ -96,12 +99,12 @@
 
 
 %---------------------One Set Active, Other Turn Off-----------------------
- if user.setleg ~= 0 && user.setpmu == 0
-    user.setpmu = 4;
-    msr.set{2} = zeros(msr.total(2),1);  
+ if any(ismember({'legRedundancy', 'legDevice'}, user.list)) && ~any(ismember({'pmuRedundancy', 'pmuDevice', 'pmuOptimal'}, user.list))
+	user.list = [user.list, 'noPmu'];
+	msr.set{2} = zeros(msr.total(2),1);
  end
- if user.setleg == 0 && user.setpmu ~= 0
-    user.setleg = 4;
+ if ~any(ismember({'legRedundancy', 'legDevice'}, user.list)) && any(ismember({'pmuRedundancy', 'pmuDevice', 'pmuOptimal'}, user.list))
+	user.list = [user.list, 'noLegacy'];
 	msr.set{1} = zeros(msr.total(1),1);
  end
 %--------------------------------------------------------------------------

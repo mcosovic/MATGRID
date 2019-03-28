@@ -19,7 +19,9 @@
 %	- msr.dpmu: number of phasor measurements per device
 %	- msr.mred: maximum redundancy for legacy and phasor measurements
 %--------------------------------------------------------------------------
-% The local function which is used to generate measurements.
+% Created by Mirsad Cosovic on 2019-02-24
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

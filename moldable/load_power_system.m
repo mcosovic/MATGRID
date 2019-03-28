@@ -1,4 +1,4 @@
- function [data] = input_power_grid(data, flag)
+ function [data] = load_power_system(data, user)
 
 %--------------------------------------------------------------------------
 % Checks load power system data.
@@ -10,12 +10,14 @@
 %--------------------------------------------------------------------------
 %  Inputs:
 %	- data: load power system data
-%	- flag: indicate non-linear algorithms
+%   - user: user input list
 %
 %  Output:
 %	- data: power system data
 %--------------------------------------------------------------------------
-% Check function which is used in power flow and state estimation modules.
+% Created by Mirsad Cosovic on 2019-03-18
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -37,7 +39,7 @@
 	warning('pg:baseMVA','The variable "data.system.baseMVA" not found. The algorithm proceeds with default value: %1.f(MVA). \n', data.system.baseMVA)
  end
 
- if ~isfield(data, 'stop') && flag == 1
+ if ~isfield(data, 'stop') && any(ismember(user, {'nr', 'gs', 'dnr', 'fdnr'}))
 	data.stop = 10^-6;
 	warning('pg:stop','The variable "data.stop" not found. The algorithm proceeds with default value: %1.e.\n', data.stop)
  end

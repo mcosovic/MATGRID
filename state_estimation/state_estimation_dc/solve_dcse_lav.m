@@ -10,16 +10,19 @@
 % convergence time is obtained here, while postprocessing time is
 % initialized.
 %--------------------------------------------------------------------------
-%  Input:
+%  Inputs:
 %	- sys: power system data
+%	- se: state estimation data
 %
 %  Outputs:
-%	- se.bus: complex bus voltages
+%	- se.bus: estimated values of the bus voltage angles
 %	- se.method: method name
 %	- se.time.pre: preprocessing time
-%	- se.time.conv: convergence time
+%	- se.time.con: convergence time
 %--------------------------------------------------------------------------
-% The local function which is used in the DC state estimation.
+% Created by Mirsad Cosovic on 2019-03-19
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -35,11 +38,11 @@
 
 %--------------------------Bus Voltage Estimates---------------------------
  sys.H(:, sys.sck(1)) = [];
- sys.Nbu = sys.Nbu - 1;
- 
- c  = [zeros(sys.Nbu,1); zeros(sys.Nbu,1); ones(2*sys.Ntot,1)];
+ Nbu = sys.Nbu - 1;
+
+ c  = [zeros(Nbu,1); zeros(Nbu,1); ones(2*sys.Ntot,1)];
  A  = [sys.H -sys.H eye(sys.Ntot,sys.Ntot) -eye(sys.Ntot,sys.Ntot)];
- lb = zeros(2*sys.Nbu + 2*sys.Ntot, 1);
+ lb = zeros(2*Nbu + 2*sys.Ntot, 1);
 
  options = optimoptions('linprog','Display','off');
  disp(' Linear programming is running to find least absolute value estimator.')
@@ -48,10 +51,11 @@
 
  if flag == 1
 	disp(' Optimal solution found.')
-	 T = s(1:sys.Nbu) - s(sys.Nbu+1:2*sys.Nbu);
-     ins = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
-     T = ins(0, T, sys.sck(1) - 1);
-	 se.bus = sys.sck(2) * ones(sys.Nbu+1,1) + T;
+
+	se.bus = s(1:Nbu) - s(Nbu+1:2*Nbu);
+	insert = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
+	se.bus = insert(0, se.bus, sys.sck(1) - 1);
+	se.bus = sys.sck(2) * ones(sys.Nbu,1) + se.bus;
  else
 	error('lavDc:noFeasible', 'No feasible point found.\n')
  end
@@ -59,5 +63,5 @@
 
 
 %----------------------------Convergence Time------------------------------
- se.time.conv = toc; tic
+ se.time.con = toc; tic
 %--------------------------------------------------------------------------

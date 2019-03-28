@@ -1,7 +1,7 @@
  function [se] = solve_dcse_bad_data(user, sys, se)
 
 %--------------------------------------------------------------------------
-% Bad data identification using largest normalized residual test for the
+% Bad data processing using largest normalized residual test for the
 % DC state estimation.
 %
 % The function computes normalized residual and according to identification
@@ -19,15 +19,16 @@
 %	- se: state estimation data
 %
 %  Outputs:
-%	- se.bus with column: (1)complex bus voltages
+%	- se.bus: estimated values of the bus voltage angles
 %	- se.time.pre: preprocessing time
-%	- se.time.conv: convergence time
-%	- se.No: number of iterations
-%   - se.bad with columns:
-%     (1)largest normalized residual;
-%     (2)index of suspected bad data measurement
+%	- se.time.con: convergence time
+%	- se.bad with columns:
+%	  (1)largest normalized residual;
+%	  (2)index of suspected bad data measurement
 %--------------------------------------------------------------------------
-% The local function which is used in the DC state estimation.
+% Created by Mirsad Cosovic on 2019-03-18
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -56,22 +57,20 @@
 
 
 %==============DC State Estimation with Bad Data Processing================
- while rmax > user.badThreshold && user.badPass ~= cnt - 1
+ while rmax > user.badThreshold && user.badPass ~= cnt - 1 
 
 
 %---------------------------Bus Voltage Angles-----------------------------
- T = (H' * W * H) \ (H' * W * sys.b);
-
- ins = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
- T   = ins(0, T, sys.sck(1) - 1);
+ se.bus = (H' * W * H) \ (H' * W * sys.b);
+ insert = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
+ se.bus = insert(0, se.bus, sys.sck(1) - 1);
 %--------------------------------------------------------------------------
 
 
 %--------------------Largest Normalized Residual Test----------------------
  G     = H' * W * H;
  Omega = C -  H * (G \ H');
- diva  = sqrt(diag(Omega));
- r_nor = abs((sys.b - sys.H * T)) ./ diva;
+ r_nor = abs((sys.b - sys.H * se.bus)) ./ sqrt(diag(Omega));
 
  [rmax, idx] = max(r_nor);
 %--------------------------------------------------------------------------
@@ -99,6 +98,6 @@
 
 
 %--------------------------------Save Data---------------------------------
- se.time.conv = toc; tic
- se.bus = sys.sck(2) * ones(sys.Nbu,1) + T;
+ se.time.con = toc; tic
+ se.bus = sys.sck(2) * ones(sys.Nbu,1) + se.bus;
 %--------------------------------------------------------------------------

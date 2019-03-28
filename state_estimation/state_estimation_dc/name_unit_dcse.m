@@ -7,8 +7,8 @@
 % injection, and bus voltage angle with an associated name and unit.
 % Finally, the vector for conversion from per-unit to real unit system is
 % formed. Finally, the postprocessing time is obtained here.
-%
-%  Input:
+%--------------------------------------------------------------------------
+%  Inputs:
 %	- data: input power system data with measurements
 %	- sys: power system data
 %	- se: state estimation data
@@ -16,8 +16,10 @@
 %  Outputs:
 %	- se.device with columns: (1)measurement type; (2)measurement unit
 %	- se.estimate with additional column: (4)unit conversion
-%
-% The local function which is used for the DC state estimation.
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2017-08-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

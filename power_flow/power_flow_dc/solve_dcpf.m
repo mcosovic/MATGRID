@@ -1,8 +1,8 @@
  function [pf] = solve_dcpf(sys)
 
 %--------------------------------------------------------------------------
-% Solves the DC power flow problem and computes the vector of bus voltage
-% angles.
+% Solves the DC power flow problem and computes the vector of the bus
+% voltage angles.
 %
 % The DC power flow is based on the equation Pg - Pl = Ybus*T + Psh + rsh,
 % thus the least-squares solution is T =  Ybus \ (Pg - Pl - Psh - rsh).
@@ -19,9 +19,11 @@
 %	- pf.method: method name
 %	- pf.grid: name of the analyzed power system
 % 	- pf.time.pre: preprocessing time
-%	- pf.time.conv: convergence time
+%	- pf.time.con: convergence time
 %--------------------------------------------------------------------------
-% The local function which is used in the DC power flow.
+% Created by Mirsad Cosovic on 2018-06-15
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -30,7 +32,7 @@
 %--------------------------------------------------------------------------
 
 
-%--------------------------B Matix and Pi Vector---------------------------
+%--------------------------B Matix and b Vector----------------------------
  sys.Ybu(:,sys.sck(1)) = [];
  sys.Ybu(sys.sck(1),:) = [];
 
@@ -45,14 +47,14 @@
 
 
 %---------------------------Bus Voltage Angles-----------------------------
- T  = sys.Ybu \ b;
- in = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
- T  = in(0, T, sys.sck(1) - 1);
+ pf.bus = sys.Ybu \ b;
+ insert = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
+ pf.bus = insert(0, pf.bus, sys.sck(1) - 1);
 
- pf.bus(:,1) = sys.sck(2) * ones(sys.Nbu,1) + T;
+ pf.bus = sys.sck(2) * ones(sys.Nbu,1) + pf.bus;
 %--------------------------------------------------------------------------
 
 
 %----------------------------Convergence Time------------------------------
- pf.time.conv = toc; tic
-%--------------------------------------------------------------------------
+ pf.time.con = toc; tic
+%------------------------------------------------------------------------------------------------------

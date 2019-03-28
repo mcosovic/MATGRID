@@ -21,14 +21,17 @@
 %
 %  Outputs:
 %	- sys.bus with changed column: (2)bus type;
+%	- sys.Vcon with changed column: (3)limit on/off;
 %	- pf.alg: algorithm data
 %	- idx: indexes data
 %	- pf.bus with changed columns:
-%	(1)minimum limits violated at bus; (2)maximum limits violated at bus;
+%	  (6)minimum limits violated at bus; (7)maximum limits violated at bus;
 %	- DelPQ: an active and reactive power mismatch matrix for all buses
 %	- V, T: bus voltage magnitude and angle vector
 %--------------------------------------------------------------------------
-% The local function which is used in the AC power flow routine.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -40,36 +43,34 @@
 
 %-------------------------------Check Vmin---------------------------------
  if ~isempty(mnv)
-	sys.bus(mnv,2) = 3;
+	sys.bus(mnv,2)  = 2;
+	sys.Vcon(mnv,3) = 0;
 
-	V(mnv) = sys.Vcon(mnv, 1);
+	V(mnv) = sys.Vcon(mnv,1);
 	Vp = V .* exp(1j * T);
 
 	Q = -imag(conj(Vp(mnv)) .* (sys.Ybu(mnv,:) * Vp));
 
 	diago = sub2ind(size(sys.Ybu), mnv, mnv);
-	Vnew  = (1 ./ sys.Ybu(diago)) .* ((Pgl(mnv) - 1j * Q) ./...
-			conj(Vp(mnv)) - sys.Yij(mnv,:) * Vp);
-
-	Vp(mnv) = Vnew;
+	T(mnv) = angle((1 ./ sys.Ybu(diago)) .* ((Pgl(mnv) - 1j * Q) ./...
+			 conj(Vp(mnv)) - sys.Yij(mnv,:) * Vp));
  end
 %--------------------------------------------------------------------------
 
 
 %-------------------------------Check Vmax---------------------------------
  if ~isempty(mxv)
-	sys.bus(mxv,2) = 3;
+	sys.bus(mxv,2)  = 2;
+	sys.Vcon(mxv,3) = 0;
 
 	V(mxv) = sys.Vcon(mxv,2);
 	Vp = V .* exp(1j * T);
 
 	Q = -imag(conj(Vp(mxv)) .* (sys.Ybu(mxv,:) * Vp));
 
-	diago = sub2ind(size(sys.Ybu), mxv, mxv);
-	Vnew  = (1 ./ sys.Ybu(diago)) .* ((Pgl(mxv) - 1j * Q) ./...
-			conj(Vp(mxv)) - sys.Yij(mxv,:) * Vp);
-
-	Vp(mxv) = Vnew;
+	diago  = sub2ind(size(sys.Ybu), mxv, mxv);
+	T(mxv) = angle((1 ./ sys.Ybu(diago)) .* ((Pgl(mxv) - 1j * Q) ./...
+			 conj(Vp(mxv)) - sys.Yij(mxv,:) * Vp));
  end
 %--------------------------------------------------------------------------
 
@@ -78,13 +79,11 @@
  if ~isempty(mnv) || ~isempty(mxv)
 	[alg, idx] = idx_par2(sys, alg, idx);
 
-	V = abs(Vp);
-	T = angle(Vp);
-
+	Vp    = V.* exp(1j * T);
 	DelS  = Vp .* conj(sys.Ybu * Vp) - (Pgl + 1i * Qgl);
 	DelPQ = [real(DelS(alg.ii)); imag(DelS(alg.pq))];
 
-	pf.bus(mnv,1) = mnv;
-	pf.bus(mxv,2) = mxv;
+	pf.bus(mnv,6) = mnv;
+	pf.bus(mxv,7) = mxv;
  end
 %--------------------------------------------------------------------------

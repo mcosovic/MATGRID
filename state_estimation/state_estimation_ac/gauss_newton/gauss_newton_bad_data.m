@@ -29,7 +29,9 @@
 %	  (1)number of iterations; (2)largest normalized residual;
 %	  (3)index of suspected bad data measurement
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2019-03-18
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -68,7 +70,7 @@
 
 
 %---------------------------Gauss-Newton Method----------------------------
- while eps > sys.stop && No < 400
+ while eps > sys.stop && No < user.maxIter
  No = No+1;
 
  [Ff, Jf] = flow_acse(V, T, sys.Pf, sys.Qf, sys.Nbu);
@@ -120,8 +122,7 @@
 
  G     = H' * W * H;
  Omega = C -  H * (G \ H');
- diva  = sqrt(diag(Omega));
- r_nor = abs((z - f)) ./ diva;
+ r_nor = abs((z - f)) ./ sqrt(diag(Omega));
 
  [rmax, idx] = max(r_nor);
 %--------------------------------------------------------------------------
@@ -144,7 +145,7 @@
 
 
 %--------------------------------Save Data---------------------------------
- se.time.conv = toc; tic
- se.bus(:,1) = V .* exp(T * 1i);
- se.No = No;
+ se.time.con  = toc; tic
+ se.bus       = V .* exp(T * 1i);
+ se.iteration = No;
 %--------------------------------------------------------------------------

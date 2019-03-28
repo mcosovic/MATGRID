@@ -1,4 +1,4 @@
- function [data] = produce_Abv(data, user, sys, se)
+ function [data] = produce_Abv(data, sys, se, user)
 
 %--------------------------------------------------------------------------
 % Exports the system in the matrix and vector forms, for the linear state
@@ -18,19 +18,20 @@
 %	- data.b: vector of observations;
 %	- data.v: variances vector
 %--------------------------------------------------------------------------
-% Local function which is used to export data in the matrix and vector
-% forms.
+% Created by Mirsad Cosovic on 2019-03-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %-------------------------------Export System------------------------------
- if user.export == 1
-    data.extras.A = [sys.H];
-    data.extras.b = [sys.b];
-    data.extras.v = [se.estimate(:,2)];
+ if ismember('export', user) && any(ismember({'dc', 'pmu'}, user))
+    data.extras.A = sys.H;
+    data.extras.b = sys.b;
+    data.extras.v = se.estimate(:,2);
  end
  
- if user.exports == 1
+ if ismember('exportSlack', user) && ismember('dc', user)
 	h = sparse(1, sys.Nbu);
 	h(sys.sck(1)) = 1;
  

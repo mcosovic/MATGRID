@@ -16,11 +16,13 @@
 %
 %  Outputs:
 %	- pf.bus with additional columns:
-%	  (2)active power injection(Pi); (3)active power generation(Pg)
-%	- pf.branch with column: (1)active power flow(Pij)
+%	  (2)active power injections(Pi); (3)generation active powers(Pg)
+%	- pf.branch with column: (1)active power flows(Pij)
 %	- pf.time.pos: postprocessing time
 %--------------------------------------------------------------------------
-% The local function which is used in the DC power flow.
+% Created by Mirsad Cosovic on 2019-02-20
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

@@ -20,7 +20,9 @@
 %	- sys.Cap: set indexes and parameters associated with phasor current
 %	  angle measurements
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2019-02-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

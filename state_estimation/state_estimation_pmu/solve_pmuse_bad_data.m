@@ -26,7 +26,9 @@
 %     (1)largest normalized residual;
 %     (2)index of suspected bad data measurement
 %--------------------------------------------------------------------------
-% The local function which is used in the PMU state estimation.
+% Created by Mirsad Cosovic on 2019-03-05
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -65,8 +67,7 @@
 %--------------------Largest Normalized Residual Test----------------------
  G     = sys.H' * W * sys.H;
  Omega = C -  sys.H * (G \ sys.H');
- diva  = sqrt(diag(Omega));
- r_nor = abs((sys.b - sys.H * VrVi)) ./ diva;
+ r_nor = abs((sys.b - sys.H * VrVi)) ./ sqrt(diag(Omega));
 
  [rmax, idx] = max(r_nor);
 %--------------------------------------------------------------------------
@@ -75,19 +76,19 @@
 %-----------------Identification Threshold and Save Data-------------------
  bad = idxGlo(idx);
  if rmax > user.badThreshold
-    idxGlo(idx) = [];
-    if idx <= N
-       rem = [idx, idx + N];
-    else
-       rem = [idx, idx - N];
-    end
-    sys.b(rem) = [];
-    sys.H(rem, :) = [];
-    W(rem, :) = [];                                                         %#ok<*SPRIX>
-    W(:, rem) = [];
-    C(rem, :) = [];
-    C(:, rem) = [];
-    N = N - 1;
+	idxGlo(idx) = [];
+	if idx <= N
+	   rem = [idx, idx + N];
+	else
+	   rem = [idx, idx - N];
+	end
+	sys.b(rem) = [];
+	sys.H(rem, :) = [];
+	W(rem, :) = [];                                                         %#ok<*SPRIX>
+	W(:, rem) = [];
+	C(rem, :) = [];
+	C(:, rem) = [];
+	N = N - 1;
  end
 
  se.bad(cnt,1) = rmax;
@@ -99,6 +100,6 @@
 
 
 %--------------------------------Save Data---------------------------------
- se.time.conv = toc; tic
+ se.time.con = toc; tic
  se.bus = VrVi(1:sys.Nbu) + 1i * VrVi(sys.Nbu+1:end);
 %--------------------------------------------------------------------------

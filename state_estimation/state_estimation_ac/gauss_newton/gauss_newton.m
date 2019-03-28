@@ -21,7 +21,9 @@
 %	- se.time.conv: convergence time
 %	- se.No: number of iterations
 %--------------------------------------------------------------------------
-% The local function which is used in the non-linear state estimation.
+% Created by Mirsad Cosovic on 2019-02-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -42,7 +44,7 @@
 
 
 %===========================Gauss-Newton Method============================
- while eps > sys.stop && No < 400
+ while eps > sys.stop && No < user.maxIter
  No = No+1;
 
  %----------------------Vector f(x) and Jacobian H(x)-----------------------
@@ -81,7 +83,7 @@
 
 
 %--------------------------------Save Data---------------------------------
- se.time.conv = toc; tic
- se.bus(:,1) = V .* exp(T * 1i);
- se.No = No;
+ se.time.con  = toc; tic
+ se.bus       = V .* exp(T * 1i);
+ se.iteration = No;
 %--------------------------------------------------------------------------

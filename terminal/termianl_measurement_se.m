@@ -1,5 +1,16 @@
  function termianl_measurement_se(in, sys)
 
+%--------------------------------------------------------------------------
+% Displays measurement data after state estimation algorithms.
+%--------------------------------------------------------------------------
+%  Inputs:
+%	- in: input result data
+%	- sys: power system data
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2019-01-26
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
+%--------------------------------------------------------------------------
 
 
 %% Measurement Terminal with Exact Values

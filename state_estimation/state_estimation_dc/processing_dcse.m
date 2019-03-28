@@ -9,7 +9,7 @@
 % is given as Pi = Ybus*T + Psh + rsh. In general, according to the
 % convention, a negative power value indicates the power flow direction in
 % a bus, while a positive power value means direction out a bus.
-%
+%--------------------------------------------------------------------------
 %  Inputs:
 %	- sys: power system data
 %	- se: state estimation data
@@ -17,8 +17,10 @@
 %  Outputs:
 %	- se.bus with additional column :(2)active power injection(Pi);
 %	- se.branch with column: (1)active power flow(Pij)
-%
-% The local function which is used in the DC state estimation.
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2017-08-04
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

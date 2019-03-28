@@ -2,71 +2,76 @@
  clearvars
 
 %--------------------------------------------------------------------------
-% Generates measumrnet data from the AC power flow analysis.
+% Generates measurement data from the AC power flow analysis using
+% Newton-Raphson algorithm.
 %
-% The module generates legacy and phasor measurment data, according to user
+% The module generates legacy and phasor measurement data, according to user
 % settings. The function corrupts the exact solutions from power flow
 % analysis by the additive white Gaussian noises according to defined
 % variances. Further, the function forms measurement set according to
 % predefined inputs.
 %
 %  Examples:
-%	leeloo('data5_6', 'pmuOptimal', 'pmuUnique', 10^-12);
-%	leeloo('data5_6', 'legDevice', [10 0 4 0]);
-%	leeloo('data5_6', 'legRedundancy', 3, 'legUnique', 10^-4);
+%	rungen('ieee14_20', 'pmuOptimal', 'pmuUnique', 10^-12);
+%	rungen('ieee14_20', 'legDevice', [10 0 4 0]);
+%	rungen('ieee14_20', 'legRedundancy', 3, 'legUnique', 10^-4);
 %--------------------------------------------------------------------------
 %  Syntax:
-%   leeloo(DATA, LIMITS, SET)
-%	leeloo(DATA, LIMITS, SET, VARIANCE)
+%	rungen(DATA, LIMITS, ATTACH, SET)
+%	rungen(DATA, LIMITS, ATTACH, SET, VARIANCE)
 %
 %  Description:
-%   - leeloo(DATA, LIMITS, START, SET) defines measurment set,  active and 
-%     inactive measurments 
-%	- leeloo(DATA, LIMITS, SET, VARIANCE) defines measurment variances
+%	- rungen(DATA, LIMIT, ATTACH, SET) defines measurement set,  active and
+%	  inactive measurements
+%	- rungen(DATA, LIMIT, ATTACH, SET, VARIANCE) defines measurement
+%	  variances
 %
 %  Input Arguments:
-%   - DATA: the first input argument in the 'leeloo' function must contain  
-%     a name of the mat-file that contains power system data
-%	- LIMITS
-%       - 'reactive': forces reactive power constraints in the power flow
-%       - 'voltage': forces voltage magnitude constraints in the power flow
+%	- DATA: the first input argument in the rungen function must contain
+%	  a name of the mat-file that contains power system data
+%	- LIMIT
+%		- 'reactive': forces reactive power constraints
+%		- 'voltage': forces voltage magnitude constraints
+%	- ATTACH
+%		- 'maxIter', X: AC power flow maximum number of iterations(X)
 %	- SET
-%       - 'pmuOptimal': optimal PMU location to make the entire system
+%		- 'pmuOptimal': optimal PMU location to make the entire system
 %		   completely observable only by phasor measurements
-%       - 'pmuRedundancy', X: randomize phasor measurements according to
+%		- 'pmuRedundancy', X: randomize phasor measurements according to
 %		   redundancy X;
 %		   default setting: maximum value of legacy redundancy
-%       - 'pmuDevice', X: enables phasor measurements according to number 
+%		- 'pmuDevice', X: enables phasor measurements according to number
 %		   of measurement devices X placed on buses
 %		   default setting: all PMUs are active
-%       - 'legRedundancy', X: randomize legacy measurements according to 
+%		- 'legRedundancy', X: randomize legacy measurements according to
 %		   redundancy X
 %		   default setting maximum value of phasor redundancy
-%       - 'legDevice', [X Y Z V]: enables legacy measurements according to
+%		- 'legDevice', [X Y Z V]: enables legacy measurements according to
 %		   device subsets [(Pij,Qij),(Iij),(Pi,Qi),(Vi)]
 %		   default setting: all legacy devices are active
 %   - VARIANCE
-%		- 'pmuUnique', X: applied unique variance X over all phasor 
-%          measurements
+%		- 'pmuUnique', X: applied unique variance X over all phasor
+%		   measurements
 %		   default setting: 10^-12;
-%       - 'pmuRandom', [X Y]: randomized variances within limits X and Y 
+%		- 'pmuRandom', [X Y]: randomized variances within limits X and Y
 %		   applied over all phasor measurements
 %		   default setting: [10^-12 10^-10];
-%		- 'pmuType', [X Y Z V]: defining variances over the subset of 
+%		- 'pmuType', [X Y Z V]: defining variances over the subset of
 %		   measurements from PMUs (Iij, Dij, Vi, Ti)
 %		   default setting: [10^-10 10^-12 10^-10 10^-12];
 %		- 'legUnique', X: applied unique variance X over all legacy
-%		   measurements 
-%          default setting: 10^-8;
-%		- 'legRandom', [X Y]: randomized variances within limits X and Y 
+%		   measurements
+%		   default setting: 10^-8;
+%		- 'legRandom', [X Y]: randomized variances within limits X and Y
 %		   applied over all legacy measurements
 %		   default setting: [10^-9 10^-8];
-%		- 'legType', [X Y Z V P Q]: defining variances over the subset of 
+%		- 'legType', [X Y Z V P Q]: defining variances over the subset of
 %		   legacy measurements (Pij, Qij, Iij, Pi, Qi, Vi)
 %		   default setting: [10^-6 10^-8 10^-8 10^-6 10^-8 10^-8];
 %
-% Note, except for the first input, the order of other inputs is arbitrary,
-% as well as their appearance.
+% Although the syntax is given in a certain order, for methodological
+% reasons, only DATA must appear as the first input argument, and the order
+% of other inputs is arbitrary, as well as their appearance.
 %--------------------------------------------------------------------------
 %  Outputs:
 %	- data: with additional struct variables:
@@ -122,6 +127,11 @@
 %--------------------------------------------------------------------------
 
 
+%---------------------------Generate Path Name-----------------------------
+ addpath(genpath(fileparts(which(mfilename))));
+%--------------------------------------------------------------------------
+
+
 %------------------------------Main Function-------------------------------
- [data] = leeloo('data5_6', 'legDevice', [10 0 4 0], 'legUnique', 10^-2);
+ [data] = rungen('data5_6', 'legDevice', [10 0 4 0], 'legUnique', 10^-2);
 %--------------------------------------------------------------------------

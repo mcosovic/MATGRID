@@ -21,7 +21,9 @@
 %    - idx.j21: indexes for the Jacobians J21
 %    - idx.j22: indexes for the Jacobians J22
 %--------------------------------------------------------------------------
-% The local function which is used in the Newton-Raphson algorithm.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -39,8 +41,8 @@
 
 %-------------------------------Parameters---------------------------------
  GiiBii  = sys.Ybu(sub2ind([sys.Nbu sys.Nbu], alg.pq, alg.pq));
- alg.Gii = real(GiiBii);
- alg.Bii = imag(GiiBii);
+ alg.Gii = full(real(GiiBii));
+ alg.Bii = full(imag(GiiBii));
 %--------------------------------------------------------------------------
 
 

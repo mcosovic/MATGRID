@@ -17,9 +17,9 @@
 %
 %  Outputs:
 %	- pf.bus with additional columns:
-%	  (4)apparent power injection (Si);
-%	  (5)generation apparent power(Sg); (6)load apparent power(Sl);
-%	  (7)apparent power at shunt elements(Ssh)
+%	  (2)apparent power injection (Si);
+%	  (3)generation apparent power(Sg); (4)load apparent power(Sl);
+%	  (5)apparent power at shunt elements(Ssh)
 %	- pf.branch with columns:
 %	  (1)line current at branch - from bus(Iij);
 %	  (2)line current at branch - to bus(Iji);
@@ -33,13 +33,14 @@
 %	  (10)reactive power injection from shunt susceptances - to bus(Qjs);
 %	  (11)apparent power of losses(Sijl)
 %--------------------------------------------------------------------------
-% The local function which is used in the AC power flow and non-linear
-% state estimation modules.
+% Created by Mirsad Cosovic on 2019-02-21
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %------------------------------Voltage Data--------------------------------
- Vc = pf.bus(:,3);
+ Vc = pf.bus(:,1);
  Vi = Vc(sys.branch(:,2));
  Vj = Vc(sys.branch(:,3));
  Vp = Vi ./ sys.branch(:,13);
@@ -47,19 +48,19 @@
 
 
 %----------------------Injection Bus Apparent Power------------------------
- pf.bus(:,4) = (conj(sys.Ybu) * conj(Vc)) .* Vc;
+ pf.bus(:,2) = (conj(sys.Ybu) * conj(Vc)) .* Vc;
 %--------------------------------------------------------------------------
 
 
 %--------------------Power of the Generators and Loads---------------------
- Pref = real(pf.bus(sys.sck(1),4));
+ Pref = real(pf.bus(sys.sck(1),2));
 
  Pg = sys.bus(:,11);
  Pg(sys.sck(1)) = abs(abs(Pref) - sys.bus(sys.sck(1),5));
- Qg = imag(pf.bus(:,4)) + sys.bus(:,6);
+ Qg = imag(pf.bus(:,2)) + sys.bus(:,6);
 
- pf.bus(:,5) = Pg + 1i*Qg;
- pf.bus(:,6) = sys.bus(:,5) + 1i*sys.bus(:,6);
+ pf.bus(:,3) = Pg + 1i*Qg;
+ pf.bus(:,4) = sys.bus(:,5) + 1i*sys.bus(:,6);
 %--------------------------------------------------------------------------
 
 
@@ -96,7 +97,7 @@
 
 
 %--------------------Apparent Power at Shunt Elements----------------------
- pf.bus(:,7) = Vc .* conj(Vc .* sys.ysh);
+ pf.bus(:,5) = Vc .* conj(Vc .* sys.ysh);
 %--------------------------------------------------------------------------
 
 

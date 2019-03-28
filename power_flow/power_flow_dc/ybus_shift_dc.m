@@ -2,7 +2,7 @@
 
 %--------------------------------------------------------------------------
 % Builds the Ybus matrix (sys.Nbu x sys.Nbu) and shift angle vector
-% (sys.Nbu x 1) for the DC problem.
+% (sys.Nbu x 1) for the DC power flow problem.
 %
 % The DC power flow is based on the power balance equation Pg - Pl = Ybus*T
 % + Psh + rsh, where T is the vector of bus voltage angles and Psh is shift
@@ -16,8 +16,9 @@
 %	- sys.branch with additional column: (11)1/(tij*xij)
 %	- sys.Ybu: Ybus matrix
 %--------------------------------------------------------------------------
-% The local function which is used in the DC power flow and DC state
-% estimation modules.
+% Created by Mirsad Cosovic on 2018-06-15
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 

@@ -1,4 +1,4 @@
- function [data] = run_play_measurement(user, data, sys)
+ function [data] = runplay(user, data, sys)
 
 %--------------------------------------------------------------------------
 % Builds measurement data from exact values.
@@ -11,7 +11,7 @@
 %	- user: user inputs
 %	- data: input power system data
 %	- sys: power system data
-%--------------------------------------------------------------------------
+%
 %  Outputs:
 %	- data.legacy.flow with changed columns:
 %	  (3)active power flow measurements;
@@ -49,7 +49,9 @@
 %	  (6)bus voltage angle measurement variances;
 %	  (7)bus voltage angle measurements turn on/off;
 %--------------------------------------------------------------------------
-% The local function which is used to play with measurements.
+% Created by Mirsad Cosovic on 2019-02-24
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -59,19 +61,19 @@
 
 
 %----------------------------Measurement Sets------------------------------
- if user.setleg ~= 0 || user.setpmu ~= 0
-	[user] = check_measurement_set(user, msr);
-	[user, msr] = set_produce(user, msr, sys);
-	[data] = play_export_set(user, data, sys, msr);
+ if any(ismember({'pmuRedundancy', 'pmuDevice', 'pmuOptimal', 'legRedundancy', 'legDevice'}, user.list))
+ 	[user]      = check_measurement_set(user, msr);
+ 	[user, msr] = set_produce(user, msr, sys);
+ 	[data]      = play_set(user, data, sys, msr);
  end
 %--------------------------------------------------------------------------
 
 
 %--------------------------Measurement Variances---------------------------
- if user.varleg ~= 0 || user.varpmu ~= 0
+ if any(ismember({'pmuUnique', 'pmuRandom', 'pmuType', 'legUnique', 'legRandom', 'legType'}, user.list))
 	[user] = check_measurement_variance(user);
-	[msr]  = variance_produce(user, msr);
-	[data] = play_export_measure_variance(user, data, sys, msr);
+ 	[msr]  = variance_produce(user, msr);
+ 	[data] = play_variance(user, data, sys, msr);
  end
 %--------------------------------------------------------------------------
 

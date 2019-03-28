@@ -6,14 +6,16 @@
 %
 % Load Matpower test case as the variable 'mpc' (see line 21), where
 % Matpower m.file is in the same directory as this function.
-%
+%--------------------------------------------------------------------------
 %  Input:
 %	- load Matpower test case
 %
 %  Output:
 %	- data: power system data compatible with the package
-%
-% Standalone function which is used to generate power system data.
+%--------------------------------------------------------------------------
+% Created by Mirsad Cosovic on 2019-02-14
+% Last revision by Mirsad Cosovic on 2019-03-27
+% MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
@@ -23,8 +25,8 @@
 
 
 %-------------------------------Description--------------------------------
- data.case      = 'xxx';
- data.reference = 'xxx';
+ data.case      = 'case';
+ data.reference = 'reference';
  data.grid      = 'Transmission';
 %--------------------------------------------------------------------------
 
