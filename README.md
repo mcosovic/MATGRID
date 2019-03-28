@@ -1,4 +1,4 @@
-## PowerMarieEdu
+## MATGRID
 
 MATGRID is the simulation tool for researchers and educators that is easy-to-use MATLAB package, with source code released under MIT License. It allows a variety of display and manipulation options.
 
