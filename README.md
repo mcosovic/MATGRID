@@ -13,9 +13,9 @@ We have tested and verifed simulation tool using different scenarios to best of 
 <table>
     <tbody>
         <tr>
-            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulepf.png" width="150" ></td>
-            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulese.png" width="150" ></td>
-            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulemg.png" width="150"</td>
+            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulepf.png" width="130" ></td>
+            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulese.png" width="130" ></td>
+            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulemg.png" width="130"</td>
         </tr>
     </tbody>
 </table>
