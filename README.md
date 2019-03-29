@@ -1,15 +1,19 @@
 ## MATGRID
 
+<img align="right" width="175" src="/doc/figures/logo.png">
+
 MATGRID is the simulation tool for researchers and educators that is easy-to-use MATLAB package, with source code released under MIT License, inspired by Matpower. It allows a variety of display and manipulation options.
+
+
 
 The software package provides the solution of the AC and DC power flow, the non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator.
 
 <table>
     <tbody>
         <tr>
-            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="https://github.com/mcosovic/PowerMarieEdu/blob/master/doc/figures/modulepf.png"></td>
-            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="https://github.com/mcosovic/PowerMarieEdu/blob/master/doc/figures/modulese.png"></td>
-            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="https://github.com/mcosovic/PowerMarieEdu/blob/master/doc/figures/modulemg.png"</td>
+            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulepf.png"></td>
+            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulese.png"></td>
+            <td align="center"><a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulemg.png"</td>
         </tr>
     </tbody>
 </table>
