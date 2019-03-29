@@ -1,6 +1,6 @@
 ## MATGRID
 
-<img align="right" width="175" src="/doc/figures/logo.png">
+<a href="#"><img align="right" width="175" src="/doc/figures/logo.png">
 
 MATGRID is the simulation tool for researchers and educators that is easy-to-use MATLAB package, with source code released under MIT License, inspired by Matpower. It allows a variety of display and manipulation options.
 
