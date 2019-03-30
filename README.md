@@ -9,7 +9,7 @@ We have tested and verifed simulation tool using different scenarios to the best
 
 The software package provides the solution of the AC and DC power flow, non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator.
 
-<p align="middle"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulepf.png" width="110"> <a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulese.png" width="110"> <a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulemg.png" width="110"></a></p>
+<p align="middle"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulepf.png" width="110"></a> <a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulese.png" width="110"></a> <a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulemg.png" width="110"></a></p>
   
 Inter alia, MATGRID includes the weighted least-squares and least absolute values state estimation, optimal PMU placement, and bad data processing.  
   
