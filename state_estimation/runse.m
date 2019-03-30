@@ -1,4 +1,4 @@
- function [data, se] = runse(varargin)
+ function [se, data] = runse(varargin)
 
 %--------------------------------------------------------------------------
 % Runs the non-linear and DC state estimation, as well as the state

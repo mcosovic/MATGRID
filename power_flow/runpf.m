@@ -1,4 +1,4 @@
- function [data, pf, sys] = runpf(varargin)
+ function [pf, data, sys] = runpf(varargin)
 
 %--------------------------------------------------------------------------
 % Runs the AC or DC power flow analysis.
