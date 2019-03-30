@@ -11,7 +11,7 @@ The software package provides the solution of the AC and DC power flow, non-line
 
 <p align="middle"><a href="https://github.com/mcosovic/MATGRID/wiki/Power-Flow" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulepf.png" width="110"> <a href="https://github.com/mcosovic/MATGRID/wiki/State-Estimation" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulese.png" width="110"> <a href="https://github.com/mcosovic/MATGRID/wiki/Measurement-Generator" itemprop="contentUrl" data-size="600x400"> <img src="/doc/figures/modulemg.png" width="110"></a></p>
   
-Inter alia, MATGRID includes weighted least-squares and least absolute values state estimation, optimal PMU placement, and bad data processing.  
+Inter alia, MATGRID includes the weighted least-squares and least absolute values state estimation, optimal PMU placement, and bad data processing.  
   
 ###  Fast Run Power Flow
 ```
