@@ -3,7 +3,7 @@
 
 <a href="#"><img align="right" width="175" src="/doc/figures/logo.png" /></a>
 
-MATGRID is an easy-to-use simulation tool for researchers and educators provided as a MATLAB package. MATGRID source code is released under MIT License. MATGRID is inspired by Matpower and allows a variety of display and manipulation options.
+MATGRID is an easy-to-use simulation tool for researchers and educators provided as a MATLAB package, with source code released under MIT License. MATGRID is inspired by Matpower and allows a variety of display and manipulation options.
 
 The software package provides the solution of the AC and DC power flow, non-linear and DC state estimation, as well as the state estimation with PMUs, with standalone measurement generator.
 
