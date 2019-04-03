@@ -1,4 +1,4 @@
- function [sys] = compose_flow(flow, sys, br)
+ function [sys] = compose_flow(flow, sys, bra)
 
 %--------------------------------------------------------------------------
 % Builds data associated with active and reactive power flow measurements.
@@ -9,7 +9,7 @@
 %  Inputs:
 %	- flow: legacy power flow measurement data
 %	- sys: power system data
-%	- br: branch indexes and parameters
+%	- bra: branch indexes and parameters
 %
 %  Outputs:
 %	- sys.Pf: set indexes and parameters associated with active power flow
@@ -25,17 +25,17 @@
 
 %------------------Active Power Flow Legacy Measurements-------------------
  sys.Pf.idx = logical(flow(:,5));
- sys.Pf.i   = br.i(sys.Pf.idx);
- sys.Pf.j   = br.j(sys.Pf.idx);
+ sys.Pf.i   = bra.i(sys.Pf.idx);
+ sys.Pf.j   = bra.j(sys.Pf.idx);
  sys.Pf.z   = flow(sys.Pf.idx,3);
  sys.Pf.v   = flow(sys.Pf.idx,4);
  sys.Pf.N   = size(sys.Pf.i,1);
 
- sys.Pf.gij  = br.gij(sys.Pf.idx);
- sys.Pf.bij  = br.bij(sys.Pf.idx);
- sys.Pf.tgij = br.tij(sys.Pf.idx).^2 .* sys.Pf.gij;
- sys.Pf.pij  = br.pij(sys.Pf.idx);
- sys.Pf.fij  = br.fij(sys.Pf.idx);
+ sys.Pf.gij  = bra.gij(sys.Pf.idx);
+ sys.Pf.bij  = bra.bij(sys.Pf.idx);
+ sys.Pf.tgij = bra.tij(sys.Pf.idx).^2 .* sys.Pf.gij;
+ sys.Pf.pij  = bra.pij(sys.Pf.idx);
+ sys.Pf.fij  = bra.fij(sys.Pf.idx);
 
  num = (1:sys.Pf.N)';
  sys.Pf.jci = [num; num];

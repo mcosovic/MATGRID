@@ -28,6 +28,7 @@ runse('ieee14_20', 'pmu', 'pmuOptimal', 'estimate');
 
 ###  Changelog
 Major changes:
+- 2019-04-03 Added observability analysis (DC state estimation only , beta version, please treat the results with attention)
 - 2019-03-28 Added Gauss-Seidel, decoupled Newton-Raphson and fast decoupled Newton-Raphson algorithm
 - 2019-03-21 Added least absolute value (LAV) state estimation
 - 2019-03-19 Added bad data processing

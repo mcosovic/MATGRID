@@ -58,6 +58,8 @@
 %		   values of voltage magnitudes in per-units
 %		   default setting: [-0.5 0.5 0.95 1.05]
 %	- ATTACH
+%       - 'observe': observability analysis (only the DC state estimation, 
+%         (beta version, please treat the results with attention)
 %		- 'bad': bad data processing
 %		- 'lav': least absolute value state estimation
 %		- 'maxIter', X: maximum number of the Gauss-Newton iterations(X)
@@ -123,5 +125,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [result, data] = runse('ieee14_20', 'nonlinear', 'pmuRedundancy', 3, 'legRedundancy', 5', 'estimate', 'maxIter', 2);
+ [result, data] = runse('matlab', 'dc','legDevice', [14 0 0 0],'pmuDevice', 6, 'main');
 %--------------------------------------------------------------------------

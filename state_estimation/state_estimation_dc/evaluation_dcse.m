@@ -25,26 +25,26 @@
 %	  variables and corresponding exact values
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2017-08-04
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-01
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %----------------------------Estimated Values------------------------------
- se.estimate(:,3) = [se.branch(data.legacy.flow(:,11));
-                     se.bus(data.legacy.injection(:,10), 2);
-                     se.bus(data.pmu.voltage(:,10), 1)];
+ Pij = [se.branch; -se.branch];
+ 
+ se.estimate(:,3) = [Pij(sys.Pf.idx); se.bus(sys.Pi.idx, 2); se.bus(sys.Vap.idx, 1)];
 %--------------------------------------------------------------------------
 
 
 %------------------------------Exact Values--------------------------------
- if sys.exact == 1
-	try
-	  se.estimate(:,5) = [data.legacy.flow(:,9); data.legacy.injection(:,8); data.pmu.voltage(:,9)];
-	  sv_esti = se.bus(:,1);
-	catch
-	  sys.exact = 0;
-	end
+ try
+  sys.exact = 1;
+  se.estimate(:,5) = [data.legacy.flow(sys.Pf.idx,9); data.legacy.injection(sys.Pi.idx,8); data.pmu.voltage(sys.Vap.idx,9)];
+  sv_true = data.pmu.voltage(:,9);
+  sv_esti = se.bus(:,1);
+ catch
+  sys.exact = 0;
  end
 %--------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@
 %--------------------Estimated Values to Exact Values----------------------
  if sys.exact == 1
 	d2 = se.estimate(:,3) - se.estimate(:,5);
-	d3 = sv_esti - sys.true_sv;
+	d3 = sv_esti - sv_true;
 
 	se.error.mae2 = sum(abs(d2)) / sys.Ntot;
 	se.error.mae3 = sum(abs(d3)) / sys.Nbu;

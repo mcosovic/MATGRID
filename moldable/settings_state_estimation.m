@@ -4,10 +4,10 @@
 % Checks user inputs and if those are missing, adds default values and
 % loads power system data and measurements.
 %
-% The function checks 'nonlinear', 'pmu', 'dc', 'lav', 'bad', 'maxIter'
-% 'bus', 'branch', 'estimate', 'error', 'save', 'export', 'export slack',
-% initialization variables 'flat', 'warm', 'exact', 'random', set variables
-% 'pmuRedundancy', 'pmuDevice', 'pmuOptimal' 'legRedundancy', and
+% The function checks 'nonlinear', 'pmu', 'dc', 'lav', 'bad', 'observe',
+% 'maxIter' 'bus', 'branch', 'estimate', 'error', 'save', 'export', 'export
+% slack', initialization variables 'flat', 'warm', 'exact', 'random', set
+% variables 'pmuRedundancy', 'pmuDevice', 'pmuOptimal' 'legRedundancy', and
 % 'legDevice', variance variable 'legUnique', 'legRandom', 'legType',
 % 'pmuUnique', 'pmuRandom', and 'pmuType', given as input arguments of the
 % function runse, and loads power system data according to the grid
@@ -21,7 +21,7 @@
 %	- user: user settings
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-02-18
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-01
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
@@ -151,6 +151,17 @@
 %--------------------------------------------------------------------------
 
 
+%------------------------Check observability Input-------------------------
+ in = ismember(var, 'observe');
+ v1 = find(in, 1, 'first');
+ ob = var(in);
+
+ if strcmp(ob, 'observe')
+	user.pseudo = str2num(var(v1+1));
+ end
+%--------------------------------------------------------------------------
+
+
 %-----------------------Check Number of Iterations-------------------------
  in = ismember(var, 'maxIter');
  v1 = find(in);
@@ -173,5 +184,5 @@
 
 
 %------------------------------User Settings-------------------------------
- user.list = [se, st, ps, ls, pv, lv, bd, lav, it, tr, gd];
+ user.list = [se, st, ps, ls, pv, lv, bd, lav, ob, it, tr, gd];
 %--------------------------------------------------------------------------
