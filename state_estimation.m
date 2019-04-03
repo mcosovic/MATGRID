@@ -125,5 +125,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [result, data] = runse('matlab', 'dc','legDevice', [14 0 0 0],'pmuDevice', 6, 'main');
+ [result, data] = runse('ieee14_20', 'dc','legDevice', 'observe', [14 0 0 0],'pmuDevice', 6, 'main');
 %--------------------------------------------------------------------------
