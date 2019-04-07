@@ -1,4 +1,4 @@
- function [se] = observability_dc(sys, se)
+ function [se] = observability_dc(data, sys)
 
 %--------------------------------------------------------------------------
 % Observability analysis using LU factorization for the DC model
@@ -10,41 +10,40 @@
 % nonzero branch flow P = A*T, the system is unobservable, and branches
 % with nonzero flows will be unobservable.
 %--------------------------------------------------------------------------
-%  Input:
+%  Inputs:
+%	- data: input power system data
 %	- sys: power system data
-%	- se: state estimation data
 %
 %  Output:
-%	- se.observe.notBranch: unobservable branches
+%	- se.observe: observability analysis data
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-03-29
-% Last revision by Mirsad Cosovic on 2019-04-03
+% Last revision by Mirsad Cosovic on 2019-04-07
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
+%----------------Irrelevant Branches and Measurement Data------------------
+ [obs] = irrelevant_branches(data.pmu, data.legacy, sys);
+%--------------------------------------------------------------------------
+
+
+%-------------------------Voltage Angle Jacobian---------------------------
+ N  = size(obs.vol,1);
+ Hv = sparse((1:N)', obs.vol, 1, N, sys.Nbu);
+%--------------------------------------------------------------------------
+
+
 %-------------------------Observability Analysis---------------------------
- H = sys.H;
- G = H' * H;
- [L,U,P,Q] = lu(G);
-
- U = round(U*(10^10))/(10^10);
- n = find(diag(U)==0);
- C = zeros(sys.Nbu,1);
-
- for i = 1:length(n)
-	 U(n(i),n(i)) = 1;
-	 if length(n) == 1
-		C(n(i)) = i;
-	 end
-	 if length(n) ~= 1
-		C(n(i)) = i-1;
-	end
+ P = 1;
+ while max(P) ~= 0
+	   [obs] = observe_matricies(obs, sys);
+	   [P] = unobservable_branches(sys, obs, Hv);
+	   [obs] = remove_branches(obs, P);
  end
+%--------------------------------------------------------------------------
 
- G = P'*L*U*Q';
- T = G \ (P'*C);
- P = round((sys.Ai * T)*(10^8))/(10^8)';
 
- se.observe.notBranch = sys.branch(sys.branch(P ~= 0), 9:10);
+%---------------------------Observable Islands-----------------------------
+ [se] = observe_islands(sys, obs);
 %--------------------------------------------------------------------------

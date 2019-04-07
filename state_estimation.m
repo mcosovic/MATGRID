@@ -58,10 +58,9 @@
 %		   values of voltage magnitudes in per-units
 %		   default setting: [-0.5 0.5 0.95 1.05]
 %	- ATTACH
-%       - 'observe': observability analysis (only the DC state estimation, 
-%         (beta version, please treat the results with attention)
 %		- 'bad': bad data processing
 %		- 'lav': least absolute value state estimation
+%       - 'observe': observability analysis (only the DC state estimation)
 %		- 'maxIter', X: maximum number of the Gauss-Newton iterations(X)
 %	- SET
 %		- 'pmuOptimal': optimal PMU location to make the entire system
@@ -125,5 +124,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [result, data] = runse('ieee14_20', 'dc', 'observe', 'legDevice', [14 0 0 0],'pmuDevice', 6, 'main');
+ [result, data] = runse('ieee14_20', 'dc', 'observe', 'main');
 %--------------------------------------------------------------------------

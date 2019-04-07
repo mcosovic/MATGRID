@@ -1,4 +1,4 @@
- function [sys, se] = compose_measurement_dcse(sys)
+ function [sys, se] = compose_measurement_dcse(sys, se)
 
 %--------------------------------------------------------------------------
 % Builds data associated with all available measurements.

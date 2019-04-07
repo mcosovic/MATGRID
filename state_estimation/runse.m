@@ -1,4 +1,4 @@
- function [se, data] = runse(varargin)
+ function [se, data, sys] = runse(varargin)
 
 %--------------------------------------------------------------------------
 % Runs the non-linear and DC state estimation, as well as the state
@@ -14,7 +14,7 @@
 %	- se: see the output variable result.info
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-02-26
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-07
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
@@ -95,15 +95,18 @@
 %---------------------------DC State Estimation----------------------------
  if ismember('dc', user.list)
     [sys] = ybus_shift_dc(sys); 
+    
+    if ismember('observe', user.list)
+       [se] = observability_dc(data, sys);
+    else
+       se = [];
+    end
+    
     [bra] = branch_data_dcse(sys);
     [sys] = compose_flow_dcse(data.legacy.flow, sys, bra);
     [sys] = compose_injection_dcse(data.legacy.injection, sys);
     [sys] = compose_voltage_dcse(data.pmu.voltage, sys);
-    [sys, se] = compose_measurement_dcse(sys);
-
-    if ismember('observe', user.list)
-       [se] = observability_dc(sys, se); 
-    end    
+    [sys, se] = compose_measurement_dcse(sys, se);
    
     if ismember('bad', user.list)
        [se] = solve_dcse_bad_data(user, sys, se);
@@ -112,8 +115,8 @@
     else
        [se] = solve_dcse(sys, se);
     end
-    se.time.pos = 1;
-	[se] = processing_dcse(sys, se);
+    
+    [se] = processing_dcse(sys, se);
  	[sys, se] = evaluation_dcse(data, sys, se);
  	[se] = name_unit_dcse(data, sys, se);
     [se] = info_dcse(se);
