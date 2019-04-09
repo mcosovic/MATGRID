@@ -157,7 +157,7 @@
  ob = var(in);
 
  if strcmp(ob, 'observe')
-	user.pseudo = str2num(var(v1+1));
+	user.psvar = str2num(var(v1+1));
  end
 %--------------------------------------------------------------------------
 

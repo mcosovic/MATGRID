@@ -1,4 +1,4 @@
- function [se] = observability_dc(data, sys)
+ function [data, se] = observability_dc(data, sys, user)
 
 %--------------------------------------------------------------------------
 % Observability analysis using LU factorization for the DC model
@@ -23,8 +23,13 @@
 %--------------------------------------------------------------------------
 
 
+%---------------------Processing Inputs and Settings-----------------------
+ [user] = check_observe(user);
+%--------------------------------------------------------------------------
+
+
 %----------------Irrelevant Branches and Measurement Data------------------
- [obs] = irrelevant_branches(data.pmu, data.legacy, sys);
+ [obs, bra] = irrelevant_branches(data.pmu, data.legacy, sys);
 %--------------------------------------------------------------------------
 
 
@@ -35,15 +40,16 @@
 
 
 %-------------------------Observability Analysis---------------------------
- P = 1;
- while max(P) ~= 0
+ obs.Pf = 1;
+ while max(obs.Pf) ~= 0
 	   [obs] = observe_matricies(obs, sys);
-	   [P] = unobservable_branches(sys, obs, Hv);
-	   [obs] = remove_branches(obs, P);
+	   [obs] = unobservable_branches(sys, obs, Hv);
+	   [obs] = remove_branches(obs);
  end
 %--------------------------------------------------------------------------
 
 
 %---------------------------Observable Islands-----------------------------
  [se] = observe_islands(sys, obs);
+ [data, se] = restore_observability(data, sys, obs, se, bra, user);
 %--------------------------------------------------------------------------

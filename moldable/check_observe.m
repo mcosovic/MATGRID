@@ -19,12 +19,12 @@
 
 
 %------------------------Check observability Input-------------------------
- if ismember('observe', user.list) && ~isempty(user.pseudo) && (~isvector(user.pseudo) || ~(any(length(user.pseudo) == 1)) || user.pseudo <= 0)
-	user.pasudo = 10^12;
-	warning('se:Pseudo', ['The value pair argument of the variable ' ...
+ if ismember('observe', user.list) && ~isempty(user.psvar) && (~isvector(user.psvar) || ~(any(length(user.psvar) == 1)) || user.psvar <= 0)
+	user.psvar = 10^6;
+	warning('se:psvar', ['The value pair argument of the variable ' ...
 	'"observe" has invalid type. The algorithm proceeds with default ' ...
-	'value: %1.e.\n'], 10^12)
- elseif ismember('observe', user.list) && isempty(user.pasudo)
-    user.pasudo = 10^12;
+	'value: %1.e.\n'], 10^6)
+ elseif ismember('observe', user.list) && isempty(user.psvar)
+    user.psvar = 10^6;
  end
 %--------------------------------------------------------------------------

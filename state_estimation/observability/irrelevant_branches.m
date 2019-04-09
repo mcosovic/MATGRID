@@ -1,4 +1,4 @@
- function [obs] = irrelevant_branches(pmu, leg, sys)
+ function [obs, bra] = irrelevant_branches(pmu, leg, sys)
 
 %--------------------------------------------------------------------------
 % Removes irrelevant branches for the DC state estimation.
@@ -19,9 +19,10 @@
 %	- obs.vol: indexes of voltage angle measurements
 %	- obs.flo: indexes of active power flow measurements
 %	- obs.inj: indexes of active power injection measurements
+%	- br: branch indexes and parameters
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-04-04
-% Last revision by Mirsad Cosovic on 2019-04-07
+% Last revision by Mirsad Cosovic on 2019-04-09
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 

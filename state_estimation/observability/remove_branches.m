@@ -1,4 +1,4 @@
- function [obs] = remove_branches(obs, P)
+ function [obs] = remove_branches(obs)
 
 %--------------------------------------------------------------------------
 % Removes unobservable branches and  measurements that are incident to
@@ -25,9 +25,9 @@
 
 
 %--------------------Remove Branches and Measurements----------------------
- nonObs = obs.branch(P, :);
+ nonObs = obs.branch(obs.Pf, :);
 
- obs.branch(P, :) = [];
+ obs.branch(obs.Pf, :) = [];
  obs.Nbr = size(obs.branch,1);
 
  idxPi = unique([nonObs(:,1); nonObs(:,2)]);

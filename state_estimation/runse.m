@@ -97,7 +97,7 @@
     [sys] = ybus_shift_dc(sys); 
     
     if ismember('observe', user.list)
-       [se] = observability_dc(data, sys);
+       [data, se] = observability_dc(data, sys, user);
     else
        se = [];
     end
