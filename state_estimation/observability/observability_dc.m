@@ -51,5 +51,7 @@
 
 %---------------------------Observable Islands-----------------------------
  [se] = observe_islands(sys, obs);
- [data, se] = restore_observability(data, sys, obs, se, bra, user);
+ if obs.Pf ~= 1
+    [data, se] = restore_observability(data, sys, obs, se, bra, user);
+ end
 %--------------------------------------------------------------------------
