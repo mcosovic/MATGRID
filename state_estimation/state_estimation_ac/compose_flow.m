@@ -45,18 +45,18 @@
 
 %------------------Reactive Power Flow Legacy Measurements-----------------
  sys.Qf.idx = logical(flow(:,8));
- sys.Qf.i   = br.i(sys.Qf.idx);
- sys.Qf.j   = br.j(sys.Qf.idx);
+ sys.Qf.i   = bra.i(sys.Qf.idx);
+ sys.Qf.j   = bra.j(sys.Qf.idx);
  sys.Qf.z   = flow(sys.Qf.idx,6);
  sys.Qf.v   = flow(sys.Qf.idx,7);
  sys.Qf.N   = size(sys.Qf.i,1);
 
- sys.Qf.gij  = br.gij(sys.Qf.idx);
- sys.Qf.bij  = br.bij(sys.Qf.idx);
- sys.Qf.bsi  = br.bsi(sys.Qf.idx);
- sys.Qf.tbij = br.tij(sys.Qf.idx).^2 .* (sys.Qf.bij + sys.Qf.bsi);
- sys.Qf.pij  = br.pij(sys.Qf.idx);
- sys.Qf.fij  = br.fij(sys.Qf.idx);
+ sys.Qf.gij  = bra.gij(sys.Qf.idx);
+ sys.Qf.bij  = bra.bij(sys.Qf.idx);
+ sys.Qf.bsi  = bra.bsi(sys.Qf.idx);
+ sys.Qf.tbij = bra.tij(sys.Qf.idx).^2 .* (sys.Qf.bij + sys.Qf.bsi);
+ sys.Qf.pij  = bra.pij(sys.Qf.idx);
+ sys.Qf.fij  = bra.fij(sys.Qf.idx);
 
  num = (1:sys.Qf.N)';
  sys.Qf.jci = [num; num];
