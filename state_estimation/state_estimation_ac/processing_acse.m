@@ -40,50 +40,49 @@
 
 
 %------------------------------Voltage Data--------------------------------
- Vc = se.bus;
- Vi = Vc(sys.branch(:,2));
- Vj = Vc(sys.branch(:,3));
+ Vi = se.Vc(sys.branch(:,2));
+ Vj = se.Vc(sys.branch(:,3));
  Vp = Vi ./ sys.branch(:,13);
 %--------------------------------------------------------------------------
 
 
 %----------------------Injection Bus Apparent Power------------------------
- se.bus(:,2) = (conj(sys.Ybu) * conj(Vc)) .* Vc;
+ se.Si = (conj(sys.Ybu) * conj(se.Vc)) .* se.Vc;
 %--------------------------------------------------------------------------
 
 
 %-----------------------Line Current from/to Buses-------------------------
- se.branch(:,1) = Vi .* sys.branch(:,15) + Vj .* sys.branch(:,16);
- se.branch(:,2) = Vi .* sys.branch(:,17) + Vj .* sys.branch(:,14);
+ se.Iij = Vi .* sys.branch(:,15) + Vj .* sys.branch(:,16);
+ se.Iji = Vi .* sys.branch(:,17) + Vj .* sys.branch(:,14);
 
- se.branch(:,3) = sys.branch(:,11) .* (Vp - Vj);
- se.branch(:,4) = sys.branch(:,11) .* (Vj - Vp);
+ se.Iijb = sys.branch(:,11) .* (Vp - Vj);
+ se.Ijib = sys.branch(:,11) .* (Vj - Vp);
 %--------------------------------------------------------------------------
 
 
 %----------------------Apparent Power from/to Buses------------------------
- se.branch(:,5) = Vi .* conj(se.branch(:,1));
- se.branch(:,6) = Vj .* conj(se.branch(:,2));
+ se.Sij = Vi .* conj(se.Iij);
+ se.Sji = Vj .* conj(se.Iji);
 
- se.branch(:,7) = Vp .* conj(se.branch(:,3));
- se.branch(:,8) = Vj .* conj(se.branch(:,4));
+ se.Sijb = Vp .* conj(se.Iijb);
+ se.Sjib = Vj .* conj(se.Ijib);
 %--------------------------------------------------------------------------
 
 %
 %-------------------------Branch Shunt Injection---------------------------
- se.branch(:,9)  = imag(sys.branch(:,12)) .* abs(Vp).^2;
- se.branch(:,10) = imag(sys.branch(:,12)) .* abs(Vj).^2;
+ se.Qbi = imag(sys.branch(:,12)) .* abs(Vp).^2;
+ se.Qbj = imag(sys.branch(:,12)) .* abs(Vj).^2;
 %--------------------------------------------------------------------------
 
 
 %------------------------Active and Reactive Losses------------------------
- Plos = (abs(se.branch(:,3))).^2 .* sys.branch(:,4);
- Qlos = (abs(se.branch(:,3))).^2 .* sys.branch(:,5);
+ Plos = (abs(se.Iijb)).^2 .* sys.branch(:,4);
+ Qlos = (abs(se.Iijb)).^2 .* sys.branch(:,5);
 
- se.branch(:,11) = Plos + 1i*Qlos;
+ se.Slos = Plos + 1i*Qlos;
 %--------------------------------------------------------------------------
 
 
 %--------------------Apparent Power at Shunt Elements----------------------
- se.bus(:,3) = Vc .* conj(Vc .* sys.ysh);
+ se.Ssh = se.Vc .* conj(se.Vc .* sys.ysh);
 %--------------------------------------------------------------------------

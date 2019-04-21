@@ -22,8 +22,9 @@
 %	- sys.Vcon with changed column: (3)limit on/off;
 %	- pf.alg: algorithm data
 %	- idx: indexes data
-%	- pf.bus with changed columns:
-%	  (6)minimum limits violated at bus; (7)maximum limits violated at bus;
+%	- pf.limit with columns:
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- V, T: bus voltage magnitude and angle vector
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-03-25
@@ -76,7 +77,7 @@
  if ~isempty(mnv) || ~isempty(mxv)
 	[alg, idx] = idx_par2_dnr(sys, alg, idx);
 
-	pf.bus(mnv,6) = mnv;
-	pf.bus(mxv,7) = mxv;
+	pf.limit(mnv,1) = 1;
+	pf.limit(mxv,2) = 1;
  end
 %--------------------------------------------------------------------------

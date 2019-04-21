@@ -1,7 +1,7 @@
- function [data, se] = observability_dc(data, sys, user)
+ function [data, user, se, af, ai] = observe_dc(data, user, se, af, ai, va)
 
 %--------------------------------------------------------------------------
-% Observability analysis using LU factorization for the DC model
+% Observability analysis using LDL factorization for the DC model.
 %
 % Using the gain matrix, we observe (G'*G)*T = t. If the matrix G has full
 % column rank, these properties will be valid: every columns of G has a
@@ -12,13 +12,21 @@
 %--------------------------------------------------------------------------
 %  Inputs:
 %	- data: input power system data
-%	- sys: power system data
+%	- user: user inputs
+%	- se: state estimation system data
+%	- af: active power flow measurement data
+%	- ai: active power injection measurement data
+%	- va: voltage angle measurement data
 %
-%  Output:
+%  Outputs:
+%	- data: measurement data with pseudo-measurements
+%	- user.list: flag if the system is unobservable
 %	- se.observe: observability analysis data
+%	- ai: active power injection measurements with pseudo-measurements
+%	- af: active power flow measurements with pseudo-measurements
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-03-29
-% Last revision by Mirsad Cosovic on 2019-04-07
+% Last revision by Mirsad Cosovic on 2019-04-20
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
@@ -28,30 +36,19 @@
 %--------------------------------------------------------------------------
 
 
-%----------------Irrelevant Branches and Measurement Data------------------
- [obs, bra] = irrelevant_branches(data.pmu, data.legacy, sys);
-%--------------------------------------------------------------------------
-
-
-%-------------------------Voltage Angle Jacobian---------------------------
- N  = size(obs.vol,1);
- Hv = sparse((1:N)', obs.vol, 1, N, sys.Nbu);
+%---------------------------Irrelevant Branches----------------------------
+ [br, ir, Ai] = irrelevant_branches(se, af, ai, va);
 %--------------------------------------------------------------------------
 
 
 %-------------------------Observability Analysis---------------------------
- obs.Pf = 1;
- while max(obs.Pf) ~= 0
-	   [obs] = observe_matricies(obs, sys);
-	   [obs] = unobservable_branches(sys, obs, Hv);
-	   [obs] = remove_branches(obs);
- end
+ [user, se, br, Ai] = unobservable_branches(data, user, se, af, ai, va, br, Ai);
 %--------------------------------------------------------------------------
 
 
-%---------------------------Observable Islands-----------------------------
- [se] = observe_islands(sys, obs);
- if obs.Pf ~= 1
-    [data, se] = restore_observability(data, sys, obs, se, bra, user);
+%---------------------Islands and Pseudo-measurements----------------------
+ if ismember('unobservable', user.list)
+	[se] = observe_islands(se, br, ir, Ai);
+	[data, se, af, ai] = restore_observability(data, user, se);
  end
 %--------------------------------------------------------------------------

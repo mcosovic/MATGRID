@@ -15,10 +15,9 @@
 %	- sys.bus with additional column: (16)shift vector(Psh)
 %	- sys.branch with additional column: (11)1/(tij*xij)
 %	- sys.Ybu: Ybus matrix
-%	- sys.Yi: branch-bus matrix (for observability analysis)
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2018-06-15
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-15
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
@@ -30,16 +29,16 @@
  col = [sys.branch(:,2); sys.branch(:,3)];
  ind = ones(sys.Nbr,1);
 
- sys.Ai = sparse(row, col, [ind; -ind], sys.Nbr, sys.Nbu);
- sys.Yi = sparse(row, col, [sys.branch(:,11); -sys.branch(:,11)], sys.Nbr, sys.Nbu);
+ Ai = sparse(row, col, [ind; -ind], sys.Nbr, sys.Nbu);
+ Yi = sparse(row, col, [sys.branch(:,11); -sys.branch(:,11)], sys.Nbr, sys.Nbu);
 %--------------------------------------------------------------------------
 
 
 %-----------------------------Full Bus Matrix------------------------------
- sys.Ybu = sys.Ai' * sys.Yi;
+ sys.Ybu = Ai' * Yi;
 %--------------------------------------------------------------------------
 
 
 %---------------------------Phase Shift Vector-----------------------------
- sys.bus(:,16) = -sys.Ai' * (sys.branch(:,11) .* sys.branch(:,8));
+ sys.bus(:,16) = -Ai' * (sys.branch(:,11) .* sys.branch(:,8));
 %--------------------------------------------------------------------------

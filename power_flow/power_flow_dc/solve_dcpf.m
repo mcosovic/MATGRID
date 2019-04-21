@@ -15,7 +15,7 @@
 %	- sys: power system data
 %
 %  Outputs:
-%	- pf.bus with column: (1)bus voltage angles(Ti)
+%	- pf.Va: bus voltage angles
 %	- pf.method: method name
 %	- pf.grid: name of the analyzed power system
 % 	- pf.time.pre: preprocessing time
@@ -47,11 +47,10 @@
 
 
 %---------------------------Bus Voltage Angles-----------------------------
- pf.bus = sys.Ybu \ b;
+ pf.Va  = sys.Ybu \ b;
  insert = @(a, x, n) cat(1, x(1:n), a, x(n + 1:end));
- pf.bus = insert(0, pf.bus, sys.sck(1) - 1);
-
- pf.bus = sys.sck(2) * ones(sys.Nbu,1) + pf.bus;
+ pf.Va  = insert(0, pf.Va, sys.sck(1) - 1);
+ pf.Va  = sys.sck(2) * ones(sys.Nbu,1) + pf.Va;
 %--------------------------------------------------------------------------
 
 

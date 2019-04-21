@@ -113,7 +113,6 @@
 % of other inputs is arbitrary, as well as their appearance.
 %--------------------------------------------------------------------------
 %  Outputs:
-%	- result: see the output variable result.info
 %	- data: input power system data
 %--------------------------------------------------------------------------
 
@@ -124,5 +123,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [result, data] = runse('ieee14_20', 'dc','observe', 10^3, 'main');
+ [result, data] = runse('ieee14_20', 'dc', 'legRedundancy', 4, 'observe', 1e4, 'bad', [0.2 3], 'main');
 %--------------------------------------------------------------------------

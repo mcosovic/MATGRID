@@ -1,4 +1,4 @@
- function termianl_measurement_se(in, sys)
+ function termianl_measurement_se(in, se)
 
 %--------------------------------------------------------------------------
 % Displays measurement data after state estimation algorithms.
@@ -14,67 +14,89 @@
 
 
 %% Measurement Terminal with Exact Values
- b = in.estimate(:,4);
+ if se.exact == 1
+	if se.Nleg ~= 0
+	   leg      = 1:se.Nleg;
+	   num      = string(leg');
+	   estimate = compose('%1.2f', in.estimate.Estimate(leg));
+	   measure  = compose('%1.2f', in.estimate.Mean(leg));
+	   residu1  = compose('%1.2e', in.estimate.Residual(leg));
+	   exact    = compose('%1.2f', in.estimate.Exact(leg));
+	   residu2  = compose('%1.2e', in.estimate.Residual2(leg));
+	   variance = compose('%1.2e', in.estimate.Variance(leg));
+	   legacy   = [num in.estimate.Device(leg) in.estimate.Unit(leg) estimate measure residu1 exact residu2 variance]';
 
- if sys.exact == 1
-    if sys.Nleg ~= 0
 	   disp(' ')
 	   disp('   _______________________________________________________________________________________________________________________________________')
 	   disp('  |                                                       Legacy Measurement Devices                                                      |')
 	   disp('  |                                                                                                                                       |')
 	   disp('  |     No.        Type         Unit        Estimate     |     Measure      Residual     |     Exact      Residual     |     Variance     |')
 	   disp('  |------------------------------------------------------|-------------------------------|-----------------------------|------------------|')
-	   for i = 1:sys.Nleg
-		   fprintf('  |\t    %-8.f   %-12s %-10s %9.2f     | %11.2f %13.2e     | %9.2f %13.2e     | %12.2e     |\n',...
-				   i,  in.device{i,1},  in.device{i,2},  in.estimate(i,3)*b(i),  in.estimate(i,1)*b(i),  abs(in.estimate(i,3) - in.estimate(i,1))*b(i), ...
-				   in.estimate(i,5)*b(i), abs(in.estimate(i,3) - in.estimate(i,5))*b(i),  in.estimate(i,2)*b(i))
-	   end
+	   fprintf('  |     %-8s   %-11s %6s %14s     | %11s %13s     | %9s %13s     | %12s     | \n', legacy{:})
+
 	   disp('  |______________________________________________________|_______________________________|_____________________________|__________________|')
-    end
-    if sys.Npmu ~= 0
+	end
+	if se.Npmu ~= 0
+	   pmu      = se.Nleg + 1: se.Nleg+se.Npmu;
+	   num      = string(pmu');
+	   estimate = compose('%1.2f',in.estimate.Estimate(pmu));
+	   measure  = compose('%1.2f', in.estimate.Mean(pmu));
+	   residu1  = compose('%1.2e', in.estimate.Residual(pmu));
+	   exact    = compose('%1.2f', in.estimate.Exact(pmu));
+	   residu2  = compose('%1.2e', in.estimate.Residual2(pmu));
+	   variance = compose('%1.2e', in.estimate.Variance(pmu));
+	   pmu      = [num in.estimate.Device(pmu) in.estimate.Unit(pmu) estimate measure residu1 exact residu2 variance]';
+
 	   disp(' ')
 	   disp('   _______________________________________________________________________________________________________________________________________')
 	   disp('  |                                                       Phasor Measurement Devices                                                      |')
 	   disp('  |                                                                                                                                       |')
 	   disp('  |     No.        Type         Unit        Estimate     |     Measure      Residual     |     Exact      Residual     |     Variance     |')
 	   disp('  |------------------------------------------------------|-------------------------------|-----------------------------|------------------|')
-	   for i = (sys.Nleg + 1) : sys.Ntot
-		   fprintf('  |\t    %-8.f   %-12s %-10s %9.2f     | %11.2f %13.2e     | %9.2f %13.2e     | %12.2e     |\n',...
-				   i - sys.Nleg,  in.device{i,1},  in.device{i,2},  in.estimate(i,3)*b(i),  in.estimate(i,1)*b(i),  abs(in.estimate(i,3) - in.estimate(i,1))*b(i), ...
-				   in.estimate(i,5)*b(i), abs(in.estimate(i,3) - in.estimate(i,5))*b(i),  in.estimate(i,2)*b(i))
-	   end
+	   fprintf('  |     %-8s   %-11s %5s %15s     | %11s %13s     | %9s %13s     | %12s     | \n', pmu{:})
+
 	   disp('  |______________________________________________________|_______________________________|_____________________________|__________________|')
-    end
+	end
  end
 
 %% Measurement Terminal without Exact Values
- if sys.exact == 0
-    if sys.Nleg ~= 0
+ if se.exact == 0
+	if se.Nleg ~= 0
+	   leg      = 1:se.Nleg;
+	   num      = string(leg');
+	   estimate = compose('%1.2f', in.estimate.Estimate(leg));
+	   measure  = compose('%1.2f', in.estimate.Mean(leg));
+	   residu1  = compose('%1.2e', in.estimate.Residual(leg));
+	   variance = compose('%1.2e', in.estimate.Variance(leg));
+	   legacy   = [num in.estimate.Device(leg) in.estimate.Unit(leg) estimate measure residu1 variance]';
+
 	   disp(' ')
 	   disp('   _________________________________________________________________________________________________________')
-	   disp('  |                                       Legacy Measurement Devices                                        |')
+	   disp('  |                                        Legacy Measurement Devices                                       |')
 	   disp('  |                                                                                                         |')
 	   disp('  |     No.        Type         Unit        Estimate     |     Measure      Residual     |     Variance     |')
 	   disp('  |------------------------------------------------------|-------------------------------|------------------|')
-	   for i = 1:sys.Nleg
-		   fprintf('  |\t    %-8.f   %-12s %-10s %9.2f     | %11.2f %13.2e     | %12.2e     |\n',...
-				   i,  in.device{i,1},  in.device{i,2},  in.estimate(i,3)*b(i),  in.estimate(i,1)*b(i), ...
-				   abs(in.estimate(i,3) - in.estimate(i,1))*b(i),  in.estimate(i,2)*b(i))
-	   end
+	   fprintf('  |     %-8s   %-11s %5s %15s     | %11s %13s     | %12s     | \n', legacy{:})
+
 	   disp('  |______________________________________________________|_______________________________|__________________|')
-    end
-	if sys.Npmu ~= 0
+	end
+	if se.Npmu ~= 0
+	   pmu      = se.Nleg + 1: se.Nleg+se.Npmu;
+	   num      = string(pmu');
+	   estimate = compose('%1.2f',in.estimate.Estimate(pmu));
+	   measure  = compose('%1.2f', in.estimate.Mean(pmu));
+	   residu1  = compose('%1.2e', in.estimate.Residual(pmu));
+	   variance = compose('%1.2e', in.estimate.Variance(pmu));
+	   pmu      = [num in.estimate.Device(pmu) in.estimate.Unit(pmu) estimate measure residu1 variance]';
+
 	   disp(' ')
 	   disp('   _________________________________________________________________________________________________________')
-	   disp('  |                                       Legacy Measurement Devices                                        |')
+	   disp('  |                                        Phasor Measurement Devices                                       |')
 	   disp('  |                                                                                                         |')
 	   disp('  |     No.        Type         Unit        Estimate     |     Measure      Residual     |     Variance     |')
 	   disp('  |------------------------------------------------------|-------------------------------|------------------|')
-	   for i = (sys.Nleg + 1) : sys.Ntot
-		   fprintf('  |\t    %-8.f   %-12s %-10s %9.2f     | %11.2f %13.2e     | %12.2e     |\n',...
-				   i - sys.Nleg,  in.device{i,1},  in.device{i,2},  in.estimate(i,3)*b(i),  in.estimate(i,1)*b(i), ...
-				   abs(in.estimate(i,3) - in.estimate(i,1))*b(i),  in.estimate(i,2)*b(i))
-	   end
+	   fprintf('  |     %-8s   %-11s %5s %15s     | %11s %13s     | %12s     | \n', pmu{:})
+
 	   disp('  |______________________________________________________|_______________________________|__________________|')
 	end
  end

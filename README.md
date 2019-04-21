@@ -28,6 +28,7 @@ runse('ieee14_20', 'pmu', 'pmuOptimal', 'estimate');
 
 ###  Changelog
 Major changes:
+- 2019-04-21 the DC state estimation with observability analysis and bad data processing optimized for large-scale systems 
 - 2019-04-08 Added the DC observability analysis with identification of observable islands
 - 2019-04-03 Added observability analysis (DC state estimation only , beta version, please treat the results with attention)
 - 2019-03-28 Added Gauss-Seidel, decoupled Newton-Raphson and fast decoupled Newton-Raphson algorithm

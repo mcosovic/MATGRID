@@ -1,4 +1,4 @@
- function [pf, data, sys] = runpf(varargin)
+ function [re, data, sys] = runpf(varargin)
 
 %--------------------------------------------------------------------------
 % Runs the AC or DC power flow analysis.
@@ -10,8 +10,8 @@
 %	- varargin: user input arguments
 %
 %  Outputs AC and DC power flow:
+%	- re: result data
 %	- data: load power system data
-%	- pf: see the output variable result.info
 %	- sys.branch with columns:
 %	  (1)branch number; (2)indexes from bus(i); (3)indexes to bus(j);
 %	  (4)branch resistance(rij); (5)branch reactance(xij);
@@ -47,14 +47,14 @@
 %	- sys.branch with additional column: (11)1/(tij*xij)
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-02-21
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-21
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %------------------Processing Module Inputs and Settings-------------------
  [data, user] = settings_power_flow(varargin);
- [data]       = load_power_system(data, user.list);
+ [data] = load_power_system(data, user.list);
 %--------------------------------------------------------------------------
 
 
@@ -79,7 +79,7 @@
 	end
 
 	[pf] = processing_acpf(sys, pf);
-	[pf] = info_acpf(pf);
+    [re] = result_acpf(sys, pf);
  end
 %--------------------------------------------------------------------------
 
@@ -89,7 +89,7 @@
 	[sys] = ybus_shift_dc(sys);
 	[pf]  = solve_dcpf(sys);
 	[pf]  = processing_dcpf(sys, pf);
-	[pf]  = info_dcpf(pf);
+	[re]  = result_dcpf(sys, pf);
  end
 %--------------------------------------------------------------------------
 
@@ -98,13 +98,13 @@
  diary_on(user.list, data.case);
 
  if any(ismember({'main', 'flow'}, user.list))
-	terminal_info(pf, sys, user.list)
+	terminal_info(re, sys, user.list)
  end
  if ismember('main', user.list)
-	terminal_bus_pf(pf, sys, user.list)
+	terminal_bus_pf(re, sys, user.list)
  end
  if ismember('flow', user.list)
-	terminal_flow(pf, sys, user.list)
+	terminal_flow(re, sys, user.list)
  end
 
  diary_off(user.list);

@@ -16,35 +16,31 @@
 
 %% AC Power Flow
  if any(ismember({'nr', 'gs', 'dnr', 'fdnr', 'nonlinear', 'pmu'}, user))
-	b = sys.base;
-	A = [sys.branch(:,1)  sys.branch(:,9)  real(in.branch(:,5))*b  imag(in.branch(:,5))*b  real(in.branch(:,6))*b  imag(in.branch(:,6))*b  sys.branch(:,10) ...
-		(in.branch(:,9)+in.branch(:,10))*b  real(in.branch(:,11))*b  imag(in.branch(:,11))*b];
+	A = [sys.branch(:,1) in.branch.From in.branch.Pfrom in.branch.Qfrom in.branch.Pto in.branch.Qto in.branch.To in.branch.Qinj in.branch.Ploss in.branch.Qloss];
 
 	disp(' ')
 	disp('   _____________________________________________________________________________________________________________________________________________')
-	disp('  |                            Active and Reactive Power Flow                               |     Injection     |     Series Impedance Loss     |')
+	disp('  |                             Active and Reactive Power Flow                              |     Injection     |     Series Impedance Loss     |')
 	disp('  |                                                                                         |                   |                               |')
 	disp('  |     No.      From Bus       P[MW]  |  Q[MVAr]         P[MW]  |  Q[MVAr]      To Bus     |      Q[MVAr]      |       P[MW]  |  Q[MVAr]       |')
 	disp('  |-----------------------------------------------------------------------------------------|-------------------|-------------------------------|')
-	fprintf('  |\t    %-8.f %6.f %13.2f %11.2f %13.2f %11.2f %10.f      | %12.2f      | %11.2f %11.2f\t    |\n', A')
+	fprintf('  |     %-8.f %6.f %13.2f %11.2f %13.2f %11.2f %10.f      | %12.2f      | %11.2f %11.2f       |\n', A')
 	disp('  |-----------------------------------------------------------------------------------------|-------------------|-------------------------------|')
-	fprintf('  |\tSum %83s | %12.2f      | %11.2f %11.2f\t    |\n', [], sum(in.branch(:,9)+in.branch(:,10))*b, sum(real(in.branch(:,11))*b), sum(imag(in.branch(:,11))*b))
+	fprintf('  |  Sum %82s | %12.2f      | %11.2f %11.2f       |\n', [], sum(in.branch.Qinj), sum(in.branch.Ploss), sum(in.branch.Qloss))
 	disp('  |_________________________________________________________________________________________|___________________|_______________________________|')
  end
 
 %% DC Power Flow
- if ismember('dc', user) 
-	b = sys.base;
-	a = 1:sys.Nbr;
-	A = [sys.branch(a,1)  sys.branch(a,9)  in.branch(a,1)*b  -in.branch(a,1)*b  sys.branch(a,10)];
+ if ismember('dc', user)
+	A = [sys.branch(:,1) in.branch.From in.branch.Pflow -in.branch.Pflow in.branch.To];
 
 	disp(' ')
 	disp('   _________________________________________________________________')
-	disp('  |                       Active Power Flow                         |')
+	disp('  |                        Active Power Flow                        |')
 	disp('  |                                                                 |')
 	disp('  |     No.      From Bus       P[MW]         P[MW]      To Bus     | ')
 	disp('  |-----------------------------------------------------------------|')
-	fprintf('  |\t    %-8.f %6.f %13.2f %13.2f %10.f      |\n', A')
+	fprintf('  |     %-8.f %6.f %13.2f %13.2f %10.f      |\n', A')
 	disp('  |-----------------------------------------------------------------|')
 	disp('  |_________________________________________________________________|')
  end

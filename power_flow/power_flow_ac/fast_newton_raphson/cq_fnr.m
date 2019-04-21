@@ -23,8 +23,9 @@
 %  Outputs:
 %	- sys.bus with changed columns
 %	  (2)bus type; (12)generator reactive power(Qg);
-%	- pf.bus with changed columns:
-%	  (6)minimum limits violated at bus; (7)maximum limits violated at bus;
+%	- pf.limit with columns:
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- V, T: bus voltage magnitude and angle vector
 %	- Qgl: reactive power at bus
 %	- pq: PQ bus indexes
@@ -88,7 +89,7 @@
 
 	Qgl = sys.bus(:,12) - sys.bus(:,6);
 
-	pf.bus(mnq,6) = mnq;
-	pf.bus(mxq,7) = mxq;
+	pf.limit(mnq,1) = 1;
+	pf.limit(mxq,2) = 1;
  end
 %--------------------------------------------------------------------------

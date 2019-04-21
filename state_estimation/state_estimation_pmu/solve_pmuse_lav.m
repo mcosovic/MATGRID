@@ -47,8 +47,8 @@
 
  if flag == 1
 	disp(' Optimal solution found.')
-	VrVi   = s(1:2*sys.Nbu) - s(2*sys.Nbu+1:4*sys.Nbu);
-	se.bus = VrVi(1:sys.Nbu) + 1i * VrVi(sys.Nbu+1:end);
+	VrVi  = s(1:2*sys.Nbu) - s(2*sys.Nbu+1:4*sys.Nbu);
+	se.Vc = VrVi(1:sys.Nbu) + 1i * VrVi(sys.Nbu+1:end);
  else
 	error('lavPmu:noFeasible', 'No feasible point found.\n')
  end

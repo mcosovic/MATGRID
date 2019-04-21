@@ -15,13 +15,12 @@
 %	- pf: power flow data
 %
 %  Outputs:
-%	- pf.bus with additional columns:
-%	  (2)active power injections(Pi); (3)generation active powers(Pg)
-%	- pf.branch with column: (1)active power flows(Pij)
-%	- pf.time.pos: postprocessing time
+%	- pf.Pij: active power flows
+%   - pf.Pi: active power injections
+%   - pf.Pg: generation active powers
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-02-20
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-21
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
@@ -29,20 +28,19 @@
 %----------------------Active Power Flow at Branches-----------------------
  i = sys.branch(:,2);
  j = sys.branch(:,3);
- T = pf.bus(:,1);
 
- pf.branch = sys.branch(:,11) .* (T(i) - T(j) - sys.branch(:,8));
+ pf.Pij = sys.branch(:,11) .* (pf.Va(i) - pf.Va(j) - sys.branch(:,8));
 %--------------------------------------------------------------------------
 
 
 %------------------Injection Active Power with Slack Bus-------------------
- pf.bus(:,2) = sys.Ybu * T + sys.bus(:,16) + sys.bus(:,7);
+ pf.Pi = sys.Ybu * pf.Va + sys.bus(:,16) + sys.bus(:,7);
 %--------------------------------------------------------------------------
 
 
 %-----------------Generation Active Power with Slack Bus-------------------
- pf.bus(:,3) = sys.bus(:,11);
- pf.bus(sys.sck(1),3) = pf.bus(sys.sck(1),2) + sys.bus(sys.sck(1),5);
+ pf.Pg = sys.bus(:,11);
+ pf.Pg(sys.sck(1)) = pf.Pi(sys.sck(1)) + sys.bus(sys.sck(1),5);
 %--------------------------------------------------------------------------
 
 

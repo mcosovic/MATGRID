@@ -79,15 +79,15 @@
 
 
 %-------------------------------Mean Values--------------------------------
- Aflo_mean = real([pf.branch(:,5); pf.branch(:,6)]);
- Rflo_mean = imag([pf.branch(:,5); pf.branch(:,6)]);
- Cmag_mean = abs([pf.branch(:,1); pf.branch(:,2)]);
- Cang_mean = angle([pf.branch(:,1); pf.branch(:,2)]);
+ Aflo_mean = real([pf.Sij; pf.Sji]);
+ Rflo_mean = imag([pf.Sij; pf.Sji]);
+ Cmag_mean = abs([pf.Iij; pf.Iji]);
+ Cang_mean = angle([pf.Iij; pf.Iji]);
 
- Ainj_mean = real(pf.bus(:,2));
- Rinj_mean = imag(pf.bus(:,2));
- Vmag_mean = abs(pf.bus(:,1));
- Vang_mean = angle(pf.bus(:,1));
+ Ainj_mean = real(pf.Si);
+ Rinj_mean = imag(pf.Si);
+ Vmag_mean = abs(pf.Vc);
+ Vang_mean = angle(pf.Vc);
 %--------------------------------------------------------------------------
 
 

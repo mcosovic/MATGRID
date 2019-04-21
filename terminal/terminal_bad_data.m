@@ -1,15 +1,16 @@
- function terminal_bad_data(in, sys, user)
+ function terminal_bad_data(in, re, sys, user)
 
 %--------------------------------------------------------------------------
 % Displays bad data processing.
 %--------------------------------------------------------------------------
 %  Inputs:
-%	- in: input result data
+%	- in: input se data
+%	- re: result data
 %	- sys: power system data
 %	- user: user input list
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-03-19
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-20
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
@@ -34,19 +35,16 @@
 
  %% Bad Data Identification DC State Estimation
  if ismember('dc', user)
-	N = size(in.bad, 1);
-	A = [(1:N)' in.bad];
-	d = in.device(in.bad(:,2));
-	o = [repmat({'Remove'}, [N-1,1]); ' '];
+	N   = size(in.bad, 1);
+	num = string(1:N)';
+	res = compose('%1.2e', re.bad.Residual);
+	bad = [num re.bad.Device res re.bad.Status]';
 
 	disp(' ')
 	disp('   ____________________________________________________________________________')
 	disp('  |     WLS Pass     Suspected Bad Data     Normalized Residual     Status     |')
 	disp('  | ---------------------------------------------------------------------------|')
-	for i = 1:N
-		   fprintf('  |\t    %4.f    %17s      %18.2e   %14s     |\n',...
-				    A(i,1), d{i,1}, A(i,2),  o{i,1} )
-	end
+	fprintf('  |  %7s             %-13s %16s             %-10s |\n', bad{:})
 	disp('  |____________________________________________________________________________|')
  end
 

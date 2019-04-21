@@ -26,7 +26,8 @@
 %	- pf.alg: algorithm data
 %	- idx: indexes data
 %	- pf.bus with changed columns:
-%	  (6)minimum limits violated at bus; (7)maximum limits violated at bus;
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- V, T: bus voltage magnitude and angle vector
 %	- Qgl: generator reactive power at bus
 %	- DelPQ: an active and reactive power mismatch matrix for all buses
@@ -84,7 +85,7 @@
 	DelS  = Vc .* conj(sys.Ybu * Vc) - (Pgl + 1i * Qgl);
 	DelPQ = [real(DelS(alg.ii)); imag(DelS(alg.pq))];
 
-	pf.bus(mnq,6) = mnq;
-	pf.bus(mxq,7) = mxq;
+	pf.limit(mnq,1) = 1;
+	pf.limit(mxq,2) = 1;
  end
 %--------------------------------------------------------------------------

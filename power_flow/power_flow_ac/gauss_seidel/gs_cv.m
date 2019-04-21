@@ -18,8 +18,9 @@
 %  Outputs:
 %	- sys.bus with changed column: (2)bus type;
 %	- sys.Vcon with changed column: (3)limit on/off;
-%	- pf.bus with changed columns:
-%	 (6)minimum limits violated at bus; (7)maximum limits violated at bus;
+%	- pf.limit with columns:
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- Vc, Vcp: complex bus voltages
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-03-25
@@ -74,7 +75,8 @@
  if ~isempty(mnv) || ~isempty(mxv)
 	Vc  = V .* exp(1j * T);
 	Vcp = Vc;
-	pf.bus(mnv,6) = mnv;
-	pf.bus(mxv,7) = mxv;
+    
+	pf.limit(mnv,1) = 1;
+	pf.limit(mxv,2) = 1;
  end
 %--------------------------------------------------------------------------

@@ -10,10 +10,10 @@
 %	- user: user inputs
 %
 %  Output:
-%	- user.pseudo: variance for pseudo-measurements
+%	- user.psvar: variance of pseudo-measurements
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-04-01
-% Last revision by Mirsad Cosovic on 2019-04-01
+% Last revision by Mirsad Cosovic on 2019-04-17
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 

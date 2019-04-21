@@ -1,4 +1,4 @@
- function [se, data, sys] = runse(varargin)
+ function [re, data] = runse(varargin)
 
 %--------------------------------------------------------------------------
 % Runs the non-linear and DC state estimation, as well as the state
@@ -52,7 +52,7 @@
  	[sys] = compose_injection(data.legacy.injection, sys);
  	[sys] = compose_voltage(data.legacy.voltage, data.pmu.voltage, sys);
  	[sys, se] = compose_measurement(sys);
-            
+        
     if ismember('bad', user.list)
        [se] = gauss_newton_bad_data(user, sys, se, data);
     elseif ismember('lav', user.list)
@@ -64,7 +64,7 @@
 	[se] = processing_acse(sys, se);
 	[sys, se] = evaluation_acse(data, sys, se);
 	[se] = name_unit_acse(sys, se);
-    [se] = info_acse(user.list, se);
+    [re, se] = result_acse(user, sys, se);
  end
 %--------------------------------------------------------------------------
 
@@ -87,39 +87,34 @@
 	[se] = processing_acse(sys, se);
  	[sys, se] = evaluation_pmuse(data, dat, sys, se);
  	[se] = name_unit_pmuse(sys, se, dat);
-    [se] = info_acse(user.list, se);
+    [re, se] = result_pmuse(user, sys, se);
  end
 %--------------------------------------------------------------------------
 
 
 %---------------------------DC State Estimation----------------------------
  if ismember('dc', user.list)
-    [sys] = ybus_shift_dc(sys); 
-    
-    if ismember('observe', user.list)
-       [data, se] = observability_dc(data, sys, user);
-    else
-       se = [];
+    [se] = ybus_shift_dc(sys); 
+    [se] = system_data_dcse(se);
+    [af] = flow_dcse(data.legacy.flow, se);
+    [ai] = injection_dcse(data.legacy.injection, se);
+    [va] = voltage_dcse(data.pmu.voltage, se);
+ 
+    if ismember('observe', user.list) 
+       [data, user, se, af, ai] = observe_dc(data, user, se, af, ai, va);
     end
     
-    [bra] = branch_data_dcse(sys);
-    [sys] = compose_flow_dcse(data.legacy.flow, sys, bra);
-    [sys] = compose_injection_dcse(data.legacy.injection, sys);
-    [sys] = compose_voltage_dcse(data.pmu.voltage, sys);
-    [sys, se] = compose_measurement_dcse(sys, se);
-   
     if ismember('bad', user.list)
-       [se] = solve_dcse_bad_data(user, sys, se);
+       [data, se, af, ai, va] = solve_dcse_bad(data, user, se, af, ai, va);
     elseif ismember('lav', user.list)
-       [se] = solve_dcse_lav(sys, se);
+       [se] = solve_dcse_lav(se, af, ai, va);
     else
-       [se] = solve_dcse(sys, se);
+       [se] = solve_dcse_wls(se, af, ai, va);
     end
-    
-    [se] = processing_dcse(sys, se);
- 	[sys, se] = evaluation_dcse(data, sys, se);
- 	[se] = name_unit_dcse(data, sys, se);
-    [se] = info_dcse(se);
+       
+    [se] = processing_dcse(data, se, af, ai, va);
+    [se] = error_dcse(data, se);
+    [re] = result_dcse(user, se, af, ai, va);
  end
 %--------------------------------------------------------------------------
 
@@ -128,33 +123,33 @@
  diary_on(user.list, data.case);
 
  if any(ismember({'main', 'flow', 'estimate', 'error', 'bad', 'observe'}, user.list))
-	terminal_info(se, sys, user.list)
+	terminal_info(re, sys, user.list)
  end
  if ismember('observe', user.list)
-    terminal_observability(se, user.list)
+    terminal_observability(se, re, user.list)
  end
  if ismember('bad', user.list)
-	terminal_bad_data(se, sys, user.list)
+	terminal_bad_data(se, re, sys, user.list)
  end
  if ismember('main', user.list)
-	terminal_bus_se(se, sys, user.list)
+	terminal_bus_se(re, sys, user.list)
  end
  if ismember('flow', user.list)
-	terminal_flow(se, sys, user.list)
+	terminal_flow(re, sys, user.list)
  end
  if ismember('estimate', user.list)
-	termianl_measurement_se(se, sys);
+	termianl_measurement_se(re, se);
  end
  if ismember('error', user.list)
-	terminal_error_se(sys, se);
- end
+	terminal_error_se(se, re);
+end
 
  diary_off(user.list);
 %--------------------------------------------------------------------------
 
 
 %-------------------------------Export Data--------------------------------
-if any(ismember({'export', 'exportSlack'}, user.list))
-   [data] = produce_Abv(data, sys, se, user.list);
- end
+% if any(ismember({'export', 'exportSlack'}, user.list))
+%    [data] = produce_Abv(data, sys, se, user.list);
+%  end
 %--------------------------------------------------------------------------

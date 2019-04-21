@@ -16,88 +16,86 @@
 %	- pf: power flow data
 %
 %  Outputs:
-%	- pf.bus with additional columns:
-%	  (2)apparent power injection (Si);
-%	  (3)generation apparent power(Sg); (4)load apparent power(Sl);
-%	  (5)apparent power at shunt elements(Ssh)
-%	- pf.branch with columns:
-%	  (1)line current at branch - from bus(Iij);
-%	  (2)line current at branch - to bus(Iji);
-%	  (3)line current after branch shunt susceptance - from bus(Iijb);
-%	  (4)line current after branch shunt susceptance - to bus(Ijib);
-%	  (5)apparent power at branch - from bus(Sij);
-%	  (6)apparent power at branch - to bus(Sji);
-%	  (7)apparent power after branch shunt susceptance - from bus(Sijb);
-%	  (8)apparent power after branch shunt susceptance - from bus(Sjib);
-%	  (9)reactive power injection from shunt susceptances - from bus(Qis);
-%	  (10)reactive power injection from shunt susceptances - to bus(Qjs);
-%	  (11)apparent power of losses(Sijl)
+%	- pf.Si: apparent power injection
+%	- pf.Sg: generation apparent power
+%   - pf.Sl: load apparent power
+%   - pf.Ssh: apparent power at shunt elements(Ssh)
+%   - pf.Iij: line current at branch - from bus
+%   - pf.Iji: line current at branch - to bus
+%   - pf.Iijb: line current after branch shunt susceptance - from bus
+%   - pf.Ijib: line current after branch shunt susceptance - to bus
+%   - pf.Sij: apparent power at branch - from bus
+%   - pf.Sji: apparent power at branch - to bus
+%   - pf.Sijb: apparent power after branch shunt susceptance - from bus
+%   - pf.Sjib: apparent power after branch shunt susceptance - from bus
+%   - pf.Qis: reactive power injection from shunt susceptances - from bus
+%   - pf.Qjs: reactive power injection from shunt susceptances - to bus
+%   - pf.Slos: apparent power of losses
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-02-21
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-21
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %------------------------------Voltage Data--------------------------------
- Vc = pf.bus(:,1);
- Vi = Vc(sys.branch(:,2));
- Vj = Vc(sys.branch(:,3));
+ Vi = pf.Vc(sys.branch(:,2));
+ Vj = pf.Vc(sys.branch(:,3));
  Vp = Vi ./ sys.branch(:,13);
 %--------------------------------------------------------------------------
 
 
 %----------------------Injection Bus Apparent Power------------------------
- pf.bus(:,2) = (conj(sys.Ybu) * conj(Vc)) .* Vc;
+ pf.Si = (conj(sys.Ybu) * conj(pf.Vc)) .* pf.Vc;
 %--------------------------------------------------------------------------
 
 
 %--------------------Power of the Generators and Loads---------------------
- Pref = real(pf.bus(sys.sck(1),2));
+ Pref = real(pf.Si(sys.sck(1)));
 
  Pg = sys.bus(:,11);
  Pg(sys.sck(1)) = abs(abs(Pref) - sys.bus(sys.sck(1),5));
- Qg = imag(pf.bus(:,2)) + sys.bus(:,6);
+ Qg = imag(pf.Si) + sys.bus(:,6);
 
- pf.bus(:,3) = Pg + 1i*Qg;
- pf.bus(:,4) = sys.bus(:,5) + 1i*sys.bus(:,6);
+ pf.Sg = Pg + 1i*Qg;
+ pf.Sl = sys.bus(:,5) + 1i*sys.bus(:,6);
 %--------------------------------------------------------------------------
 
 
 %-----------------------Line Current from/to Buses-------------------------
- pf.branch(:,1) = Vi .* sys.branch(:,15) + Vj .* sys.branch(:,16);
- pf.branch(:,2) = Vi .* sys.branch(:,17) + Vj .* sys.branch(:,14);
+ pf.Iij = Vi .* sys.branch(:,15) + Vj .* sys.branch(:,16);
+ pf.Iji = Vi .* sys.branch(:,17) + Vj .* sys.branch(:,14);
 
- pf.branch(:,3) = sys.branch(:,11) .* (Vp - Vj);
- pf.branch(:,4) = sys.branch(:,11) .* (Vj - Vp);
+ pf.Iijb = sys.branch(:,11) .* (Vp - Vj);
+ pf.Ijib = sys.branch(:,11) .* (Vj - Vp);
 %--------------------------------------------------------------------------
 
 
 %----------------------Apparent Power from/to Buses------------------------
- pf.branch(:,5) = Vi .* conj(pf.branch(:,1));
- pf.branch(:,6) = Vj .* conj(pf.branch(:,2));
+ pf.Sij = Vi .* conj(pf.Iij);
+ pf.Sji = Vj .* conj(pf.Iji);
 
- pf.branch(:,7) = Vp .* conj(pf.branch(:,3));
- pf.branch(:,8) = Vj .* conj(pf.branch(:,4));
+ pf.Sijb = Vp .* conj(pf.Iijb);
+ pf.Sjib = Vj .* conj(pf.Ijib);
 %--------------------------------------------------------------------------
 
 
 %-------------------------Branch Shunt Injection---------------------------
- pf.branch(:,9)  = imag(sys.branch(:,12)) .* abs(Vp).^2;
- pf.branch(:,10) = imag(sys.branch(:,12)) .* abs(Vj).^2;
+ pf.Qis = imag(sys.branch(:,12)) .* abs(Vp).^2;
+ pf.Qjs = imag(sys.branch(:,12)) .* abs(Vj).^2;
 %--------------------------------------------------------------------------
 
 
 %-----------------------Active and Reactive Losses-------------------------
- Plos = (abs(pf.branch(:,3))).^2 .* sys.branch(:,4);
- Qlos = (abs(pf.branch(:,3))).^2 .* sys.branch(:,5);
-
- pf.branch(:,11) = Plos + 1i*Qlos;
+ Plos = (abs(pf.Iijb)).^2 .* sys.branch(:,4);
+ Qlos = (abs(pf.Iijb)).^2 .* sys.branch(:,5);
+ 
+ pf.Slos = Plos + 1i*Qlos;
 %--------------------------------------------------------------------------
 
 
 %--------------------Apparent Power at Shunt Elements----------------------
- pf.bus(:,5) = Vc .* conj(Vc .* sys.ysh);
+ pf.Ssh = pf.Vc .* conj(pf.Vc .* sys.ysh);
 %--------------------------------------------------------------------------
 
 

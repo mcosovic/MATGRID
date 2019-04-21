@@ -57,7 +57,7 @@
 % of other inputs is arbitrary, as well as their appearance.
 %--------------------------------------------------------------------------
 %  Outputs:
-%	- result: see the output variable result.info
+%	- result: power flow results
 %	- data: input power system data
 %--------------------------------------------------------------------------
 
@@ -68,5 +68,5 @@
 
 
 %---------------------------Power Flow Analysis----------------------------
- [result, data] = runpf('ieee14_20', 'fdnr', 'main', 'flow');
+ [result, data] = runpf('ieee118_186', 'nr', 'main', 'flow', 'voltage');
 %--------------------------------------------------------------------------

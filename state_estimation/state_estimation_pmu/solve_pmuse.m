@@ -39,7 +39,7 @@
 
  VrVi = (sys.H' * W * sys.H) \ (sys.H' * W * sys.b);
 
- se.bus = VrVi(1:sys.Nbu) + 1i * VrVi(sys.Nbu+1:end);
+ se.Vc = VrVi(1:sys.Nbu) + 1i * VrVi(sys.Nbu+1:end);
 %--------------------------------------------------------------------------
 
 

@@ -1,4 +1,4 @@
- function [se] = observe_islands(sys, obs)
+ function [se] = observe_islands(se, branch, irr, Ai)
 
 %--------------------------------------------------------------------------
 % Forms observe islands.
@@ -7,8 +7,10 @@
 % of that model will define observable islands.
 %--------------------------------------------------------------------------
 %  Inputs:
-%	- sys: power system data
-%	- obs: observability analysis data
+%	- se: state estimation system data
+%	- branch: indexes of branches
+%	- irr: indicator of irrelevant branches
+%	- Ai: branch to bus incidence matrix
 %
 %  Outputs:
 %	- se.observe.island with columns:
@@ -18,17 +20,18 @@
 %	  (4)indicator irrelevant or relevant
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-03-29
-% Last revision by Mirsad Cosovic on 2019-04-07
+% Last revision by Mirsad Cosovic on 2019-04-20
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %-------------------------Islands and Branch Data--------------------------
- A = obs.Ai' * obs.Ai;
+ A = Ai' * Ai;
  G = graph(A);
  b = conncomp(G);
- se.observe.island = [sys.bus(:,15) b'];
 
- idx = ismember(sys.branch(:,2:3), obs.branch, 'rows');
- se.observe.branch = [sys.branch(:,9:10) idx ~obs.irr];
+ observe = ismember(se.branch(:,2:3), branch, 'row');
+
+ se.observe.island = [se.bus(:,15) b'];
+ se.observe.branch = [se.branch(:,9:10) observe ~= 0 ~irr];
 %--------------------------------------------------------------------------

@@ -34,7 +34,7 @@
 
 
 %--------------------Measurement Values and Variances----------------------
- C = [se.branch(:,1);  se.branch(:,2)];
+ C = [se.Iij;  se.Iji];
 
  xV = dat.pmu.voltage(:,14);
  xC = dat.pmu.current(:,15);
@@ -45,8 +45,8 @@
 
 
 %----------------------------Estimated Values------------------------------
- V = abs(se.bus(:,1));
- T = angle(se.bus(:,1));
+ V = abs(se.Vc);
+ T = angle(se.Vc);
 
  se.estimate(:,3) = [V(xV); T(xV); abs(C(xC)); angle(C(xC))];
 %--------------------------------------------------------------------------
@@ -54,12 +54,12 @@
 
 %------------------------------Exact Values--------------------------------
  try
-  sys.exact = 1;
+  se.exact = 1;
   se.estimate(:,5) = [data.pmu.voltage(xV,8); data.pmu.voltage(xV,9); data.pmu.current(xC,9); data.pmu.current(xC,10)];
   sv_true = [data.pmu.voltage(:,8); data.pmu.voltage(:,9)];
   sv_esti = [V; T];
  catch
-  sys.exact = 0;
+  se.exact = 0;
  end
 %--------------------------------------------------------------------------
 
@@ -67,23 +67,28 @@
 %-----------------Estimated Values to Measurement Values-------------------
  d1 = se.estimate(:,3) - se.estimate(:,1);
 
- se.error.mae1  = sum(abs(d1)) / sys.Ntot;
- se.error.rmse1 = ((sum(d1.^2)) / sys.Ntot)^(1/2);
- se.error.wrss1 =  sum(((d1.^2)) ./ se.estimate(:,2));
+ MAE  = sum(abs(d1)) / sys.Ntot;
+ RMSE = ((sum(d1.^2)) / sys.Ntot)^(1/2);
+ WRSS =  sum(((d1.^2)) ./ se.estimate(:,2));
+ 
+ se.error = [MAE; RMSE; WRSS]; 
 %--------------------------------------------------------------------------
 
 
 %--------------------Estimated Values to Exact Values----------------------
- if sys.exact == 1
+ if se.exact == 1
 	d2 = se.estimate(:,3) - se.estimate(:,5);
 	d3 = sv_esti - sv_true;
 
-	se.error.mae2 = sum(abs(d2)) / sys.Ntot;
-	se.error.mae3 = sum(abs(d3)) / (2 * sys.Nbu);
+	MAE2 = sum(abs(d2)) / sys.Ntot;
+	MAE3 = sum(abs(d3)) / (2 * sys.Nbu);
 
-	se.error.rmse2 = ((sum(d2).^2) / sys.Ntot)^(1/2);
-	se.error.rmse3 = ((sum(d3).^2)/ (2 * sys.Nbu))^(1/2);
+	RMSE2 = ((sum(d2).^2) / sys.Ntot)^(1/2);
+	RMSE3 = ((sum(d3).^2)/ (2 * sys.Nbu))^(1/2);
 
-	se.error.wrss2 =  sum(((d2).^2) ./ se.estimate(:,2));
+	WRSS2 = sum(((d2).^2) ./ se.estimate(:,2));
+    
+	se.error(:,2) = [MAE2; RMSE2; WRSS2];
+	se.error(:,3) = [MAE3; RMSE3; 0];    
  end
 %--------------------------------------------------------------------------

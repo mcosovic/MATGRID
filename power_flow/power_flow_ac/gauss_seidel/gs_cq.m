@@ -18,8 +18,9 @@
 %	- sys.bus with changed columns:
 %	  (2)bus type; (12)generator reactive power(Qg);
 %	- sys.Qcon with changed column: (3)limit on/off;
-%	- pf.bus with changed columns:
-%	  (6)minimum limits violated at bus; (7)maximum limits violated at bus;
+%	- pf.limit with columns:
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- Vc: complex bus voltages
 %	- Q: reactive power at bus
 %--------------------------------------------------------------------------
@@ -67,7 +68,7 @@
  if ~isempty(mnq) || ~isempty(mxq)
 	Q = sys.bus(:,12) - sys.bus(:,6);
 
-	pf.bus(mnq,6) = mnq;
-	pf.bus(mxq,7) = mxq;
+	pf.limit(mnq,1) = 1;
+	pf.limit(mxq,2) = 1;
  end
 %--------------------------------------------------------------------------

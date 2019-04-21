@@ -12,9 +12,10 @@
 %	- sys: power system data
 %
 %  Outputs:
-%	- pf.bus with columns:
-%	  (1)bus complex voltages; (6) bus where the minimum limits violated;
-%	  (7)bus where the maximum limits violated;
+%   - pf.Vc: complex bus voltages
+%	- pf.limit with columns:
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- pf.method: method name
 %	- pf.grid: name of the analyzed power system
 %	- pf.time.pre: preprocessing time
@@ -22,14 +23,14 @@
 %	- pf.iteration: number of iterations
 %--------------------------------------------------------------------------
 % Created by Mirsad Cosovic on 2019-02-21
-% Last revision by Mirsad Cosovic on 2019-03-27
+% Last revision by Mirsad Cosovic on 2019-04-21
 % MATGRID is released under MIT License.
 %--------------------------------------------------------------------------
 
 
 %------------------------Algorithm Initialization--------------------------
  pf.method = 'AC Power Flow using Newton-Raphson Algorithm';
- pf.bus = zeros(sys.Nbu,7);
+ pf.limit  = zeros(sys.Nbu,2);
 
  V  = sys.bus(:,3);
  T  = sys.bus(:,4);
@@ -119,7 +120,7 @@
 
 
 %--------------------------------Save Data---------------------------------
+ pf.Vc        = Vc;
  pf.time.con  = toc; tic
- pf.bus(:,1)  = Vc;
  pf.iteration = No;
 %--------------------------------------------------------------------------

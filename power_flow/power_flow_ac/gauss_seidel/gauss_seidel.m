@@ -12,9 +12,10 @@
 %	- sys: power system data
 %
 %  Outputs:
-%	- pf.bus with columns:
-%	  (1)bus complex voltages; (6) bus where the minimum limits violated;
-%	  (7)bus where the maximum limits violated;
+%   - pf.Vc: complex bus voltages
+%	- pf.limit with columns:
+%	  (1)bus indicator where minimum limits violated;
+%	  (2)bus indicator where maximum limits violated;
 %	- pf.method: method name
 %	- pf.grid: name of the analyzed power system
 %	- pf.time.pre: preprocessing time
@@ -29,7 +30,7 @@
 
 %------------------------Algorithm Initialization--------------------------
  pf.method = 'AC Power Flow using Gauss-Seidel Algorithm';
- pf.bus = zeros(sys.Nbu,7);
+ pf.limit  = zeros(sys.Nbu,2);
 
  Vc  = sys.bus(:,3) .* exp(1i * sys.bus(:,4));
  Vcp = Vc;
@@ -105,7 +106,7 @@
 
 
 %--------------------------------Save Data---------------------------------
+ pf.Vc        = Vc;
  pf.time.con  = toc; tic
- pf.bus(:,1)  = Vc;
  pf.iteration = No;
- %--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
