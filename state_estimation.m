@@ -123,5 +123,5 @@
 
 
 %----------------------------State Estimation------------------------------
- [result, data] = runse('ieee14_20', 'dc', 'legRedundancy', 4, 'observe', 1e4, 'bad', [0.2 3], 'main');
+ [result, data] = runse('ieee118_186', 'dc', 'legRedundancy', 3, 'observe', 1e2, 'bad', [3 1], 'main');
 %--------------------------------------------------------------------------

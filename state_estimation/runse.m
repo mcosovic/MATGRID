@@ -149,7 +149,12 @@ end
 
 
 %-------------------------------Export Data--------------------------------
-% if any(ismember({'export', 'exportSlack'}, user.list))
-%    [data] = produce_Abv(data, sys, se, user.list);
-%  end
+if any(ismember({'export', 'exportSlack'}, user.list))
+    if ismember('dc', user.list)
+       sys.H = [af.H; ai.H; va.H];
+       sys.b = [af.b; ai.b; va.b];
+    end
+
+   [data] = produce_Abv(data, sys, se, user.list);
+ end
 %--------------------------------------------------------------------------

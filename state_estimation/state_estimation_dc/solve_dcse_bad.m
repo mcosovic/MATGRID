@@ -77,16 +77,10 @@
 
    
 %--------------------------Critical Measurments----------------------------
- T = ones(af.n+ai.n+va.n, 1);     
  G = H' * H;
  
- try
-	[Gi] = sparseinv(G);
- catch
-	error('bad:observable', 'The system is unobservable. Run observability analysis. \n')   
- end
- 
- se.criti = abs(T - sum((H * Gi) .* H, 2)) <= 1e-10;
+ Va = G \ (H' * b);
+ se.criti = abs((b - H * Va)) <= 1e-10;
 %--------------------------------------------------------------------------     
 
      
@@ -97,7 +91,11 @@
 
 
 %--------------------Largest Normalized Residual Test----------------------
- [Gi] = sparseinv(G);
+ try
+	[Gi] = sparseinv(G);
+ catch
+	error('bad:observable', 'The system is unobservable. Run observability analysis. \n')   
+ end
 
  Omega = R - sum((H * Gi) .* H, 2);
  r_nor = abs((b - H * se.Va)) ./ sqrt(abs(Omega));
